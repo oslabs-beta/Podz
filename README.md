@@ -1,2 +1,2 @@
-# E44-OSP5
+# Podz
 Kubernetes Visualizer
