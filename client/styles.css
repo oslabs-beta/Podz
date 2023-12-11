@@ -1,0 +1,57 @@
+body {
+  margin: 0px;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 200px;
+}
+
+/* NavBar */
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navName {
+  height: 50px;
+  margin-left: 40px;
+}
+
+.navTab {
+  display: flex;
+  gap: 20px;
+  margin-right: 50px;
+}
+
+.navTab a {
+  font-size: 20px;
+  text-decoration: none;
+  color: navy;
+}
+
+/* Intro Section */
+.introContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 150px;
+  margin-top: 250px;
+}
+
+.introText {
+  font-size: 20px;
+  width: 25%;
+  text-align: center;
+  color: rgb(9, 9, 55);
+}
+
+.introLogo {
+  height: 300px;
+}
