@@ -1,2 +1,0 @@
-# Podz
-Kubernetes Visualizer
