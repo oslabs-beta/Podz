@@ -2,14 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: process.env.NODE_ENV,
   entry: {
-    src: './client/index.js',
+    src: './client/index.js'
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
   },
+
   module: {
     rules: [
       {
@@ -19,7 +19,7 @@ module.exports = {
         options: {
           presets: ['@babel/preset-env', '@babel/preset-react'],
         },
-      }, 
+      },
       {
         test: /\.css/,
         use: ['style-loader', 'css-loader'],
@@ -32,18 +32,13 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Development',
-      template: './client/index.html',
-    }),
+      template: './client/index.html'
+    })
   ],
   devServer: {
-    static: {
-      publicPath: '/build',
-      directory: path.resolve(__dirname, 'build'),
-    },
     proxy: {
-      '/': 'http://localhost:3000',
+      '/': 'http://localhost:1112',
     },
     historyApiFallback: true,
-  },
-};
+  }
+}
