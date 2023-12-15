@@ -5,15 +5,16 @@ const D3Test = () => {
   // used to create a mutable object that can persist across renders 
   // without causing the component to re-render when the ref object changes
   const canvasRef = useRef(null);
-
+  
   useEffect(() => {
     // Specify the dimensions of the chart.
-    const width = 800;
+    const width = 1200;
     const height = 800;
+
+    const radius = 7; // radius of circle
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio; 
-
     // Specify the color scale; schemeCategory10 provides an array of 10 diff colors
     // scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
     // TLDR: different color for nodes in different groups
@@ -21,15 +22,15 @@ const D3Test = () => {
 
     const data = {
       nodes: [
-        {id: "Myriel", group: 1},
-        {id: "Napoleon", group: 2},
-        {id: "Mlle.Baptistine", group: 3},
-        {id: "Mme.Magloire", group: 1},
-        {id: "Geborand", group: 4},
-        {id: "Champtercier", group: 5},
-        {id: "Cravatte", group: 6},
-        {id: "Count", group: 7},
-        {id: "OldMan", group: 8},
+        {id: "Myriel", group: 1, strokeStyle: '#fff'},
+        {id: "Napoleon", group: 2, strokeStyle: '#fff'},
+        {id: "Mlle.Baptistine", group: 3, strokeStyle: '#fff'},
+        {id: "Mme.Magloire", group: 1, strokeStyle: '#fff'},
+        {id: "Geborand", group: 4, strokeStyle: '#fff'},
+        {id: "Champtercier", group: 5, strokeStyle: '#fff'},
+        {id: "Cravatte", group: 6, strokeStyle: '#fff'},
+        {id: "Count", group: 7, strokeStyle: '#fff'},
+        {id: "OldMan", group: 8, strokeStyle: '#fff'},
       ],
       links: [
         {source: "Napoleon", target: "Myriel", value: 1},
@@ -49,20 +50,39 @@ const D3Test = () => {
     const links = data.links.map(d => ({...d})); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     const nodes = data.nodes.map(d => ({...d})); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
 
+    /*-----------------------BALLS TO IMAGES-----------------------*/
+    // const imageUrls = {
+    //   1: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kubernetes_logo_without_workmark.svg/2109px-Kubernetes_logo_without_workmark.svg.png',
+    // };
+    
+    // const images = {};
+    // const imagePromises = Object.keys(imageUrls).map(groupId => {
+    //   const img = new Image();
+    //   img.src = imageUrls[groupId];
+    //   images[groupId] = img;
+    //   return new Promise(resolve => {
+    //     img.onload = resolve;
+    //   });
+    // });
+    
+    // // Wait for all images to load
+    // Promise.all(imagePromises).then(() => {
+    // });
+
     const simulation = d3.forceSimulation(nodes) // creates new force simulation
-            // .force() -> adds a force to simulation
-              // force("name", function)
-            .force("link", d3.forceLink(links).id(d => d.id)) // links and gives id to nodes
-            .force("charge", d3.forceManyBody()) // repels all nodes when dragging a node
-            .force("center", d3.forceCenter(width / 2, height / 2)) // centers the graph
-            .on("tick", draw); // event listener; updates node positions or visualization
+      // .force() -> adds a force to simulation
+        // force("name", function)
+      .force("link", d3.forceLink(links).id(d => d.id)) // links and gives id to nodes
+      .force("charge", d3.forceManyBody()) // repels all nodes when dragging a node
+      .force("center", d3.forceCenter(width / 2, height / 2)) // centers the graph
+      .on("tick", draw); // event listener; updates node positions or visualization
     
     // Create the canvas.
     // const canvas = d3.create("canvas")
     const canvas = d3.select(canvasRef.current) // selects a DOM element
-        .attr("width", dpi * width) // set width
-        .attr("height", dpi * height) // set height
-        .attr("style", `width: ${width}px; max-width: 100%; height: auto;`) // styling
+      .attr("width", dpi * width) // set width
+      .attr("height", dpi * height) // set height
+      .attr("style", `width: ${width}px; max-width: 100%; height: auto;`) // styling
       .node(); // retrieves the underlying DOM node of the canvas created by D3
     
     const context = canvas.getContext("2d"); // gets 2D rendering context
@@ -86,7 +106,7 @@ const D3Test = () => {
         context.beginPath(); // Begin a new path for drawing each node
         drawNode(node) // Draw the node
         context.fillStyle = color(node.group); // Color of node based on group #
-        context.strokeStyle = "#fff"; // #000 gives the circles a black outline
+        context.strokeStyle = node.strokeStyle; // #000 gives the circles a black outline
         context.fill(); // renders color onto node
         context.stroke(); // stroke the path for the node
       });
@@ -113,6 +133,37 @@ const D3Test = () => {
       context.arc(d.x, d.y, 7, 0, 2 * Math.PI);
     }
 
+    const tooltip = d3.select("body").append("div")
+      .attr("class", "tooltip");
+
+    //-----------------------LEGEND-----------------------
+
+    // const category = [...new Set (nodes.map(d => `Group ${d.group}`))]
+    // const legend = d3.select(canvas).append("div")
+    //   .attr("class", "legend")
+    //   .style("position", "absolute")
+    //   .style("bottom", `${dpi * 8}px`)
+    //   .style("right", `${dpi * 8}px`);
+
+    // legend.selectAll("div")
+    //   .data(category)
+    //   .enter()
+    //   .append("div")
+    //   .attr("class", "legend-item")
+    //   .each(function(d) {
+    //     const item = d3.select(this);
+    
+    //     // Color box
+    //     item.append("div")
+    //       .attr("class", "legend-color-box")
+    //       .style("background-color", color(d));
+    
+    //     // Label
+    //     item.append("div")
+    //       .attr("class", "legend-label")
+    //       .text(d);
+    //   });
+
     d3.select(canvas) // selects the HTML canvas element
       .call(d3.drag() // call is invoking d3.drag() and it returns a drag behavior
         .subject(event => { // subject is used to determine the subject of the drag
@@ -122,39 +173,52 @@ const D3Test = () => {
             if (dist2 < 400) return dist2;
           });
         })
-        // the 4 ".on()" functions below are event listeners
+        // the 5 ".on()" functions below are event listeners
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended))
+      .on("mousemove", hovered)
       .on("click", clicked); // clicks on whole canvas, not nodes
 
-    function clicked(event) {
-      if(event.defaultPrevented) return; // if dragging, return
-      /*      THIS FUNCTION IS NOT DONE
+    function hovered(event) {
+      if(event.defaultPrevented) return; // if any other event, return
+      console.log("HOVERED")
+      const [mouseX, mouseY] = d3.pointer(event);
 
-      // const [px, py] = d3.pointer(event, canvas);
-
-      // Use forceSimulation to find the closest node to the clicked point
-      let dist2;
-      const nearestNode = d3.least(nodes, ({ x, y }) => {
-        dist2 = (x - px) ** 2 + (y - py) ** 2;
-        return dist2;
+      let hoveredNode = null;
+      nodes.forEach(node => {
+        // d3.bisector(); maybe another way to find closest node
+        const distance = Math.sqrt((node.x - mouseX) ** 2 + (node.y - mouseY) ** 2);
+        if (distance < radius) hoveredNode = node;
       });
-
-      console.log(nearestNode);
-      // Check if the distance to the nearest node is within a certain threshold
-      const threshold = 400;
-      if (nearestNode && nearestNode.group === 1) {
-        // Do something with the clicked node
-        console.log("Clicked Node:", nearestNode);
-
-        // Modify the stroke or any other attributes of the clicked node
-        d3.select('#Napoleon')
-          .style("stroke", "red")  // Set the desired stroke color
-          .style("stroke-width", 2); // Set the desired stroke width
+      console.log(hoveredNode)
+      if (hoveredNode) {
+        tooltip.style("display", "block")
+          .style("left", `${event.pageX + 10}px`)
+          .style("top", `${event.pageY - 28}px`)
+          .html(`<strong>${hoveredNode.id}</strong> <br>` + 
+                `Group: ${hoveredNode.group} <br>` +
+                `Status: ok`);
+      } else {
+        tooltip.style("display", "none");
       }
+    }
 
-      */
+    function clicked(event) {
+      if(event.defaultPrevented) return; // if any other event, return
+      console.log("CLICKED")
+      const [mouseX, mouseY] = d3.pointer(event);
+
+      nodes.forEach(node => {
+        const distance = Math.sqrt((node.x - mouseX) ** 2 + (node.y - mouseY) ** 2);
+        console.log(distance, radius);
+        if (distance < radius) {
+          console.log("Clicked node:", node);
+          node.group = 10;
+          node.strokeStyle = '#000';
+          draw();
+        }
+      });
     }
 
     function dragstarted(event) {
