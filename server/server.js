@@ -1,15 +1,15 @@
-const path = require('path');
 const express = require('express');
+require('dotenv').config();
 
 const app = express();
 const PORT = 3000;
 
+const toolRouter = require('./routers/toolRouter.js');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/tool', (req, res) =>
-  res.sendFile(path.resolve(__dirname, '../build/index.html'))
-);
+app.use('/tool', toolRouter);
 
 app.use((req, res) => res.status(404).send('Page Not Found'));
 

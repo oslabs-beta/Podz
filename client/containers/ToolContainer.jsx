@@ -1,12 +1,6 @@
-import React, { useState, useEffect }from 'react';
-
-const Text = () => {
-  return (
-    <div>
-      <h1>HIIIIII THEREEEEE</h1>
-    </div>
-  )
-}
+import React from 'react';
+import ToolBar from '../components/ToolBar.jsx';
+import ToolDisplayContainer from './ToolDisplayContainer.jsx';
 
 const ToolContainer = () => {
   const [content, setContent] = useState([<h2>hello</h2>])
@@ -30,10 +24,8 @@ const ToolContainer = () => {
   }
   return (
     <div className='toolContainer'>
-      <h1>Nothing Yet</h1>
-      <button onClick={metricsGrabber}>Grab metrics!</button>
-      {content}
-      <Text/>
+      <ToolBar />
+      <ToolDisplayContainer />
     </div>
   );
 };
