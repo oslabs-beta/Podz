@@ -1,20 +1,26 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const ToolTree = () => {
+const ToolTree = ({ setToolMetric }) => {
   // used to create a mutable object that can persist across renders
   // without causing the component to re-render when the ref object changes
   const canvasRef = useRef(null);
 
   useEffect(() => {
     // Specify the dimensions of the chart.
-    const width = 1200;
-    const height = 800;
+    // const width = 1500;
+    // const height = 800;
+    const width = 500; 
+    const height = 400;
 
-    const radius = 7; // radius of circle
+    const radius = 15; // radius of circle
+    const imageRadius = 30; // radius of image
+
+    let prevHoveredNode = null; // used in hovered function
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio;
+
     // Specify the color scale; schemeCategory10 provides an array of 10 diff colors
     // scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
     // TLDR: different color for nodes in different groups
@@ -50,44 +56,25 @@ const ToolTree = () => {
     const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     const nodes = data.nodes.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
 
-    /*-----------------------BALLS TO IMAGES-----------------------*/
-    // const imageUrls = {
-    //   1: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kubernetes_logo_without_workmark.svg/2109px-Kubernetes_logo_without_workmark.svg.png',
-    // };
-
-    // const images = {};
-    // const imagePromises = Object.keys(imageUrls).map(groupId => {
-    //   const img = new Image();
-    //   img.src = imageUrls[groupId];
-    //   images[groupId] = img;
-    //   return new Promise(resolve => {
-    //     img.onload = resolve;
-    //   });
-    // });
-
-    // // Wait for all images to load
-    // Promise.all(imagePromises).then(() => {
-    // });
-
     const simulation = d3
       .forceSimulation(nodes) // creates new force simulation
       // .force() -> adds a force to simulation
       // force("name", function)
       .force(
         'link',
-        d3.forceLink(links).id((d) => d.id)
-      ) // links and gives id to nodes
+        d3.forceLink(links)
+          .id((d) => d.id) // links and gives id to nodes
+          .distance(150) // link's length
+      ) 
       .force('charge', d3.forceManyBody()) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .on('tick', draw); // event listener; updates node positions or visualization
 
-    // Create the canvas.
-    // const canvas = d3.create("canvas")
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
-      .attr('width', dpi * width) // set width
-      .attr('height', dpi * height) // set height
-      .attr('style', `width: ${width}px; max-width: 100%; height: auto;`) // styling
+      .attr('width', `${dpi * width}vh`) // set width
+      .attr('height', `${dpi * height}vh`) // set height
+      .attr('style', `max-width: 100%; max-height: 100%`) // styling
       .node(); // retrieves the underlying DOM node of the canvas created by D3
 
     const context = canvas.getContext('2d'); // gets 2D rendering context
@@ -130,19 +117,26 @@ const ToolTree = () => {
     }
 
     function drawNode(d) {
-      // Move the drawing cursor to (x, y) position
-      // nodes has a weird white line when x is too low
-      context.moveTo(d.x + 10, d.y);
+      /*-----------------------CIRCLES-----------------------*/
+      /* Move the drawing cursor to (x, y) position
+         nodes has a weird white line when x is too low */
+      // context.moveTo(d.x + 10, d.y);
 
-      // modifies the circles (nodes)
-      // context.arc(x, y, radius, startAngle, endAngle, anticlockwise);
-      context.arc(d.x, d.y, 7, 0, 2 * Math.PI);
+      /* modifies the circles (nodes)
+         context.arc(x, y, radius, startAngle, endAngle, anticlockwise); */
+      // context.arc(d.x, d.y, 15, 0, 2 * Math.PI);
+
+      /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
+      context.moveTo(d.x + imageRadius, d.y);
+      const img = new Image();
+      img.src = 'http://localhost:3000/assets/logo.png'; // Replace with the path to your image
+      context.drawImage(img, d.x - imageRadius, d.y - imageRadius, 2 * imageRadius, 2 * imageRadius);
     }
 
+    console.log(data.nodes);
     const tooltip = d3.select('body').append('div').attr('class', 'tooltip');
 
     //-----------------------LEGEND-----------------------
-
     // const category = [...new Set (nodes.map(d => `Group ${d.group}`))]
     // const legend = d3.select(canvas).append("div")
     //   .attr("class", "legend")
@@ -169,6 +163,7 @@ const ToolTree = () => {
     //       .text(d);
     //   });
 
+    /*------------------------EVENT HANDLER------------------------*/
     d3.select(canvas) // selects the HTML canvas element
       .call(
         d3
@@ -201,10 +196,16 @@ const ToolTree = () => {
         const distance = Math.sqrt(
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
-        if (distance < radius) hoveredNode = node;
+        if (distance < imageRadius) hoveredNode = node;
       });
       console.log(hoveredNode);
+
+      const img = new Image();
+      img.src = 'http://localhost:3000/assets/logo.png';
+      
       if (hoveredNode) {
+        prevHoveredNode = hoveredNode;
+        context.drawImage(img, hoveredNode.x - imageRadius * 1.5, hoveredNode.y - imageRadius * 1.5, 3 * imageRadius, 3 * imageRadius);
         tooltip
           .style('display', 'block')
           .style('left', `${event.pageX + 10}px`)
@@ -216,6 +217,10 @@ const ToolTree = () => {
           );
       } else {
         tooltip.style('display', 'none');
+        if(prevHoveredNode){
+          context.clearRect(prevHoveredNode.x - imageRadius, prevHoveredNode.y - imageRadius, 2 * imageRadius, 2 * imageRadius);
+          context.drawImage(img, prevHoveredNode.x - imageRadius, prevHoveredNode.y - imageRadius, 2 * imageRadius, 2 * imageRadius);
+        }
       }
     }
 
@@ -228,12 +233,10 @@ const ToolTree = () => {
         const distance = Math.sqrt(
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
-        console.log(distance, radius);
-        if (distance < radius) {
+        if (distance < imageRadius) {
           console.log('Clicked node:', node);
-          node.group = 10;
-          node.strokeStyle = '#000';
           draw();
+          setToolMetric(node);
         }
       });
     }

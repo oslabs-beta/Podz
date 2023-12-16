@@ -112,8 +112,8 @@ body {
 /* Tool Display */
 .toolDisplayContainer {
   display: flex;
-  height: 93vh;
-  padding-top: 50px;
+  height: 90vh;
+  /* padding-top: 50px; */
 }
 
 .toolTree {
