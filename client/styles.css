@@ -4,7 +4,7 @@ body {
 
 .tooltip {
   position: absolute;
-  padding: 10px;
+  padding: 0px 10px 0px 10px;
   background-color: steelblue;
   color: white;
   border: 1px solid white;
@@ -112,13 +112,14 @@ body {
 /* Tool Display */
 .toolDisplayContainer {
   display: flex;
-  height: 90vh;
-  /* padding-top: 50px; */
+  height: 89vh;
+  
 }
 
 .toolTree {
   text-align: center;
   width: 80%;
+  /* padding-left: 10px; */
 }
 
 .toolMetric {
@@ -126,6 +127,7 @@ body {
   flex-direction: column;
   padding: 10px;
   width: 20%;
+  border: 1px solid black;
 }
 
 .toolBuild {
@@ -133,4 +135,9 @@ body {
   width: 40%;
   font-size: 20px;
   padding: 5px;
+}
+
+.toolInfo ul {
+  padding: 0px 0px 0px 20px;
+  margin: 0px;
 }
