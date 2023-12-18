@@ -7,9 +7,8 @@ body {
   padding: 0px 10px 0px 10px;
   background-color: steelblue;
   color: white;
-  border: 1px solid white;
+  /* border: 1px solid black; */
   border-radius: 10px;
-  /* z-index: 2; */
 }
 
 .legend {
