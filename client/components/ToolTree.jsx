@@ -273,9 +273,9 @@ const ToolTree = ({ setToolMetric }) => {
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
-      if (d.kind === 'MasterNode') img.src = MasterNode;
+      if (d.kind === 'MasterNode') img.src = masterNode;
       else if (d.kind === 'Node'){
-        img.src = node;
+        img.src = workerNode;
         imageRadius = 50;
       }
       else if (d.kind === 'Pod'){
