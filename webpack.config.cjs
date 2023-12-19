@@ -42,7 +42,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'build'),
     },
     proxy: {
-      '/': 'http://localhost:3000',
+      '/': 'http://localhost:1212',
     },
     historyApiFallback: true,
   },

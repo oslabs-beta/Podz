@@ -1,14 +1,69 @@
-const mongoose = require('mongoose');
-
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to Mongo DB.'))
-  .catch((err) => console.log(err));
-
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 const Schema = mongoose.Schema;
+const myURI = 'mongodb+srv://podz:Codesmith@cluster0.26b71cr.mongodb.net/?retryWrites=true&w=majority'
+// const URI = process.env.MONGO_URI || myURI;
 
-const nodeSchema = new Schema({});
+// mongoose
+//   .connect(myURI, {
+//     dbName: 'Cluster0'
+//   })
+//   .then(() => console.log('Connected to Mongo DB.'))
+//   .catch((err) => console.log(err));
 
-const Node = mongoose.model('node', nodeSchema);
+mongoose.connect(myURI, {
+dbName: 'Cluster0'
+});
+// this is an event listening to open
+  mongoose.connection.once('open', () => {
+  console.log('--------------------------------------------------------Connected to Database-------------------------------------------------------');
+});
 
-module.exports = { Node };
+
+const nodeSchema = new Schema({
+  kind: { type: String, required: true },
+  name: { type: String, required: true },
+  uid: { type: String, required: true },
+  creationTimestamp: { type: String, required: true },
+  conditions: { type: Object, required: true },
+});
+
+const podSchema = new Schema({
+  kind: { type: String, required: true },
+  name: { type: String, required: true },
+  namespace: { type: String, required: true },
+  uid: { type: String, required: true },
+  creationTimestamp: { type: String, required: true },
+  labels: { type: Object, required: true },
+  containers: { type: Object, required: true },
+  nodeName: { type: String, required: true },
+  status: { type: String, required: true },
+  conditions: { type: Object, required: true },
+})
+
+const serviceSchema = new Schema({
+  kind: { type: String, required: true },
+  name: { type: String, required: true },
+  namespace: { type: String, required: true },
+  uid: { type: String, required: true },
+  creationTimestamp: { type: String, required: true },
+  clusterIPs: { type: Array, required: true },
+  selector: { type: Object, required: true },
+  type: { type: String, required: true },
+})
+
+const namespaceSchema = new Schema({
+  kind: { type: String, required: true },
+  name: { type: String, required: true },
+  uid: { type: String, required: true },
+  creationTimestamp: { type: String, required: true },
+  status: { type: Object, required: true },
+})
+
+export const Node = mongoose.model('node', nodeSchema);
+export const Pod = mongoose.model('pod', podSchema);
+export const Service = mongoose.model('service', serviceSchema);
+export const Namespace = mongoose.model('namespace', namespaceSchema);
+
+// export default { Node, Pod, Service, Namespace }
