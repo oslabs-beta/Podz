@@ -2,35 +2,6 @@ body {
   margin: 0px;
 }
 
-.tooltip {
-  position: absolute;
-  padding: 0px 10px 0px 10px;
-  background-color: steelblue;
-  color: white;
-  /* border: 1px solid black; */
-  border-radius: 10px;
-}
-
-.legend {
-  display: flex;
-  
-}
-
-.legend-item {
-  display: flex;
-  margin-right: 10px;
-}
-
-.legend-color-box {
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-}
-
-.legend-label {
-  line-height: 20px; /* Match the height of the color box */
-}
-
 .mainContainer {
   display: flex;
   flex-direction: column;
@@ -111,22 +82,17 @@ body {
 /* Tool Display */
 .toolDisplayContainer {
   display: flex;
-  height: 89vh;
-  
 }
 
 .toolTree {
-  text-align: center;
   width: 80%;
-  /* padding-left: 10px; */
 }
 
-.toolMetric {
+.toolInfo {
   display: flex;
   flex-direction: column;
   padding: 10px;
   width: 20%;
-  border: 1px solid black;
 }
 
 .toolBuild {
@@ -136,7 +102,41 @@ body {
   padding: 5px;
 }
 
-.toolInfo ul {
+/* Tool Metric */
+.toolMetric {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolMetric ul {
   padding: 0px 0px 0px 20px;
   margin: 0px;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 0px 10px 0px 10px;
+  background-color: steelblue;
+  color: white;
+  /* border: 1px solid black; */
+  border-radius: 10px;
+}
+
+.legend {
+  display: flex;
+}
+
+.legend-item {
+  display: flex;
+  margin-right: 10px;
+}
+
+.legend-color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.legend-label {
+  line-height: 20px; /* Match the height of the color box */
 }

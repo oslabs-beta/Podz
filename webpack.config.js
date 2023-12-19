@@ -2,14 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: process.env.NODE_ENV,
   entry: {
-    src: './client/index.js'
+    src: './client/index.js',
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
   },
-
   module: {
     rules: [
       {
@@ -32,13 +32,18 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './client/index.html'
-    })
+      title: 'Development',
+      template: './client/index.html',
+    }),
   ],
   devServer: {
+    static: {
+      publicPath: '/build',
+      directory: path.resolve(__dirname, 'build'),
+    },
     proxy: {
-      '/': 'http://localhost:1113',
+      '/': 'http://localhost:1212',
     },
     historyApiFallback: true,
-  }
-}
+  },
+};
