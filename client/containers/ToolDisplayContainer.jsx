@@ -9,11 +9,24 @@ const ToolDisplayContainer = () => {
   };
   const [data, setData] = useState(dummyData);
 
+  function fetchData() {
+    fetch('/tool/data')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <div className='toolDisplayContainer'>
       <ToolTree setToolMetric={setData} />
       <div className='toolInfo'>
-        <button className='toolBuild'>Load Cluster</button>
+        <button className='toolBuild' onClick={fetchData}>
+          Load Cluster
+        </button>
         <ToolMetric nodeData={data} />
       </div>
     </div>
