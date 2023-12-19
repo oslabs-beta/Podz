@@ -11,4 +11,8 @@ router.get('/', (req, res) =>
   res.sendFile(path.resolve(__dirname, '../../build/index.html'))
 );
 
+router.get('/data', (req, res) => {
+  
+})
+
 module.exports = router;

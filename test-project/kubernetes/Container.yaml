@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: container-deployment
+  # labels are additional identifiers
+  labels:
+    app: container
+spec:
+  replicas: 1
+  # determines that any pods that match the matchlabel on line 13 belong to the mongo-deployment in line 4
+  selector:
+    matchLabels:
+      app: container
+  # template is the blueprint for the pods, config for the pod
+  template:
+    metadata:
+      labels:
+        app: container
+    spec:
+      # list of containers
+      containers:
+      - name: container
+        # your image name, ex: dockerusername/imagename:tag
+        image: containerexample:1.0
+        ports:
+        - containerPort: 8080
+        # env:
+        # - name: USER_NAME
+        #   valueFrom: 
+        #     secretKeyRef: 
+        #       name: mongo-secret
+        #       key: mongo-user
+        # - name: USER_PWD
+        #   valueFrom: 
+        #     secretKeyRef: 
+        #       name: mongo-secret
+        #       key: mongo-password
+        # - name: DB_URL
+        #   valueFrom: 
+        #     configMapKeyRef: 
+        #       name: mongo-config
+        #       key: mongo-url
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # endpoint defined in mongo-config line 6
+  name: container-service
+spec:
+  # make it an external service
+  type: NodePort
+  selector:
+    # select pods to forward the requests to, relevant to line 18
+    app: container
+  ports:
+    - protocol: TCP
+      port: 8080
+      # this needs to be the port of the pods
+      targetPort: 8080
+      # from nodeport type
+      nodePort: 31001
