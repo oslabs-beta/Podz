@@ -19,7 +19,7 @@ const ToolTree = ({ setToolMetric }) => {
     // const height = 600;
 
     const radius = 15; // radius of circle
-    const imageRadius = 40; // radius of image
+    let imageRadius = 60; // radius of image
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio;
@@ -160,7 +160,6 @@ const ToolTree = ({ setToolMetric }) => {
       ],
     };
 
-    console.log(data);
     // The force simulation mutates links and nodes, so create a copy
     // so that re-evaluating this cell produces the same result.
     const nodes = data.nodes.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
@@ -194,7 +193,6 @@ const ToolTree = ({ setToolMetric }) => {
       //   }
       // }
     }
-    console.log(links);
 
     const simulation = d3
       .forceSimulation(nodes) // creates new force simulation
@@ -209,7 +207,9 @@ const ToolTree = ({ setToolMetric }) => {
       )
       .force('charge', d3.forceManyBody().strength(-15).theta(1)) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
+      .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw); // event listener; updates node positions or visualization
+
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
       .attr('width', `${dpi * width}vh`) // set width
@@ -244,8 +244,6 @@ const ToolTree = ({ setToolMetric }) => {
       context.restore(); // Restore the drawing state to what it was before the second context.save()
     }
 
-    console.log(context);
-
     function drawLink(d) {
       // Move the drawing cursor to (x, y) position
       context.moveTo(d.source.x, d.source.y);
@@ -272,10 +270,19 @@ const ToolTree = ({ setToolMetric }) => {
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
       if (d.kind === 'MasterNode') img.src = masterNode;
-      else if (d.kind === 'Node') img.src = workerNode;
-      else if (d.kind === 'Pod') img.src = pod;
-      else if (d.kind === 'Container') img.src = container;
-      else img.src = service;
+      else if (d.kind === 'Node') {
+        img.src = workerNode;
+        imageRadius = 50;
+      } else if (d.kind === 'Pod') {
+        img.src = pod;
+        imageRadius = 40;
+      } else if (d.kind === 'Container') {
+        img.src = container;
+        imageRadius = 30;
+      } else {
+        img.src = service;
+        imageRadius = 30;
+      }
       context.drawImage(
         img,
         d.x - imageRadius,
@@ -283,9 +290,9 @@ const ToolTree = ({ setToolMetric }) => {
         2 * imageRadius,
         2 * imageRadius
       );
+      imageRadius = 60;
     }
 
-    console.log(data.nodes);
     const tooltip = d3.select('body').append('div').attr('class', 'tooltip');
 
     /*------------------------EVENT HANDLER------------------------*/
@@ -312,7 +319,7 @@ const ToolTree = ({ setToolMetric }) => {
 
     function hovered(event) {
       if (event.defaultPrevented) return; // if any other event, return
-      console.log('HOVERED');
+
       const [mouseX, mouseY] = d3.pointer(event);
 
       let hoveredNode = null;
@@ -323,7 +330,6 @@ const ToolTree = ({ setToolMetric }) => {
         );
         if (distance < imageRadius) hoveredNode = node;
       });
-      console.log(hoveredNode);
 
       if (hoveredNode) {
         let data;
@@ -356,7 +362,7 @@ const ToolTree = ({ setToolMetric }) => {
 
     function clicked(event) {
       if (event.defaultPrevented) return; // if any other event, return
-      console.log('CLICKED');
+
       const [mouseX, mouseY] = d3.pointer(event);
 
       nodes.forEach((node) => {
@@ -364,7 +370,6 @@ const ToolTree = ({ setToolMetric }) => {
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
         if (distance < imageRadius) {
-          console.log('Clicked node:', node);
           draw();
           setToolMetric(node);
         }

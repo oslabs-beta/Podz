@@ -1,8 +1,6 @@
 import React from 'react';
 
 const ToolMetric = ({ nodeData }) => {
-  console.log(nodeData);
-
   let data = (
     <div className='toolMetric'>
       <p>

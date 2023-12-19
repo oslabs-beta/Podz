@@ -8,7 +8,7 @@ const toolController = {};
 toolController.addSnapshotTime = (req, res, next) => {
   try {
     res.locals.snapshot = Date.now();
-    console.log(res.locals.snapshot);
+
     return next();
   } catch (error) {
     console.log('Error: In addSnapshotTime middleware', error);
@@ -97,13 +97,9 @@ toolController.postContainers = (req, res, next) => {
     const podsData = res.locals.podsData;
     for (let i = 0; i < podsData.length; i++) {
       for (let j = 0; j < podsData[i].containers.length; j++) {
-        console.log(
-          '-------------------------',
-          podsData[i]['containers'][j],
-          '-------------------------------'
-        );
         const { name, image, ready, restartCount, started, startedAt } =
           podsData[i]['containers'][j];
+
         const newContainer = Container.create({
           snapshot,
           name,
@@ -113,7 +109,7 @@ toolController.postContainers = (req, res, next) => {
           started,
           startedAt,
         });
-        console.log('new Container', newContainer);
+
         containersData.push(newContainer);
       }
     }
@@ -180,7 +176,6 @@ toolController.postServices = async (req, res, next) => {
 //         creationTimestamp,
 //         conditions,
 //       });
-//       console.log('new namespace', newNamespace);
 //       namespacesData.push(newNamespace);
 //     }
 //     res.locals.namespacesData = namespacesData;
@@ -199,6 +194,8 @@ toolController.clusterData = (req, res, next) => {
   res.locals.clusterData = {
     data: [...nodeArray, ...podArray, ...containerArray, ...serviceArray],
   };
+
+  console.log(res.locals.clusterData);
 };
 
 module.exports = toolController;

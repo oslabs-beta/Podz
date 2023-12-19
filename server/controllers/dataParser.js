@@ -66,7 +66,7 @@ dataParser.podsParser = (pods) => {
     const resultArray = [];
     const containers = pod['spec']['containers'];
     const containerStatuses = pod['status']['containerStatuses'];
-    // console.log(containerStatuses)
+
     for (let i = 0; i < containers.length; i++) {
       const newObj = {};
       newObj.name = containers[i]['name'];
@@ -116,7 +116,7 @@ dataParser.podsParser = (pods) => {
 dataParser.servicesParser = (service) => {
   const newArray = [];
 
-  obj.items.forEach((ele) => {
+  service.items.forEach((ele) => {
     const newObj = {};
     newObj.kind = 'Service';
     newObj.name = ele.metadata.name;
