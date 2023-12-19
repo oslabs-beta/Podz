@@ -1,15 +1,12 @@
-const express = require('express');
-require('dotenv').config();
-
+import express from 'express'
+import toolRouter from './routers/toolRouter.js'
 const app = express();
-const PORT = 3000;
-
-const toolRouter = require('./routers/toolRouter.js');
-
+const PORT = 1212;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/tool', toolRouter);
+
+app.use('/', toolRouter);
 
 app.get('/assets/:pic', (req, res) => {
   console.log(req.params.pic);
@@ -33,4 +30,4 @@ app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });
 
-module.exports = app;
+export default app;
