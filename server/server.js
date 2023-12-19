@@ -11,6 +11,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/tool', toolRouter);
 
+app.get('/assets/:pic', (req, res) => {
+  console.log(req.params.pic);
+  res.sendFile(path.resolve(__dirname, `../client/assets/${req.params.pic}`))
+});
+
 app.use((req, res) => res.status(404).send('Page Not Found'));
 
 app.use((err, req, res, next) => {
