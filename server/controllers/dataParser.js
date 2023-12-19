@@ -42,7 +42,6 @@ dataParser.nodesParser = (nodes) => {
     // newObj.images = node["status"]["images"]
     newArray.push(newObj);
   }
-
   return newArray;
 };
 
@@ -82,6 +81,14 @@ dataParser.podsParser = (pods) => {
     return resultArray;
   };
 
+  const labelFilter = (pod) => {
+    const resultArray = [];
+    for (let key in pod) {
+      resultArray.push({ key: pod[key] });
+    }
+    return resultArray;
+  };
+
   const { items } = pods;
   const newArray = [];
   for (let i = 0; i < items.length; i++) {
@@ -92,7 +99,7 @@ dataParser.podsParser = (pods) => {
     newObj.namespace = pod['metadata']['namespace'];
     newObj.uid = pod['metadata']['uid'];
     newObj.creationTimestamp = pod['metadata']['creationTimestamp'];
-    newObj.labels = pod['metadata']['labels'];
+    newObj.labels = labelFilter(pod['metadata']['labels']);
     newObj.containers = containerFilter(pod);
     newObj.nodeName = pod['spec']['nodeName'];
     newObj.status = pod['status']['phase'];
@@ -102,7 +109,6 @@ dataParser.podsParser = (pods) => {
     // newObj.images = node["status"]["images"]
     newArray.push(newObj);
   }
-
   return newArray;
 };
 
@@ -110,7 +116,7 @@ dataParser.podsParser = (pods) => {
 dataParser.servicesParser = (service) => {
   const newArray = [];
 
-  service.items.forEach((ele) => {
+  obj.items.forEach((ele) => {
     const newObj = {};
     newObj.kind = 'Service';
     newObj.name = ele.metadata.name;
@@ -122,7 +128,6 @@ dataParser.servicesParser = (service) => {
     newObj.type = ele.spec.type;
     newArray.push(newObj);
   });
-
   return newArray;
 };
 
