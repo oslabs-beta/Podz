@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import node from '../assets/nodes.png';
+import masterNode from '../assets/masterNode.png';
+import workerNode from '../assets/workerNode.png';
 import pod from '../assets/pods.png';
 import container from '../assets/containers.png';
 import service from '../assets/services.png';
-import MasterNode from '../assets/MasterNode.png';
 
 const ToolTree = ({ setToolMetric }) => {
   // used to create a mutable object that can persist across renders
@@ -271,8 +271,8 @@ const ToolTree = ({ setToolMetric }) => {
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
-      if (d.kind === 'MasterNode') img.src = MasterNode;
-      else if (d.kind === 'Node') img.src = node;
+      if (d.kind === 'MasterNode') img.src = masterNode;
+      else if (d.kind === 'Node') img.src = workerNode;
       else if (d.kind === 'Pod') img.src = pod;
       else if (d.kind === 'Container') img.src = container;
       else img.src = service;
