@@ -17,8 +17,22 @@ const ToolMetric = ({ nodeData }) => {
     </div>
   );
 
-  // Node, Pod, Container
-  if (nodeData.kind === 'Node') {
+  // Master Node, Node, Pod, Container, Services
+  if (nodeData.kind === 'MasterNode') {
+    data = (
+      <div className='toolMetric'>
+        <p>
+          <strong>Name:</strong> {nodeData.name}
+        </p>
+        <p>
+          <strong>Kind:</strong> {nodeData.kind}
+        </p>
+        <p>
+          <strong>UID:</strong> {nodeData.uid}
+        </p>
+      </div>
+    );
+  } else if (nodeData.kind === 'Node') {
     data = (
       <div className='toolMetric'>
         <p>

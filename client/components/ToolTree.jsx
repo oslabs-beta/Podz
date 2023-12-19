@@ -4,6 +4,7 @@ import node from '../assets/nodes.png';
 import pod from '../assets/pods.png';
 import container from '../assets/containers.png';
 import service from '../assets/services.png';
+import MasterNode from '../assets/MasterNode.png';
 
 const ToolTree = ({ setToolMetric }) => {
   // used to create a mutable object that can persist across renders
@@ -18,7 +19,7 @@ const ToolTree = ({ setToolMetric }) => {
     // const height = 600;
 
     const radius = 15; // radius of circle
-    const imageRadius = 30; // radius of image
+    const imageRadius = 40; // radius of image
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio;
@@ -30,6 +31,7 @@ const ToolTree = ({ setToolMetric }) => {
 
     const data = {
       nodes: [
+        { kind: 'MasterNode', name: 'MasterNode' },
         {
           kind: 'Node',
           name: 'minikube',
@@ -166,6 +168,7 @@ const ToolTree = ({ setToolMetric }) => {
     const links = [];
     for (const ele of nodes) {
       if (ele.kind === 'Node') {
+        links.push({ source: ele.name, target: nodes[0].name });
         for (const ele2 of nodes) {
           if (ele2.kind === 'Pod' && ele2.nodeName === ele.name) {
             links.push({ source: ele.name, target: ele2.name });
@@ -207,7 +210,6 @@ const ToolTree = ({ setToolMetric }) => {
       .force('charge', d3.forceManyBody().strength(-15).theta(1)) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .on('tick', draw); // event listener; updates node positions or visualization
-
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
       .attr('width', `${dpi * width}vh`) // set width
@@ -269,8 +271,8 @@ const ToolTree = ({ setToolMetric }) => {
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
-      if (d.kind === 'Node') img.src = node;
-      // Replace with the path to your image
+      if (d.kind === 'MasterNode') img.src = MasterNode;
+      else if (d.kind === 'Node') img.src = node;
       else if (d.kind === 'Pod') img.src = pod;
       else if (d.kind === 'Container') img.src = container;
       else img.src = service;
@@ -386,7 +388,7 @@ const ToolTree = ({ setToolMetric }) => {
     }
 
     // Restore the target alpha so the simulation cools after dragging ends.
-    // Unfix the subject position now that it’s no longer being dragged.
+    // Unfix the subject position now that it's no longer being dragged.
     function dragended(event) {
       if (!event.active) simulation.alphaTarget(0);
       event.subject.fx = null;
