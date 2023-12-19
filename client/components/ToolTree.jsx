@@ -1,5 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import node from '../assets/nodes.png';
+import pod from '../assets/pods.png';
+import container from '../assets/containers.png';
+import service from '../assets/services.png';
 
 const ToolTree = ({ setToolMetric }) => {
   // used to create a mutable object that can persist across renders
@@ -10,7 +14,7 @@ const ToolTree = ({ setToolMetric }) => {
     // Specify the dimensions of the chart.
     const width = 1500;
     const height = 809;
-    // const width = 700; 
+    // const width = 700;
     // const height = 600;
 
     const radius = 15; // radius of circle
@@ -23,16 +27,134 @@ const ToolTree = ({ setToolMetric }) => {
     // scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
     // TLDR: different color for nodes in different groups; used for circles
     const color = d3.scaleOrdinal(d3.schemeCategory10);
-    
+
     const data = {
       nodes: [
-        { kind: 'Node', name: 'minikube', uid: 'ad65b4a9-cfde-4350-9515-2df538094f0c', creationTimestamp: '2023-12-11T19:20:17Z', conditions: { MemoryPressure: { status: 'False', message: 'kubelet has sufficient memory available' }, DiskPressure: { status: 'False', message: 'kubelet has no disk pressure' }, PIDPressure: { status: 'False', message: 'kubelet has sufficient PID available' }, Ready: { status: 'True', message: 'kubelet is posting ready status' } } }, 
-        { kind: 'Node', name: 'minikube-m02', uid: '6f77af28-a836-4233-ac2a-d6838330273a', creationTimestamp: '2023-12-15T00:26:18Z', conditions: { MemoryPressure: { status: 'False', message: 'kubelet has sufficient memory available' }, DiskPressure: { status: 'False', message: 'kubelet has no disk pressure' }, PIDPressure: { status: 'False', message: 'kubelet has sufficient PID available' }, Ready: { status: 'True', message: 'kubelet is posting ready status' } } },
-        { kind: 'Pod', name: 'eds-deployment-5dc4cd95d-96r5s', uid: '37516100-4544-423b-a313-b31a54fd057e', creationTimestamp: '2023-12-12T16:07:52Z', labels: { app: 'eds', pod_template_hash: '5dc4cd95d' }, containers: [{ name: 'eds', image: 'eds:1.0', ready: true, restartCount: 3, started: true, startedAt: '2023-12-15T00:22:51Z' }], nodeName: 'minikube', status: 'Running', conditions: { Initialized: 'True', Ready: 'True', ContainersReady: 'True', PodScheduled: 'True' } }, 
-        { kind: 'Pod', name: 'eds2-deployment-b8d8d6867-bjdgb', uid: 'a5148397-c608-47db-9c6a-ea4ac9df500f', creationTimestamp: '2023-12-12T16:11:31Z', labels: { app: 'eds2', pod_template_hash: 'b8d8d6867' }, containers: [{ name: 'eds2', image: 'eds:1.1', ready: true, restartCount: 3, started: true, startedAt: '2023-12-15T00:22:51Z' }], nodeName: 'minikube', status: 'Running', conditions: { Initialized: 'True', Ready: 'True', ContainersReady: 'True', PodScheduled: 'True' } }, 
-        { kind: 'Pod', name: 'eds3-deployment-cbd8d6c48-xwlvn', uid: '2684a116-8223-4180-b0e7-ec9340fd7da8', creationTimestamp: '2023-12-12T16:12:02Z', labels: { app: 'eds3', pod_template_hash: 'cbd8d6c48' }, containers: [{ name: 'eds3', image: 'eds:1.2', ready: true, restartCount: 3, started: true, startedAt: '2023-12-15T00:22:51Z' }], nodeName: 'minikube-m02', status: 'Running', conditions: { Initialized: 'True', Ready: 'True', ContainersReady: 'True', PodScheduled: 'True' } },
-        { kind: 'ServiceList', name: 'ay-yo', selector: { app: 'eds'}},
-        { kind: 'Container', name: 'sht', labels: { app: 'eds' }}
+        {
+          kind: 'Node',
+          name: 'minikube',
+          uid: 'ad65b4a9-cfde-4350-9515-2df538094f0c',
+          creationTimestamp: '2023-12-11T19:20:17Z',
+          conditions: {
+            MemoryPressure: {
+              status: 'False',
+              message: 'kubelet has sufficient memory available',
+            },
+            DiskPressure: {
+              status: 'False',
+              message: 'kubelet has no disk pressure',
+            },
+            PIDPressure: {
+              status: 'False',
+              message: 'kubelet has sufficient PID available',
+            },
+            Ready: {
+              status: 'True',
+              message: 'kubelet is posting ready status',
+            },
+          },
+        },
+        {
+          kind: 'Node',
+          name: 'minikube-m02',
+          uid: '6f77af28-a836-4233-ac2a-d6838330273a',
+          creationTimestamp: '2023-12-15T00:26:18Z',
+          conditions: {
+            MemoryPressure: {
+              status: 'False',
+              message: 'kubelet has sufficient memory available',
+            },
+            DiskPressure: {
+              status: 'False',
+              message: 'kubelet has no disk pressure',
+            },
+            PIDPressure: {
+              status: 'False',
+              message: 'kubelet has sufficient PID available',
+            },
+            Ready: {
+              status: 'True',
+              message: 'kubelet is posting ready status',
+            },
+          },
+        },
+        {
+          kind: 'Pod',
+          name: 'eds-deployment-5dc4cd95d-96r5s',
+          uid: '37516100-4544-423b-a313-b31a54fd057e',
+          creationTimestamp: '2023-12-12T16:07:52Z',
+          labels: { app: 'eds', pod_template_hash: '5dc4cd95d' },
+          containers: [
+            {
+              name: 'eds',
+              image: 'eds:1.0',
+              ready: true,
+              restartCount: 3,
+              started: true,
+              startedAt: '2023-12-15T00:22:51Z',
+            },
+          ],
+          nodeName: 'minikube',
+          status: 'Running',
+          conditions: {
+            Initialized: 'True',
+            Ready: 'True',
+            ContainersReady: 'True',
+            PodScheduled: 'True',
+          },
+        },
+        {
+          kind: 'Pod',
+          name: 'eds2-deployment-b8d8d6867-bjdgb',
+          uid: 'a5148397-c608-47db-9c6a-ea4ac9df500f',
+          creationTimestamp: '2023-12-12T16:11:31Z',
+          labels: { app: 'eds2', pod_template_hash: 'b8d8d6867' },
+          containers: [
+            {
+              name: 'eds2',
+              image: 'eds:1.1',
+              ready: true,
+              restartCount: 3,
+              started: true,
+              startedAt: '2023-12-15T00:22:51Z',
+            },
+          ],
+          nodeName: 'minikube',
+          status: 'Running',
+          conditions: {
+            Initialized: 'True',
+            Ready: 'True',
+            ContainersReady: 'True',
+            PodScheduled: 'True',
+          },
+        },
+        {
+          kind: 'Pod',
+          name: 'eds3-deployment-cbd8d6c48-xwlvn',
+          uid: '2684a116-8223-4180-b0e7-ec9340fd7da8',
+          creationTimestamp: '2023-12-12T16:12:02Z',
+          labels: { app: 'eds3', pod_template_hash: 'cbd8d6c48' },
+          containers: [
+            {
+              name: 'eds3',
+              image: 'eds:1.2',
+              ready: true,
+              restartCount: 3,
+              started: true,
+              startedAt: '2023-12-15T00:22:51Z',
+            },
+          ],
+          nodeName: 'minikube-m02',
+          status: 'Running',
+          conditions: {
+            Initialized: 'True',
+            Ready: 'True',
+            ContainersReady: 'True',
+            PodScheduled: 'True',
+          },
+        },
+        { kind: 'ServiceList', name: 'ay-yo', selector: { app: 'eds' } },
+        { kind: 'Container', name: 'sht', labels: { app: 'eds' } },
       ],
     };
 
@@ -42,21 +164,22 @@ const ToolTree = ({ setToolMetric }) => {
     const nodes = data.nodes.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
     // const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     const links = [];
-    for(const ele of nodes){
-      if(ele.kind === 'Node'){
-        for(const ele2 of nodes){
-          if(ele2.kind === 'Pod' && ele2.nodeName === ele.name){
-            links.push({ source: ele.name, target: ele2.name})
+    for (const ele of nodes) {
+      if (ele.kind === 'Node') {
+        for (const ele2 of nodes) {
+          if (ele2.kind === 'Pod' && ele2.nodeName === ele.name) {
+            links.push({ source: ele.name, target: ele2.name });
           }
         }
-      }
-      else if(ele.kind === 'Pod'){
-        for(const ele2 of nodes){
-          if(ele2.kind === 'Container' && ele2.labels.app === ele.labels.app ){
-            links.push({ source: ele.name, target: ele2.name})
-          }
-          else if(ele2.kind === 'ServiceList' && ele2.selector.app === ele.labels.app){
-            links.push({ source: ele.name, target: ele2.name})
+      } else if (ele.kind === 'Pod') {
+        for (const ele2 of nodes) {
+          if (ele2.kind === 'Container' && ele2.labels.app === ele.labels.app) {
+            links.push({ source: ele.name, target: ele2.name });
+          } else if (
+            ele2.kind === 'ServiceList' &&
+            ele2.selector.app === ele.labels.app
+          ) {
+            links.push({ source: ele.name, target: ele2.name });
           }
         }
       }
@@ -76,10 +199,11 @@ const ToolTree = ({ setToolMetric }) => {
       // force("name", function)
       .force(
         'link',
-        d3.forceLink(links)
+        d3
+          .forceLink(links)
           .id((d) => d.name) // links and gives id to nodes
           .distance(125) // link's length
-      ) 
+      )
       .force('charge', d3.forceManyBody().strength(-15).theta(1)) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .on('tick', draw); // event listener; updates node positions or visualization
@@ -88,7 +212,10 @@ const ToolTree = ({ setToolMetric }) => {
       .select(canvasRef.current) // selects a DOM element
       .attr('width', `${dpi * width}vh`) // set width
       .attr('height', `${dpi * height}vh`) // set height
-      .attr('style', 'max-width: 100%; max-height: 100%; background-color: #ECECEC; border: 1px solid black') // styling
+      .attr(
+        'style',
+        'max-width: 100%; max-height: 100%; background-color: #ECECEC; border: 1px solid black'
+      ) // styling
       .node(); // retrieves the underlying DOM node of the canvas created by D3
 
     const context = canvas.getContext('2d'); // gets 2D rendering context
@@ -102,7 +229,7 @@ const ToolTree = ({ setToolMetric }) => {
       context.strokeStyle = '#000'; // color of links
       context.beginPath(); // Begin a new path for drawing links
       links.forEach(drawLink); // draws all links
-      
+
       /*-------------------NODES-------------------*/
       context.globalAlpha = 1; // transparency for nodes
       nodes.forEach((node) => {
@@ -142,11 +269,18 @@ const ToolTree = ({ setToolMetric }) => {
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
-      if(d.kind === 'Node') img.src = 'http://localhost:3000/assets/masterNode.png'; // Replace with the path to your image
-      else if(d.kind === 'Pod') img.src = 'http://localhost:3000/assets/pods.png';
-      else if(d.kind === 'Container') img.src = 'http://localhost:3000/assets/containers.png';
-      else img.src = 'http://localhost:3000/assets/services.png'
-      context.drawImage(img, d.x - imageRadius, d.y - imageRadius, 2 * imageRadius, 2 * imageRadius);
+      if (d.kind === 'Node') img.src = node;
+      // Replace with the path to your image
+      else if (d.kind === 'Pod') img.src = pod;
+      else if (d.kind === 'Container') img.src = container;
+      else img.src = service;
+      context.drawImage(
+        img,
+        d.x - imageRadius,
+        d.y - imageRadius,
+        2 * imageRadius,
+        2 * imageRadius
+      );
     }
 
     console.log(data.nodes);
@@ -188,29 +322,26 @@ const ToolTree = ({ setToolMetric }) => {
         if (distance < imageRadius) hoveredNode = node;
       });
       console.log(hoveredNode);
-      
+
       if (hoveredNode) {
         let data;
-        if(hoveredNode.kind === 'Node'){
-          data = `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
+        if (hoveredNode.kind === 'Node') {
+          data =
+            `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
             `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
             `<p><strong>UID:</strong> ${hoveredNode.uid}</p>` +
             `<p><strong>Ready:</strong> ${hoveredNode.conditions.Ready.status}, ${hoveredNode.conditions.Ready.message}</p>`;
-        }
-        else if(hoveredNode.kind === 'Pod'){
-          data = `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
+        } else if (hoveredNode.kind === 'Pod') {
+          data =
+            `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
             `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
             `<p><strong>UID:</strong> ${hoveredNode.uid}</p>` +
             `<p><strong>Status:</strong> ${hoveredNode.status}</p>` +
             `<p><strong>Ready:</strong> ${hoveredNode.conditions.Ready}</p>`;
+        } else if (hoveredNode.kind === 'Container') {
+        } else {
         }
-        else if(hoveredNode.kind === 'Container'){
 
-        }
-        else{
-
-        }
-        
         tooltip
           .style('display', 'block')
           .style('left', `${event.pageX + 20}px`)
@@ -240,8 +371,8 @@ const ToolTree = ({ setToolMetric }) => {
 
     function dragstarted(event) {
       // alphaTarget is the "temperature" of the simulation
-        // it gets "hot" when dragging fast and vice versa
-        // hot -> nodes move freely; cold -> nodes move slow
+      // it gets "hot" when dragging fast and vice versa
+      // hot -> nodes move freely; cold -> nodes move slow
       if (!event.active) simulation.alphaTarget(0.3).restart();
       event.subject.fx = event.subject.x;
       event.subject.fy = event.subject.y;
