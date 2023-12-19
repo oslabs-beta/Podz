@@ -19,7 +19,7 @@ const ToolTree = ({ setToolMetric }) => {
     // const height = 600;
 
     const radius = 15; // radius of circle
-    const imageRadius = 40; // radius of image
+    let imageRadius = 60; // radius of image
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio;
@@ -209,8 +209,10 @@ const ToolTree = ({ setToolMetric }) => {
       )
       .force('charge', d3.forceManyBody().strength(-15).theta(1)) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
+      .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw); // event listener; updates node positions or visualization
-    const canvas = d3
+    
+      const canvas = d3
       .select(canvasRef.current) // selects a DOM element
       .attr('width', `${dpi * width}vh`) // set width
       .attr('height', `${dpi * height}vh`) // set height
@@ -267,15 +269,27 @@ const ToolTree = ({ setToolMetric }) => {
       /* modifies the circles (nodes)
          context.arc(x, y, radius, startAngle, endAngle, anticlockwise); */
       // context.arc(d.x, d.y, 15, 0, 2 * Math.PI);
-
+      
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
       if (d.kind === 'MasterNode') img.src = MasterNode;
-      else if (d.kind === 'Node') img.src = node;
-      else if (d.kind === 'Pod') img.src = pod;
-      else if (d.kind === 'Container') img.src = container;
-      else img.src = service;
+      else if (d.kind === 'Node'){
+        img.src = node;
+        imageRadius = 50;
+      }
+      else if (d.kind === 'Pod'){
+        img.src = pod;
+        imageRadius = 40;
+      }
+      else if (d.kind === 'Container'){
+        img.src = container;
+        imageRadius = 30;
+      }
+      else{
+        img.src = service;
+        imageRadius = 30;
+      }
       context.drawImage(
         img,
         d.x - imageRadius,
@@ -283,6 +297,7 @@ const ToolTree = ({ setToolMetric }) => {
         2 * imageRadius,
         2 * imageRadius
       );
+      imageRadius = 60;
     }
 
     console.log(data.nodes);
