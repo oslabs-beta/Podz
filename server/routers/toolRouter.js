@@ -22,9 +22,9 @@ router.use(express.static(path.resolve(__dirname, '../../build')));
 // );
 
 // getPods, getServices, getNamespaces, getContainers, 
-router.post('/snapshot', postNodes, postPods, (req, res) => {
-  res.status(200).json(res.locals.nodesData);
-  res.status(200).json(res.locals.podsData);
+router.post('/snapshot', postNodes, postPods, postServices, postContainers, (req, res) => {
+  res.status(200).json(res.locals.servicesData);
+  // res.status(200).json(res.locals.podsData);
 });
 
 // router.post('/snapshot', addTime, postNodes, postPods, postServices, postNamespaces, postContainers, (req, res) => {

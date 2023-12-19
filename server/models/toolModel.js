@@ -49,7 +49,7 @@ const serviceSchema = new Schema({
   uid: { type: String, required: true },
   creationTimestamp: { type: String, required: true },
   clusterIPs: { type: Array, required: true },
-  selector: { type: Object, required: true },
+  selector: { type: Object },
   type: { type: String, required: true },
 })
 
@@ -61,9 +61,19 @@ const namespaceSchema = new Schema({
   status: { type: Object, required: true },
 })
 
+const containerSchema = new Schema({
+  name: { type: String, required: true },
+  image: { type: String, required: true },
+  ready: { type: String, required: true },
+  restartCount: { type: String, required: true },
+  started: { type: String, required: true },
+  startedAt: { type: String, required: true},
+})
+
 export const Node = mongoose.model('node', nodeSchema);
 export const Pod = mongoose.model('pod', podSchema);
 export const Service = mongoose.model('service', serviceSchema);
 export const Namespace = mongoose.model('namespace', namespaceSchema);
+export const Container = mongoose.model('container', containerSchema);
 
 // export default { Node, Pod, Service, Namespace }
