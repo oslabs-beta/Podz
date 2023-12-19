@@ -1,6 +1,6 @@
 ;
 import dataParsers from '../models/parsers.js'
-import { Node, Pod, Service } from '../models/toolModel.js';
+import { Node, Pod, Service, Container } from '../models/toolModel.js';
 const { nodesParser, podsParser, servicesParser, namespacesParser } = dataParsers;
 
 
@@ -12,14 +12,13 @@ const toolController = {
       const response = await fetch('http://localhost:8083/api/v1/nodes')
       const data = await response.json()
       const parsedDataArray = nodesParser(data);
-      console.log('-------------------------', parsedDataArray, '-------------------------------')
+      // console.log('-------------------------', parsedDataArray, '-------------------------------')
 
       //Uploads to database and persists through res.locals
       const nodesData = [];
       for (let i = 0; i < parsedDataArray.length; i++){
           const { kind, name, uid, creationTimestamp, conditions } = parsedDataArray[i]
           const newNode = await Node.create({ kind, name, uid, creationTimestamp, conditions })
-        //   console.log('new node', newNode);
           nodesData.push(newNode)
         }
         res.locals.nodesData = nodesData;
@@ -40,7 +39,6 @@ const toolController = {
       for (let i = 0; i < parsedDataArray.length; i++){
           const { kind, name, namespace, uid, creationTimestamp, labels, containers, nodeName, status, conditions } = parsedDataArray[i]
           const newPod = await Pod.create({ kind, name, namespace, uid, creationTimestamp, labels, containers, nodeName, status, conditions })
-        //   console.log('new pod', newPod);
           podsData.push(newPod)
         }
         res.locals.podsData = podsData;
@@ -51,47 +49,67 @@ const toolController = {
     }
   },
 
-  // postServices: async (req, res, next) => {
-  //   try{
-  //     const response = await fetch('http://localhost:8083/api/v1/services')
-  //     const data = await response.json()
-  //     const parsedData = servicesParser(data);
-
-  //     const servicesData = [];
-  //     for (let i = 0; i < parsedDataArray.length; i++){
-  //         const { kind, name, uid, creationTimestamp, conditions } = parsedDataArray[i]
-  //         const newService = await Service.create({ kind, name, uid, creationTimestamp, clusterIPs, selector, type })
-  //         console.log('new Service', newService);
-  //         servicesData.push(newService)
-  //       }
-  //       res.locals.servicesData = servicesData;
-  //     return next();
-  //   }
-  //   catch (error) {
-  //     console.log('Error: In getServices middleware' , error);
-  //   }
-  // },
-
-  postNamespaces: async (req, res, next) => {
-    try {
-      const response = await fetch('http://localhost:8083/api/v1/namespaces')
+  postServices: async (req, res, next) => {
+    try{
+      const response = await fetch('http://localhost:8083/api/v1/services')
       const data = await response.json()
-      const parsedDataArray = namespacesParser(data);
+      const parsedDataArray = servicesParser(data);
 
-      const namespacesData = [];
+      const servicesData = [];
       for (let i = 0; i < parsedDataArray.length; i++){
-          const { kind, name, uid, creationTimestamp, conditions } = parsedDataArray[i]
-          const newNamespace = await Namespace.create({ kind, name, uid, creationTimestamp, conditions })
-          console.log('new namespace', newNamespace);
-          namespacesData.push(newNamespace)
+          const { kind, name, namespace, uid, creationTimestamp, clusterIPs, selector, type } = parsedDataArray[i]
+          const newService = await Service.create({ kind, name, namespace, uid, creationTimestamp, clusterIPs, selector, type })
+          servicesData.push(newService)
         }
-        res.locals.namespacesData = namespacesData;
+        res.locals.servicesData = servicesData;
       return next();
     }
     catch (error) {
-      console.log('Error: In getNamespaces middleware' , error);
+      console.log('Error: In postServices middleware' , error);
     }
   },
+
+  postContainers: (req, res, next) => {
+    try{
+      const containersData = [];
+      const podsData = res.locals.podsData
+      for (let i = 0; i < podsData.length; i++){
+        for (let j = 0; j < podsData[i].containers.length; j++){
+            console.log('-------------------------', podsData[i]["containers"][j], '-------------------------------')
+            const { name, image, ready, restartCount, started, startedAt } = podsData[i]["containers"][j]
+            const newContainer = Container.create({ name, image, ready, restartCount, started, startedAt })
+            console.log('new Container', newContainer);
+            containersData.push(newContainer)
+        }
+        }
+        res.locals.containersData = containersData;
+      return next();
+    }
+    catch (error) {
+      console.log('Error: In postContainers middleware' , error);
+    }
+  },
+
+  // postNamespaces: async (req, res, next) => {
+  //   try {
+  //     const response = await fetch('http://localhost:8083/api/v1/namespaces')
+  //     const data = await response.json()
+  //     const parsedDataArray = namespacesParser(data);
+
+  //     const namespacesData = [];
+  //     for (let i = 0; i < parsedDataArray.length; i++){
+  //         const { kind, name, uid, creationTimestamp, conditions } = parsedDataArray[i]
+  //         const newNamespace = await Namespace.create({ kind, name, uid, creationTimestamp, conditions })
+  //         console.log('new namespace', newNamespace);
+  //         namespacesData.push(newNamespace)
+  //       }
+  //       res.locals.namespacesData = namespacesData;
+  //     return next();
+  //   }
+  //   catch (error) {
+  //     console.log('Error: In getNamespaces middleware' , error);
+  //   }
+  // },
 
   // getNodes: async (req, res, next) => {
   //   try {

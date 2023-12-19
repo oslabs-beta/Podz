@@ -81,6 +81,14 @@ dataParsers.podsParser = (pods) => {
     }
     return resultArray
   }
+
+  const labelFilter = (pod) => {
+    const resultArray = [];
+    for (let key in pod){
+      resultArray.push({key: pod[key]});
+    }
+    return resultArray;
+  }
   
   const { items } = pods
   const newArray = [];
@@ -92,7 +100,7 @@ dataParsers.podsParser = (pods) => {
     newObj.namespace = pod["metadata"]["namespace"]
     newObj.uid = pod["metadata"]["uid"]
     newObj.creationTimestamp = pod["metadata"]["creationTimestamp"]
-    newObj.labels = pod["metadata"]["labels"]
+    newObj.labels = labelFilter(pod["metadata"]["labels"])
     newObj.containers = containerFilter(pod)
     newObj.nodeName = pod["spec"]["nodeName"]
     newObj.status = pod["status"]["phase"]
