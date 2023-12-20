@@ -18,16 +18,16 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
     // const width = 700;
     // const height = 600;
 
-    const radius = 15; // radius of circle
+    // const radius = 15; // radius of circle
     let imageRadius = 60; // radius of image
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio;
 
-    // Specify the color scale; schemeCategory10 provides an array of 10 diff colors
-    // scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
-    // TLDR: different color for nodes in different groups; used for circles
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
+    /* Specify the color scale; schemeCategory10 provides an array of 10 diff colors
+      scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
+    TLDR: different color for nodes in different groups; used for circles */
+    // const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     // The force simulation mutates links and nodes, so create a copy
     // so that re-evaluating this cell produces the same result.
@@ -44,23 +44,16 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         }
       } else if (ele.kind === 'Pod') {
         for (const ele2 of nodes) {
-          if (ele2.kind === 'Container' && ele2.labels.app === ele.labels.app) {
+          if (ele2.kind === 'Container' && ele2.labels[0].key === ele.labels[0].key) {
             links.push({ source: ele.name, target: ele2.name });
           } else if (
-            ele2.kind === 'ServiceList' &&
-            ele2.selector.app === ele.labels.app
+            ele2.kind === 'Service' &&
+            ele2.selector.app === ele.labels[0].key
           ) {
             links.push({ source: ele.name, target: ele2.name });
           }
         }
       }
-      // else if(ele.kind === 'Container'){
-      //   for(const ele2 of nodes){
-      //     if(ele2.kind === 'ServiceList' && ele2.selector.app === ele.labels.app){
-      //       links.push({ source: ele.name, target: ele2.name})
-      //     }
-      //   }
-      // }
     }
 
     const simulation = d3
@@ -203,7 +196,10 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
 
       if (hoveredNode) {
         let data;
-        if (hoveredNode.kind === 'Node') {
+        if (hoveredNode.kind === 'MasterNode') {
+          data = 
+            `<p><strong>Kind:</strong> MasterNode</p>`;
+        } else if (hoveredNode.kind === 'Node') {
           data =
             `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
             `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
@@ -217,7 +213,22 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             `<p><strong>Status:</strong> ${hoveredNode.status}</p>` +
             `<p><strong>Ready:</strong> ${hoveredNode.conditions.Ready}</p>`;
         } else if (hoveredNode.kind === 'Container') {
-        } else {
+          let status;
+          if(hoveredNode.started) status = 'Running';
+          else status = 'Stopped';
+          
+          data =
+            `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
+            `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
+            `<p><strong>ID:</strong> ${hoveredNode._id}</p>` +
+            `<p><strong>Status:</strong> ${status}</p>` + 
+            `<p><strong>Restart Count:</strong> ${hoveredNode.restartCount}</p>`
+        } else if (hoveredNode.kind === 'Service'){
+          data =
+            `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
+            `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
+            `<p><strong>UID:</strong> ${hoveredNode.uid}</p>` +
+            `<p><strong>Type:</strong> ${hoveredNode.type}</p>`
         }
 
         tooltip
