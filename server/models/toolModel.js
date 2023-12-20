@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, { dbName: 'Cluster0' })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch((err) => console.log(err));
 

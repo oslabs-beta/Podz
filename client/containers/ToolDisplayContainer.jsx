@@ -3,11 +3,20 @@ import ToolTree from '../components/ToolTree.jsx';
 import ToolMetric from '../components/ToolMetric.jsx';
 
 const ToolDisplayContainer = () => {
-  const dummyData = {
-    id: '',
-    group: 0,
-  };
-  const [data, setData] = useState(dummyData);
+
+  const [data, setData] = useState({});
+  const [cluster, setCluster] = useState({ data: [] });
+
+  function fetchData() {
+    fetch('/tool/data')
+      .then((response) => response.json())
+      .then((data) => {
+        setCluster(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   function fetchData() {
     fetch('/tool/data')
@@ -22,7 +31,7 @@ const ToolDisplayContainer = () => {
 
   return (
     <div className='toolDisplayContainer'>
-      <ToolTree setToolMetric={setData} />
+      <ToolTree setToolMetric={setData} cluster={cluster} />
       <div className='toolInfo'>
         <button className='toolBuild' onClick={fetchData}>
           Load Cluster
