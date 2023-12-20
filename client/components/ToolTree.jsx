@@ -6,8 +6,7 @@ import pod from '../assets/pods.png';
 import container from '../assets/containers.png';
 import service from '../assets/services.png';
 
-const ToolTree = ({ setToolMetric, cluster }) => {
-  console.log(cluster);
+const ToolTree = ({ setToolMetric, clusterData }) => {
   // used to create a mutable object that can persist across renders
   // without causing the component to re-render when the ref object changes
   const canvasRef = useRef(null);
@@ -32,7 +31,7 @@ const ToolTree = ({ setToolMetric, cluster }) => {
 
     // The force simulation mutates links and nodes, so create a copy
     // so that re-evaluating this cell produces the same result.
-    const nodes = cluster.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
+    const nodes = clusterData.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
     // const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     const links = [];
     for (const ele of nodes) {
@@ -139,8 +138,10 @@ const ToolTree = ({ setToolMetric, cluster }) => {
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
-      if (d.kind === 'MasterNode') img.src = masterNode;
-      else if (d.kind === 'Node') {
+      if (d.kind === 'MasterNode') {
+        img.src = masterNode;
+        imageRadius = 60;
+      } else if (d.kind === 'Node') {
         img.src = workerNode;
         imageRadius = 50;
       } else if (d.kind === 'Pod') {
@@ -160,7 +161,6 @@ const ToolTree = ({ setToolMetric, cluster }) => {
         2 * imageRadius,
         2 * imageRadius
       );
-      imageRadius = 60;
     }
 
     const tooltip = d3.select('body').append('div').attr('class', 'tooltip');
@@ -274,7 +274,7 @@ const ToolTree = ({ setToolMetric, cluster }) => {
     return () => {
       simulation.stop();
     };
-  }, [cluster]);
+  }, [clusterData]);
 
   return (
     <div className='toolTree'>

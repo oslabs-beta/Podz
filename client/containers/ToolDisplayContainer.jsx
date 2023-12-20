@@ -3,8 +3,8 @@ import ToolTree from '../components/ToolTree.jsx';
 import ToolMetric from '../components/ToolMetric.jsx';
 
 const ToolDisplayContainer = () => {
-  const [data, setData] = useState({});
   const [cluster, setCluster] = useState({ data: [] });
+  const [metric, setMetric] = useState({});
 
   function fetchData() {
     fetch('/tool/data')
@@ -19,12 +19,12 @@ const ToolDisplayContainer = () => {
 
   return (
     <div className='toolDisplayContainer'>
-      <ToolTree setToolMetric={setData} cluster={cluster} />
+      <ToolTree setToolMetric={setMetric} clusterData={cluster} />
       <div className='toolInfo'>
         <button className='toolBuild' onClick={fetchData}>
           Load Cluster
         </button>
-        <ToolMetric nodeData={data} />
+        <ToolMetric nodeData={metric} />
       </div>
     </div>
   );

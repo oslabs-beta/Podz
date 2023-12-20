@@ -1,11 +1,11 @@
-const dataParser = require('./dataParser.js');
 const { Node, Pod, Container, Service } = require('../models/toolModel.js');
 
+const dataParser = require('./dataParser.js');
 const { nodesParser, podsParser, servicesParser } = dataParser;
 
 const toolController = {};
 
-toolController.addSnapshotTime = (req, res, next) => {
+toolController.addSnapshotTime = async (req, res, next) => {
   try {
     res.locals.snapshot = Date.now();
 
@@ -90,19 +90,23 @@ toolController.postPods = async (req, res, next) => {
   }
 };
 
-toolController.postContainers = (req, res, next) => {
+toolController.postContainers = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
     const containersData = [];
     const podsData = res.locals.podsData;
+
     for (let i = 0; i < podsData.length; i++) {
       for (let j = 0; j < podsData[i].containers.length; j++) {
         const { name, image, ready, restartCount, started, startedAt } =
           podsData[i]['containers'][j];
 
-        const newContainer = Container.create({
+        const newContainer = await Container.create({
           snapshot,
+          kind: 'Container',
           name,
+          namespace: podsData[i].namespace,
+          labels: podsData[i].labels,
           image,
           ready,
           restartCount,
@@ -191,8 +195,15 @@ toolController.clusterData = (req, res, next) => {
   const containerArray = res.locals.containersData;
   const serviceArray = res.locals.servicesData;
 
+  const cluster = [...podArray, ...containerArray, ...serviceArray];
+
+  let nameSpace = ['kube-system'];
+  const filterCluster = cluster.filter(
+    (ele) => !nameSpace.includes(ele.namespace) && ele.name !== 'kubernetes'
+  );
+
   res.locals.clusterData = {
-    data: [...nodeArray, ...podArray, ...containerArray, ...serviceArray],
+    data: [{ kind: 'MasterNode' }, ...nodeArray, ...filterCluster],
   };
 
   return next();
