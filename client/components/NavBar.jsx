@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from '../assets/logo.png';
 import name from '../assets/name.png';
 
 const NavBar = () => {
