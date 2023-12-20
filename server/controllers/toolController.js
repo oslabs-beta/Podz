@@ -195,7 +195,7 @@ toolController.clusterData = (req, res, next) => {
     data: [...nodeArray, ...podArray, ...containerArray, ...serviceArray],
   };
 
-  console.log(res.locals.clusterData);
+  return next();
 };
 
 module.exports = toolController;
