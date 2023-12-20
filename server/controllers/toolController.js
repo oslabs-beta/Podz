@@ -21,6 +21,7 @@ toolController.postNodes = async (req, res, next) => {
 
     //Fetches and parses data
     const response = await fetch('http://localhost:10000/api/v1/nodes');
+
     const data = await response.json();
     const parsedDataArray = nodesParser(data);
 
@@ -51,6 +52,7 @@ toolController.postPods = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
     const response = await fetch('http://localhost:10000/api/v1/pods');
+
     const data = await response.json();
     const parsedDataArray = podsParser(data);
 
@@ -97,6 +99,7 @@ toolController.postContainers = (req, res, next) => {
     const podsData = res.locals.podsData;
     for (let i = 0; i < podsData.length; i++) {
       for (let j = 0; j < podsData[i].containers.length; j++) {
+
         const { name, image, ready, restartCount, started, startedAt } =
           podsData[i]['containers'][j];
 
@@ -109,7 +112,6 @@ toolController.postContainers = (req, res, next) => {
           started,
           startedAt,
         });
-
         containersData.push(newContainer);
       }
     }
@@ -123,7 +125,9 @@ toolController.postContainers = (req, res, next) => {
 toolController.postServices = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
+
     const response = await fetch('http://localhost:10000/api/v1/services');
+
     const data = await response.json();
     const parsedDataArray = servicesParser(data);
 
@@ -196,6 +200,7 @@ toolController.clusterData = (req, res, next) => {
   };
 
   return next();
+
 };
 
 module.exports = toolController;

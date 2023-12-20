@@ -20,7 +20,9 @@ const ToolTree = ({ setToolMetric, cluster }) => {
     // const height = 600;
 
     const radius = 15; // radius of circle
+
     let imageRadius = 60; // radius of image
+
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio;
@@ -79,7 +81,6 @@ const ToolTree = ({ setToolMetric, cluster }) => {
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw); // event listener; updates node positions or visualization
-
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
       .attr('width', `${dpi * width}vh`) // set width
@@ -139,7 +140,8 @@ const ToolTree = ({ setToolMetric, cluster }) => {
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
-      if (d.kind === 'MasterNode') img.src = masterNode;
+      if (d.kind === 'MasterNode') {img.src = masterNode; imageRadius = 60; };
+
       else if (d.kind === 'Node') {
         img.src = workerNode;
         imageRadius = 50;
@@ -153,6 +155,7 @@ const ToolTree = ({ setToolMetric, cluster }) => {
         img.src = service;
         imageRadius = 30;
       }
+
       context.drawImage(
         img,
         d.x - imageRadius,
@@ -160,7 +163,7 @@ const ToolTree = ({ setToolMetric, cluster }) => {
         2 * imageRadius,
         2 * imageRadius
       );
-      imageRadius = 60;
+
     }
 
     const tooltip = d3.select('body').append('div').attr('class', 'tooltip');
