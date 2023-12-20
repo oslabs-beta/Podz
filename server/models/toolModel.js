@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
-mongoose
-  .connect(process.env.MONGO_URI, { dbName: 'Cluster0' })
-  .then(() => console.log('Connected to Mongo DB.'))
-  .catch((err) => console.log(err));
-
+mongoose.connect('mongodb+srv://podz:Codesmith@cluster0.26b71cr.mongodb.net/?retryWrites=true&w=majority', {
+  dbName: 'Cluster0'
+});
+mongoose.connection.once('open', () => {
+  console.log('--------------------------------------------------------Connected to Database-------------------------------------------------------');
+});
 const Schema = mongoose.Schema;
 
 const nodeSchema = new Schema({
