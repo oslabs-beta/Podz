@@ -17,17 +17,6 @@ const ToolDisplayContainer = () => {
       });
   }
 
-  function fetchData() {
-    fetch('/tool/data')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   return (
     <div className='toolDisplayContainer'>
       <ToolTree setToolMetric={setMetric} clusterData={cluster} />

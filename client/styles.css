@@ -1,0 +1,142 @@
+body {
+  margin: 0px;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 200px;
+}
+
+/* NavBar */
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navName {
+  height: 50px;
+  margin-left: 40px;
+}
+
+.navTab {
+  display: flex;
+  gap: 20px;
+  margin-right: 50px;
+}
+
+.navTab a {
+  font-size: 20px;
+  text-decoration: none;
+  color: navy;
+}
+
+/* Intro Section */
+.introContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 150px;
+  margin-top: 250px;
+}
+
+.introText {
+  font-size: 20px;
+  width: 25%;
+  text-align: center;
+  color: rgb(9, 9, 55);
+}
+
+.introLogo {
+  height: 300px;
+}
+
+/* ToolBar */
+.toolBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0px;
+  width: 100%;
+}
+
+.toolName {
+  height: 50px;
+  margin-left: 40px;
+}
+
+.toolLogin {
+  margin-right: 50px;
+  padding: 10px;
+  font-size: 20px;
+  color: white;
+  border: none;
+  background-color: navy;
+}
+
+/* Tool Display */
+.toolDisplayContainer {
+  display: flex;
+}
+
+.toolTree {
+  width: 80%;
+}
+
+.toolInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 20%;
+}
+
+.toolBuild {
+  align-self: center;
+  width: 40%;
+  font-size: 20px;
+  padding: 5px;
+}
+
+/* Tool Metric */
+.toolMetric {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolMetric ul {
+  padding: 0px 0px 0px 20px;
+  margin: 0px;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 0px 10px 0px 10px;
+  background-color: steelblue;
+  color: white;
+  /* border: 1px solid black; */
+  border-radius: 10px;
+}
+
+.legend {
+  display: flex;
+}
+
+.legend-item {
+  display: flex;
+  margin-right: 10px;
+}
+
+.legend-color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.legend-label {
+  line-height: 20px; /* Match the height of the color box */
+}

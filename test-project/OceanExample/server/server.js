@@ -1,15 +1,10 @@
 const express = require('express');
-require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
-
-const toolRouter = require('./routers/toolRouter.js');
+const PORT = 1112;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use('/tool', toolRouter);
 
 app.use((req, res) => res.status(404).send('Page Not Found'));
 
