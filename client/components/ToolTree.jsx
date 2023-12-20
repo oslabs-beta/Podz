@@ -19,6 +19,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
     // const height = 600;
 
     const radius = 15; // radius of circle
+
     let imageRadius = 60; // radius of image
 
     // calculates the device pixel ratio
@@ -78,7 +79,6 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw); // event listener; updates node positions or visualization
-
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
       .attr('width', `${dpi * width}vh`) // set width
@@ -154,6 +154,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         img.src = service;
         imageRadius = 30;
       }
+
       context.drawImage(
         img,
         d.x - imageRadius,
@@ -161,6 +162,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         2 * imageRadius,
         2 * imageRadius
       );
+      imageRadius = 60;
     }
 
     const tooltip = d3.select('body').append('div').attr('class', 'tooltip');
