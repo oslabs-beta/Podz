@@ -37,7 +37,10 @@ const Pod = mongoose.model('pod', podSchema);
 
 const containerSchema = new Schema({
   snapshot: { type: Number, required: true },
+  kind: { type: String, required: true },
   name: { type: String, required: true },
+  namespace: { type: String, required: true },
+  labels: { type: Object, required: true },
   image: { type: String, required: true },
   ready: { type: String, required: true },
   restartCount: { type: String, required: true },

@@ -116,7 +116,6 @@ dataParser.podsParser = (pods) => {
 dataParser.servicesParser = (service) => {
   const newArray = [];
 
-
   service.items.forEach((ele) => {
     const newObj = {};
     newObj.kind = 'Service';
