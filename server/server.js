@@ -2,7 +2,6 @@ const express = require('express');
 require('dotenv').config();
 
 const app = express();
-
 const PORT = 3000;
 
 const toolRouter = require('./routers/toolRouter.js');
