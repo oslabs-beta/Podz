@@ -6,7 +6,8 @@ import pod from '../assets/pods.png';
 import container from '../assets/containers.png';
 import service from '../assets/services.png';
 
-const ToolTree = ({ setToolMetric }) => {
+const ToolTree = ({ setToolMetric, cluster }) => {
+  console.log(cluster);
   // used to create a mutable object that can persist across renders
   // without causing the component to re-render when the ref object changes
   const canvasRef = useRef(null);
@@ -29,141 +30,9 @@ const ToolTree = ({ setToolMetric }) => {
     // TLDR: different color for nodes in different groups; used for circles
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    const data = {
-      nodes: [
-        { kind: 'MasterNode', name: 'MasterNode' },
-        {
-          kind: 'Node',
-          name: 'minikube',
-          uid: 'ad65b4a9-cfde-4350-9515-2df538094f0c',
-          creationTimestamp: '2023-12-11T19:20:17Z',
-          conditions: {
-            MemoryPressure: {
-              status: 'False',
-              message: 'kubelet has sufficient memory available',
-            },
-            DiskPressure: {
-              status: 'False',
-              message: 'kubelet has no disk pressure',
-            },
-            PIDPressure: {
-              status: 'False',
-              message: 'kubelet has sufficient PID available',
-            },
-            Ready: {
-              status: 'True',
-              message: 'kubelet is posting ready status',
-            },
-          },
-        },
-        {
-          kind: 'Node',
-          name: 'minikube-m02',
-          uid: '6f77af28-a836-4233-ac2a-d6838330273a',
-          creationTimestamp: '2023-12-15T00:26:18Z',
-          conditions: {
-            MemoryPressure: {
-              status: 'False',
-              message: 'kubelet has sufficient memory available',
-            },
-            DiskPressure: {
-              status: 'False',
-              message: 'kubelet has no disk pressure',
-            },
-            PIDPressure: {
-              status: 'False',
-              message: 'kubelet has sufficient PID available',
-            },
-            Ready: {
-              status: 'True',
-              message: 'kubelet is posting ready status',
-            },
-          },
-        },
-        {
-          kind: 'Pod',
-          name: 'eds-deployment-5dc4cd95d-96r5s',
-          uid: '37516100-4544-423b-a313-b31a54fd057e',
-          creationTimestamp: '2023-12-12T16:07:52Z',
-          labels: { app: 'eds', pod_template_hash: '5dc4cd95d' },
-          containers: [
-            {
-              name: 'eds',
-              image: 'eds:1.0',
-              ready: true,
-              restartCount: 3,
-              started: true,
-              startedAt: '2023-12-15T00:22:51Z',
-            },
-          ],
-          nodeName: 'minikube',
-          status: 'Running',
-          conditions: {
-            Initialized: 'True',
-            Ready: 'True',
-            ContainersReady: 'True',
-            PodScheduled: 'True',
-          },
-        },
-        {
-          kind: 'Pod',
-          name: 'eds2-deployment-b8d8d6867-bjdgb',
-          uid: 'a5148397-c608-47db-9c6a-ea4ac9df500f',
-          creationTimestamp: '2023-12-12T16:11:31Z',
-          labels: { app: 'eds2', pod_template_hash: 'b8d8d6867' },
-          containers: [
-            {
-              name: 'eds2',
-              image: 'eds:1.1',
-              ready: true,
-              restartCount: 3,
-              started: true,
-              startedAt: '2023-12-15T00:22:51Z',
-            },
-          ],
-          nodeName: 'minikube',
-          status: 'Running',
-          conditions: {
-            Initialized: 'True',
-            Ready: 'True',
-            ContainersReady: 'True',
-            PodScheduled: 'True',
-          },
-        },
-        {
-          kind: 'Pod',
-          name: 'eds3-deployment-cbd8d6c48-xwlvn',
-          uid: '2684a116-8223-4180-b0e7-ec9340fd7da8',
-          creationTimestamp: '2023-12-12T16:12:02Z',
-          labels: { app: 'eds3', pod_template_hash: 'cbd8d6c48' },
-          containers: [
-            {
-              name: 'eds3',
-              image: 'eds:1.2',
-              ready: true,
-              restartCount: 3,
-              started: true,
-              startedAt: '2023-12-15T00:22:51Z',
-            },
-          ],
-          nodeName: 'minikube-m02',
-          status: 'Running',
-          conditions: {
-            Initialized: 'True',
-            Ready: 'True',
-            ContainersReady: 'True',
-            PodScheduled: 'True',
-          },
-        },
-        { kind: 'ServiceList', name: 'ay-yo', selector: { app: 'eds' } },
-        { kind: 'Container', name: 'sht', labels: { app: 'eds' } },
-      ],
-    };
-
-    console.log(data);
     // The force simulation mutates links and nodes, so create a copy
     // so that re-evaluating this cell produces the same result.
-    const nodes = data.nodes.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
+    const nodes = cluster.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
     // const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     const links = [];
     for (const ele of nodes) {
@@ -194,7 +63,6 @@ const ToolTree = ({ setToolMetric }) => {
       //   }
       // }
     }
-    console.log(links);
 
     const simulation = d3
       .forceSimulation(nodes) // creates new force simulation
@@ -246,8 +114,6 @@ const ToolTree = ({ setToolMetric }) => {
       context.restore(); // Restore the drawing state to what it was before the second context.save()
     }
 
-    console.log(context);
-
     function drawLink(d) {
       // Move the drawing cursor to (x, y) position
       context.moveTo(d.source.x, d.source.y);
@@ -273,23 +139,22 @@ const ToolTree = ({ setToolMetric }) => {
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x + imageRadius, d.y);
       const img = new Image();
-      if (d.kind === 'MasterNode') img.src = masterNode;
-      else if (d.kind === 'Node'){
+      if (d.kind === 'MasterNode') {img.src = masterNode; imageRadius = 60; };
+
+      else if (d.kind === 'Node') {
         img.src = workerNode;
         imageRadius = 50;
-      }
-      else if (d.kind === 'Pod'){
+      } else if (d.kind === 'Pod') {
         img.src = pod;
         imageRadius = 40;
-      }
-      else if (d.kind === 'Container'){
+      } else if (d.kind === 'Container') {
         img.src = container;
         imageRadius = 30;
-      }
-      else{
+      } else {
         img.src = service;
         imageRadius = 30;
       }
+
       context.drawImage(
         img,
         d.x - imageRadius,
@@ -297,10 +162,9 @@ const ToolTree = ({ setToolMetric }) => {
         2 * imageRadius,
         2 * imageRadius
       );
-      imageRadius = 60;
+
     }
 
-    console.log(data.nodes);
     const tooltip = d3.select('body').append('div').attr('class', 'tooltip');
 
     /*------------------------EVENT HANDLER------------------------*/
@@ -327,7 +191,7 @@ const ToolTree = ({ setToolMetric }) => {
 
     function hovered(event) {
       if (event.defaultPrevented) return; // if any other event, return
-      console.log('HOVERED');
+
       const [mouseX, mouseY] = d3.pointer(event);
 
       let hoveredNode = null;
@@ -338,7 +202,6 @@ const ToolTree = ({ setToolMetric }) => {
         );
         if (distance < imageRadius) hoveredNode = node;
       });
-      console.log(hoveredNode);
 
       if (hoveredNode) {
         let data;
@@ -371,7 +234,7 @@ const ToolTree = ({ setToolMetric }) => {
 
     function clicked(event) {
       if (event.defaultPrevented) return; // if any other event, return
-      console.log('CLICKED');
+
       const [mouseX, mouseY] = d3.pointer(event);
 
       nodes.forEach((node) => {
@@ -379,7 +242,6 @@ const ToolTree = ({ setToolMetric }) => {
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
         if (distance < imageRadius) {
-          console.log('Clicked node:', node);
           draw();
           setToolMetric(node);
         }
@@ -414,7 +276,7 @@ const ToolTree = ({ setToolMetric }) => {
     return () => {
       simulation.stop();
     };
-  }, []);
+  }, [cluster]);
 
   return (
     <div className='toolTree'>

@@ -8,7 +8,7 @@ const toolController = {};
 toolController.addSnapshotTime = (req, res, next) => {
   try {
     res.locals.snapshot = Date.now();
-    console.log(res.locals.snapshot);
+
     return next();
   } catch (error) {
     console.log('Error: In addSnapshotTime middleware', error);
@@ -21,6 +21,7 @@ toolController.postNodes = async (req, res, next) => {
 
     //Fetches and parses data
     const response = await fetch('http://localhost:10000/api/v1/nodes');
+
     const data = await response.json();
     const parsedDataArray = nodesParser(data);
 
@@ -51,6 +52,7 @@ toolController.postPods = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
     const response = await fetch('http://localhost:10000/api/v1/pods');
+
     const data = await response.json();
     const parsedDataArray = podsParser(data);
 
@@ -97,13 +99,10 @@ toolController.postContainers = (req, res, next) => {
     const podsData = res.locals.podsData;
     for (let i = 0; i < podsData.length; i++) {
       for (let j = 0; j < podsData[i].containers.length; j++) {
-        console.log(
-          '-------------------------',
-          podsData[i]['containers'][j],
-          '-------------------------------'
-        );
+
         const { name, image, ready, restartCount, started, startedAt } =
           podsData[i]['containers'][j];
+
         const newContainer = Container.create({
           snapshot,
           name,
@@ -113,7 +112,6 @@ toolController.postContainers = (req, res, next) => {
           started,
           startedAt,
         });
-        console.log('new Container', newContainer);
         containersData.push(newContainer);
       }
     }
@@ -127,7 +125,9 @@ toolController.postContainers = (req, res, next) => {
 toolController.postServices = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
+
     const response = await fetch('http://localhost:10000/api/v1/services');
+
     const data = await response.json();
     const parsedDataArray = servicesParser(data);
 
@@ -180,7 +180,6 @@ toolController.postServices = async (req, res, next) => {
 //         creationTimestamp,
 //         conditions,
 //       });
-//       console.log('new namespace', newNamespace);
 //       namespacesData.push(newNamespace);
 //     }
 //     res.locals.namespacesData = namespacesData;
@@ -199,6 +198,9 @@ toolController.clusterData = (req, res, next) => {
   res.locals.clusterData = {
     data: [...nodeArray, ...podArray, ...containerArray, ...serviceArray],
   };
+
+  return next();
+
 };
 
 module.exports = toolController;
