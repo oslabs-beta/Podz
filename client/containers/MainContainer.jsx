@@ -4,7 +4,6 @@ import IntroContainer from './IntroContainer.jsx';
 import FeatureContainer from './FeatureContainer.jsx';
 import DemoContainer from './DemoContainer.jsx';
 import TeamContainer from './TeamContainer.jsx';
-import D3Test from './D3Test.jsx';
 
 const MainContainer = () => {
   return (
@@ -14,7 +13,6 @@ const MainContainer = () => {
       <FeatureContainer />
       <DemoContainer />
       <TeamContainer />
-      <D3Test />
     </div>
   );
 };

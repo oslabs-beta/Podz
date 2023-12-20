@@ -1,73 +1,60 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import masterNode from '../assets/masterNode.png';
+import workerNode from '../assets/workerNode.png';
+import pod from '../assets/pods.png';
+import container from '../assets/containers.png';
+import service from '../assets/services.png';
 
-const ToolTree = () => {
+const ToolTree = ({ setToolMetric, clusterData }) => {
   // used to create a mutable object that can persist across renders
   // without causing the component to re-render when the ref object changes
   const canvasRef = useRef(null);
 
   useEffect(() => {
     // Specify the dimensions of the chart.
-    const width = 1200;
-    const height = 800;
+    const width = 1500;
+    const height = 809;
+    // const width = 700;
+    // const height = 600;
 
-    const radius = 7; // radius of circle
+    // const radius = 15; // radius of circle
+    let imageRadius = 60; // radius of image
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio;
-    // Specify the color scale; schemeCategory10 provides an array of 10 diff colors
-    // scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
-    // TLDR: different color for nodes in different groups
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    const data = {
-      nodes: [
-        { id: 'Myriel', group: 1, strokeStyle: '#fff' },
-        { id: 'Napoleon', group: 2, strokeStyle: '#fff' },
-        { id: 'Mlle.Baptistine', group: 3, strokeStyle: '#fff' },
-        { id: 'Mme.Magloire', group: 1, strokeStyle: '#fff' },
-        { id: 'Geborand', group: 4, strokeStyle: '#fff' },
-        { id: 'Champtercier', group: 5, strokeStyle: '#fff' },
-        { id: 'Cravatte', group: 6, strokeStyle: '#fff' },
-        { id: 'Count', group: 7, strokeStyle: '#fff' },
-        { id: 'OldMan', group: 8, strokeStyle: '#fff' },
-      ],
-      links: [
-        { source: 'Napoleon', target: 'Myriel', value: 1 },
-        { source: 'Mlle.Baptistine', target: 'Myriel', value: 8 },
-        { source: 'Mme.Magloire', target: 'Myriel', value: 10 },
-        { source: 'Mme.Magloire', target: 'Mlle.Baptistine', value: 6 },
-        { source: 'Geborand', target: 'Champtercier', value: 6 },
-        { source: 'Champtercier', target: 'Cravatte', value: 6 },
-        { source: 'Cravatte', target: 'Count', value: 6 },
-        { source: 'Count', target: 'OldMan', value: 6 },
-        { source: 'OldMan', target: 'Geborand', value: 6 },
-      ],
-    };
+    /* Specify the color scale; schemeCategory10 provides an array of 10 diff colors
+      scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
+    TLDR: different color for nodes in different groups; used for circles */
+    // const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     // The force simulation mutates links and nodes, so create a copy
     // so that re-evaluating this cell produces the same result.
-    const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
-    const nodes = data.nodes.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
-
-    /*-----------------------BALLS TO IMAGES-----------------------*/
-    // const imageUrls = {
-    //   1: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Kubernetes_logo_without_workmark.svg/2109px-Kubernetes_logo_without_workmark.svg.png',
-    // };
-
-    // const images = {};
-    // const imagePromises = Object.keys(imageUrls).map(groupId => {
-    //   const img = new Image();
-    //   img.src = imageUrls[groupId];
-    //   images[groupId] = img;
-    //   return new Promise(resolve => {
-    //     img.onload = resolve;
-    //   });
-    // });
-
-    // // Wait for all images to load
-    // Promise.all(imagePromises).then(() => {
-    // });
+    const nodes = clusterData.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
+    // const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
+    const links = [];
+    for (const ele of nodes) {
+      if (ele.kind === 'Node') {
+        links.push({ source: ele.name, target: nodes[0].name });
+        for (const ele2 of nodes) {
+          if (ele2.kind === 'Pod' && ele2.nodeName === ele.name) {
+            links.push({ source: ele.name, target: ele2.name });
+          }
+        }
+      } else if (ele.kind === 'Pod') {
+        for (const ele2 of nodes) {
+          if (ele2.kind === 'Container' && ele2.labels[0].key === ele.labels[0].key) {
+            links.push({ source: ele.name, target: ele2.name });
+          } else if (
+            ele2.kind === 'Service' &&
+            ele2.selector.app === ele.labels[0].key
+          ) {
+            links.push({ source: ele.name, target: ele2.name });
+          }
+        }
+      }
+    }
 
     const simulation = d3
       .forceSimulation(nodes) // creates new force simulation
@@ -75,19 +62,24 @@ const ToolTree = () => {
       // force("name", function)
       .force(
         'link',
-        d3.forceLink(links).id((d) => d.id)
-      ) // links and gives id to nodes
-      .force('charge', d3.forceManyBody()) // repels all nodes when dragging a node
+        d3
+          .forceLink(links)
+          .id((d) => d.name) // links and gives id to nodes
+          .distance(125) // link's length
+      )
+      .force('charge', d3.forceManyBody().strength(-15).theta(1)) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
+      .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw); // event listener; updates node positions or visualization
 
-    // Create the canvas.
-    // const canvas = d3.create("canvas")
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
-      .attr('width', dpi * width) // set width
-      .attr('height', dpi * height) // set height
-      .attr('style', `width: ${width}px; max-width: 100%; height: auto;`) // styling
+      .attr('width', `${dpi * width}vh`) // set width
+      .attr('height', `${dpi * height}vh`) // set height
+      .attr(
+        'style',
+        'max-width: 100%; max-height: 100%; background-color: #ECECEC; border: 1px solid black'
+      ) // styling
       .node(); // retrieves the underlying DOM node of the canvas created by D3
 
     const context = canvas.getContext('2d'); // gets 2D rendering context
@@ -98,28 +90,21 @@ const ToolTree = () => {
       context.clearRect(0, 0, width, height); // clears entire canvas
       context.save(); // Save the current drawing state
       context.globalAlpha = 0.6; // transparency for links
-      context.strokeStyle = '#999'; // color of links
+      context.strokeStyle = '#000'; // color of links
       context.beginPath(); // Begin a new path for drawing links
       links.forEach(drawLink); // draws all links
-      context.stroke(); // renders the line of the links
-      context.restore(); // Restore the drawing state to what it was before the context.save()
 
       /*-------------------NODES-------------------*/
-      // context.save();
       context.globalAlpha = 1; // transparency for nodes
       nodes.forEach((node) => {
-        // iterates nodes
-        context.beginPath(); // Begin a new path for drawing each node
         drawNode(node); // Draw the node
-        context.fillStyle = color(node.group); // Color of node based on group #
-        context.strokeStyle = node.strokeStyle; // #000 gives the circles a black outline
-        context.fill(); // renders color onto node
-        context.stroke(); // stroke the path for the node
+        // context.fillStyle = color(node.group); // Color of node based on group #
+        // context.strokeStyle = node.strokeStyle; // #000 gives the circles a black outline
+        // context.fill(); // renders color onto node
+        // context.stroke(); // stroke the path for the node
       });
       context.restore(); // Restore the drawing state to what it was before the second context.save()
     }
-
-    console.log(context);
 
     function drawLink(d) {
       // Move the drawing cursor to (x, y) position
@@ -127,48 +112,53 @@ const ToolTree = () => {
 
       // Draw a line from the current cursor position to the new point
       context.lineTo(d.target.x, d.target.y);
+
+      context.stroke(); // renders the line of the links
+      context.restore(); // Restore the drawing state to what it was before the context.save()
     }
 
     function drawNode(d) {
-      // Move the drawing cursor to (x, y) position
-      // nodes has a weird white line when x is too low
-      context.moveTo(d.x + 10, d.y);
+      context.beginPath(); // Begin a new path for drawing each node
+      /*-----------------------CIRCLES-----------------------*/
+      /* Move the drawing cursor to (x, y) position
+         nodes has a weird white line when x is too low */
+      // context.moveTo(d.x + 10, d.y);
 
-      // modifies the circles (nodes)
-      // context.arc(x, y, radius, startAngle, endAngle, anticlockwise);
-      context.arc(d.x, d.y, 7, 0, 2 * Math.PI);
+      /* modifies the circles (nodes)
+         context.arc(x, y, radius, startAngle, endAngle, anticlockwise); */
+      // context.arc(d.x, d.y, 15, 0, 2 * Math.PI);
+      
+      /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
+      context.moveTo(d.x + imageRadius, d.y);
+      const img = new Image();
+      if (d.kind === 'MasterNode') {
+        img.src = masterNode;
+        imageRadius = 60;
+      } else if (d.kind === 'Node') {
+        img.src = workerNode;
+        imageRadius = 50;
+      } else if (d.kind === 'Pod') {
+        img.src = pod;
+        imageRadius = 40;
+      } else if (d.kind === 'Container') {
+        img.src = container;
+        imageRadius = 30;
+      } else {
+        img.src = service;
+        imageRadius = 30;
+      }
+      context.drawImage(
+        img,
+        d.x - imageRadius,
+        d.y - imageRadius,
+        2 * imageRadius,
+        2 * imageRadius
+      );
     }
 
     const tooltip = d3.select('body').append('div').attr('class', 'tooltip');
 
-    //-----------------------LEGEND-----------------------
-
-    // const category = [...new Set (nodes.map(d => `Group ${d.group}`))]
-    // const legend = d3.select(canvas).append("div")
-    //   .attr("class", "legend")
-    //   .style("position", "absolute")
-    //   .style("bottom", `${dpi * 8}px`)
-    //   .style("right", `${dpi * 8}px`);
-
-    // legend.selectAll("div")
-    //   .data(category)
-    //   .enter()
-    //   .append("div")
-    //   .attr("class", "legend-item")
-    //   .each(function(d) {
-    //     const item = d3.select(this);
-
-    //     // Color box
-    //     item.append("div")
-    //       .attr("class", "legend-color-box")
-    //       .style("background-color", color(d));
-
-    //     // Label
-    //     item.append("div")
-    //       .attr("class", "legend-label")
-    //       .text(d);
-    //   });
-
+    /*------------------------EVENT HANDLER------------------------*/
     d3.select(canvas) // selects the HTML canvas element
       .call(
         d3
@@ -192,7 +182,7 @@ const ToolTree = () => {
 
     function hovered(event) {
       if (event.defaultPrevented) return; // if any other event, return
-      console.log('HOVERED');
+
       const [mouseX, mouseY] = d3.pointer(event);
 
       let hoveredNode = null;
@@ -201,19 +191,51 @@ const ToolTree = () => {
         const distance = Math.sqrt(
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
-        if (distance < radius) hoveredNode = node;
+        if (distance < imageRadius) hoveredNode = node;
       });
-      console.log(hoveredNode);
+
       if (hoveredNode) {
+        let data;
+        if (hoveredNode.kind === 'MasterNode') {
+          data = 
+            `<p><strong>Kind:</strong> MasterNode</p>`;
+        } else if (hoveredNode.kind === 'Node') {
+          data =
+            `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
+            `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
+            `<p><strong>UID:</strong> ${hoveredNode.uid}</p>` +
+            `<p><strong>Ready:</strong> ${hoveredNode.conditions.Ready.status}, ${hoveredNode.conditions.Ready.message}</p>`;
+        } else if (hoveredNode.kind === 'Pod') {
+          data =
+            `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
+            `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
+            `<p><strong>UID:</strong> ${hoveredNode.uid}</p>` +
+            `<p><strong>Status:</strong> ${hoveredNode.status}</p>` +
+            `<p><strong>Ready:</strong> ${hoveredNode.conditions.Ready}</p>`;
+        } else if (hoveredNode.kind === 'Container') {
+          let status;
+          if(hoveredNode.started) status = 'Running';
+          else status = 'Stopped';
+          
+          data =
+            `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
+            `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
+            `<p><strong>ID:</strong> ${hoveredNode._id}</p>` +
+            `<p><strong>Status:</strong> ${status}</p>` + 
+            `<p><strong>Restart Count:</strong> ${hoveredNode.restartCount}</p>`
+        } else if (hoveredNode.kind === 'Service'){
+          data =
+            `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
+            `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
+            `<p><strong>UID:</strong> ${hoveredNode.uid}</p>` +
+            `<p><strong>Type:</strong> ${hoveredNode.type}</p>`
+        }
+
         tooltip
           .style('display', 'block')
-          .style('left', `${event.pageX + 10}px`)
+          .style('left', `${event.pageX + 20}px`)
           .style('top', `${event.pageY - 28}px`)
-          .html(
-            `<strong>${hoveredNode.id}</strong> <br>` +
-              `Group: ${hoveredNode.group} <br>` +
-              `Status: ok`
-          );
+          .html(data);
       } else {
         tooltip.style('display', 'none');
       }
@@ -221,19 +243,16 @@ const ToolTree = () => {
 
     function clicked(event) {
       if (event.defaultPrevented) return; // if any other event, return
-      console.log('CLICKED');
+
       const [mouseX, mouseY] = d3.pointer(event);
 
       nodes.forEach((node) => {
         const distance = Math.sqrt(
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
-        console.log(distance, radius);
-        if (distance < radius) {
-          console.log('Clicked node:', node);
-          node.group = 10;
-          node.strokeStyle = '#000';
+        if (distance < imageRadius) {
           draw();
+          setToolMetric(node);
         }
       });
     }
@@ -245,6 +264,7 @@ const ToolTree = () => {
       if (!event.active) simulation.alphaTarget(0.3).restart();
       event.subject.fx = event.subject.x;
       event.subject.fy = event.subject.y;
+      tooltip.style('display', 'none');
     }
 
     // Update the subject (dragged node) position during drag.
@@ -254,7 +274,7 @@ const ToolTree = () => {
     }
 
     // Restore the target alpha so the simulation cools after dragging ends.
-    // Unfix the subject position now that it’s no longer being dragged.
+    // Unfix the subject position now that it's no longer being dragged.
     function dragended(event) {
       if (!event.active) simulation.alphaTarget(0);
       event.subject.fx = null;
@@ -265,7 +285,7 @@ const ToolTree = () => {
     return () => {
       simulation.stop();
     };
-  }, []);
+  }, [clusterData]);
 
   return (
     <div className='toolTree'>

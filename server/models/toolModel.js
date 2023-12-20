@@ -1,41 +1,76 @@
 const mongoose = require('mongoose');
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to Mongo DB.'))
-  .catch((err) => console.log(err));
-
+mongoose.connect('mongodb+srv://podz:Codesmith@cluster0.26b71cr.mongodb.net/?retryWrites=true&w=majority', {
+  dbName: 'Cluster0'
+});
+mongoose.connection.once('open', () => {
+  console.log('--------------------------------------------------------Connected to Database-------------------------------------------------------');
+});
 const Schema = mongoose.Schema;
 
-const nodeSchema = new Schema({});
+const nodeSchema = new Schema({
+  snapshot: { type: Number, required: true },
+  kind: { type: String, required: true },
+  name: { type: String, required: true },
+  uid: { type: String, required: true },
+  creationTimestamp: { type: String, required: true },
+  conditions: { type: Object, required: true },
+});
 
 const Node = mongoose.model('node', nodeSchema);
 
-const serviceSchema = new Schema({});
+const podSchema = new Schema({
+  snapshot: { type: Number, required: true },
+  kind: { type: String, required: true },
+  name: { type: String, required: true },
+  namespace: { type: String, required: true },
+  uid: { type: String, required: true },
+  creationTimestamp: { type: String, required: true },
+  labels: { type: Object, required: true },
+  containers: { type: Object, required: true },
+  nodeName: { type: String, required: true },
+  status: { type: String, required: true },
+  conditions: { type: Object, required: true },
+});
+
+const Pod = mongoose.model('pod', podSchema);
+
+const containerSchema = new Schema({
+  snapshot: { type: Number, required: true },
+  kind: { type: String, required: true },
+  name: { type: String, required: true },
+  namespace: { type: String, required: true },
+  labels: { type: Object, required: true },
+  image: { type: String, required: true },
+  ready: { type: String, required: true },
+  restartCount: { type: String, required: true },
+  started: { type: String, required: true },
+  startedAt: { type: String, required: true },
+});
+
+const Container = mongoose.model('container', containerSchema);
+
+const serviceSchema = new Schema({
+  snapshot: { type: Number, required: true },
+  kind: { type: String, required: true },
+  name: { type: String, required: true },
+  namespace: { type: String, required: true },
+  uid: { type: String, required: true },
+  creationTimestamp: { type: String, required: true },
+  clusterIPs: { type: Array, required: true },
+  selector: { type: Object },
+  type: { type: String, required: true },
+});
 
 const Service = mongoose.model('service', serviceSchema);
 
-/*
-const usefulData = (obj) => {
-  const result = []
-  // for (let i = 0; i < obj.items.length; i++) {
+// const namespaceSchema = new Schema({
+//   snapshot: { type: Number, required: true },
+//   kind: { type: String, required: true },
+//   name: { type: String, required: true },
+//   uid: { type: String, required: true },
+//   creationTimestamp: { type: String, required: true },
+//   status: { type: Object, required: true },
+// })
 
-  // }
-  obj.items.forEach(ele => {
-    const node = {}
-    node.kind = obj.kind;
-    node.name = ele.metadata.name;
-    node.uid = ele.metadata.uid;
-    node.creationTimestamp = ele.metadata.creationTimestamp;
-    node.clusterIPs = ele.spec.clusterIPs;
-    if (ele.spec.selector) node.selector = ele.spec.selector
-    node.type = ele.spec.type
-    result.push(node)
-  })
-  return result;
-}
-console.log(usefulData(serviceObject));
-*/
-
-
-module.exports = { Node };
+module.exports = { Node, Pod, Container, Service };
