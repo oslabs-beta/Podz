@@ -22,6 +22,7 @@ body {
 .navName {
   height: 50px;
   margin-left: 40px;
+  cursor: pointer;
 }
 
 .navTab {
@@ -32,6 +33,7 @@ body {
 
 .navTab a {
   font-size: 20px;
+  font-family: 'Jura', sans-serif;
   text-decoration: none;
   color: navy;
 }
@@ -41,6 +43,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Jura', sans-serif;
   gap: 150px;
   margin-top: 250px;
 }
@@ -68,6 +71,7 @@ body {
 .toolName {
   height: 50px;
   margin-left: 40px;
+  cursor: pointer;
 }
 
 .toolLogin {
@@ -82,6 +86,7 @@ body {
 /* Tool Display */
 .toolDisplayContainer {
   display: flex;
+  margin-top: 50px;
 }
 
 .toolTree {
@@ -97,20 +102,35 @@ body {
 
 .toolBuild {
   align-self: center;
-  width: 40%;
+  border: 1px solid rgb(138, 209, 237);
+  border-radius: 10px;
+  background: rgb(167, 220, 241);
+  width: 95%;
   font-size: 20px;
-  padding: 5px;
+  font-weight: bold;
+  font-family: 'Jura', sans-serif;
+  padding: 15px 25px;
+}
+
+.toolBuild:hover {
+  box-shadow: 0px 0px 10px rgb(138, 209, 237);
 }
 
 /* Tool Metric */
 .toolMetric {
   display: flex;
   flex-direction: column;
+  border-radius: 20px;
+  background: rgb(167, 220, 241);
+  height: 40vh;
+  padding: 30px;
+  margin-top: 50px;
+  font-size: 18px;
 }
 
 .toolMetric ul {
   padding: 0px 0px 0px 20px;
-  margin: 0px;
+  margin: 5px;
 }
 
 .tooltip {

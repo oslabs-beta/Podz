@@ -39,11 +39,11 @@ const containerSchema = new Schema({
   kind: { type: String, required: true },
   name: { type: String, required: true },
   namespace: { type: String, required: true },
-  labels: { type: Object, required: true },
+  podName: { type: String, required: true },
   image: { type: String, required: true },
   ready: { type: String, required: true },
   restartCount: { type: String, required: true },
-  started: { type: String, required: true },
+  started: { type: Boolean, required: true },
   startedAt: { type: String, required: true },
 });
 
@@ -57,7 +57,7 @@ const serviceSchema = new Schema({
   uid: { type: String, required: true },
   creationTimestamp: { type: String, required: true },
   clusterIPs: { type: Array, required: true },
-  selector: { type: Object },
+  selector: { type: Object, required: true },
   type: { type: String, required: true },
 });
 
@@ -70,6 +70,6 @@ const Service = mongoose.model('service', serviceSchema);
 //   uid: { type: String, required: true },
 //   creationTimestamp: { type: String, required: true },
 //   status: { type: Object, required: true },
-// })
+// });
 
 module.exports = { Node, Pod, Container, Service };
