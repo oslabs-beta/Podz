@@ -66,7 +66,7 @@ dataParser.podsParser = (pods) => {
     const resultArray = [];
     const containers = pod['spec']['containers'];
     const containerStatuses = pod['status']['containerStatuses'];
-
+    // console.log(containerStatuses)
     for (let i = 0; i < containers.length; i++) {
       const newObj = {};
       newObj.name = containers[i]['name'];
@@ -82,11 +82,12 @@ dataParser.podsParser = (pods) => {
   };
 
   const labelFilter = (pod) => {
-    const resultArray = [];
+    const resultObj = {};
     for (let key in pod) {
-      resultArray.push({ key: pod[key] });
+      const keyWithoutPeriods = key.replace(/\./g, '%2E');
+      resultObj[keyWithoutPeriods] = pod[key];
     }
-    return resultArray;
+    return resultObj;
   };
 
   const { items } = pods;
@@ -116,7 +117,8 @@ dataParser.podsParser = (pods) => {
 dataParser.servicesParser = (service) => {
   const newArray = [];
 
-  service.items.forEach((ele) => {
+  for (let i = 0; i < obj.items.length; i++) {
+    const ele = obj.items[i];
     const newObj = {};
     newObj.kind = 'Service';
     newObj.name = ele.metadata.name;
@@ -124,10 +126,13 @@ dataParser.servicesParser = (service) => {
     newObj.uid = ele.metadata.uid;
     newObj.creationTimestamp = ele.metadata.creationTimestamp;
     newObj.clusterIPs = ele.spec.clusterIPs;
-    if (ele.spec.selector) newObj.selector = ele.spec.selector;
+    if (!ele.spec.selector) {
+      continue;
+    }
+    newObj.selector = ele.spec.selector;
     newObj.type = ele.spec.type;
     newArray.push(newObj);
-  });
+  }
   return newArray;
 };
 

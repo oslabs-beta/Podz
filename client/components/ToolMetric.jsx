@@ -99,11 +99,11 @@ const ToolMetric = ({ nodeData }) => {
     );
   } else if (nodeData.kind === 'Container') {
     let status;
-    if(nodeData.started) status = 'Running';
+    if (nodeData.started) status = 'Running';
     else status = 'Stopped';
 
     const labels = [];
-    for(const ele in nodeData.labels){
+    for (const ele in nodeData.labels) {
       labels.push(ele.key);
     }
 
@@ -135,7 +135,7 @@ const ToolMetric = ({ nodeData }) => {
         </p>
       </div>
     );
-  } else if (nodeData.kind === 'Service'){
+  } else if (nodeData.kind === 'Service') {
     data = (
       <div className='toolMetric'>
         <p>

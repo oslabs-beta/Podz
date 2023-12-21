@@ -7,6 +7,18 @@ import container from '../assets/containers.png';
 import service from '../assets/services.png';
 
 const ToolTree = ({ setToolMetric, clusterData }) => {
+  const commonKeysAndValues = (obj1, obj2) => {
+    const matchingKeys = Object.keys(obj1).filter((key) =>
+      obj2.hasOwnProperty(key)
+    );
+    for (let i = 0; i < matchingKeys.length; i++) {
+      if (obj1[matchingKeys[i]] === obj2[matchingKeys[i]]) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // used to create a mutable object that can persist across renders
   // without causing the component to re-render when the ref object changes
   const canvasRef = useRef(null);
@@ -43,18 +55,17 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         }
       } else if (ele.kind === 'Pod') {
         for (const ele2 of nodes) {
-          if (ele2.kind === 'Container' && ele2.labels[0].key === ele.labels[0].key) {
-            links.push({ source: ele2.name, target: ele.name });
+          if (ele2.kind === 'Container' && ele2.podName === ele.name) {
+            links.push({ source: ele.name, target: ele2.name });
           } else if (
             ele2.kind === 'Service' &&
-            ele2.selector.app === ele.labels[0].key
+            commonKeysAndValues(ele.labels, ele2.selector)
           ) {
             links.push({ source: ele2.name, target: ele.name });
           }
         }
       }
     }
-
     const simulation = d3
       .forceSimulation(nodes) // creates new force simulation
       // .force() -> adds a force to simulation
@@ -65,8 +76,8 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
           .forceLink(links)
           .id((d) => d.name) // links and gives id to nodes
           .distance((d) => {
-            if(d.source.kind === 'Pod' && d.target.kind === 'Node') return 175;
-            return 125
+            if (d.source.kind === 'Pod' && d.target.kind === 'Node') return 175;
+            return 125;
           }) // link's length
       )
       .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
@@ -78,10 +89,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       .select(canvasRef.current) // selects a DOM element
       .attr('width', `${dpi * width}px`) // set width
       .attr('height', `${dpi * height}px`) // set height
-      .attr(
-        'style',
-        'max-width: 100%; max-height: 100%'
-      ) // styling
+      .attr('style', 'max-width: 100%; max-height: 100%') // styling
       .node(); // retrieves the underlying DOM node of the canvas created by D3
 
     const context = canvas.getContext('2d'); // gets 2D rendering context
@@ -174,7 +182,8 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             const [px, py] = d3.pointer(event, canvas); // pointer() -> returns pointer's position relative to the canvas
             let dragRadius;
 
-            return d3.least(nodes, ({ x, y, kind }) => { // least() -> finds the nearest node closest to the pointer position
+            return d3.least(nodes, ({ x, y, kind }) => {
+              // least() -> finds the nearest node closest to the pointer position
               const dist2 = (x - px) ** 2 + (y - py) ** 2;
               if (kind === 'MasterNode') dragRadius = 3500;
               else if (kind === 'Node') dragRadius = 2450;
@@ -213,8 +222,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       if (hoveredNode) {
         let data;
         if (hoveredNode.kind === 'MasterNode') {
-          data = 
-            `<p><strong>Kind:</strong> MasterNode</p>`;
+          data = `<p><strong>Kind:</strong> MasterNode</p>`;
         } else if (hoveredNode.kind === 'Node') {
           data =
             `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
@@ -230,21 +238,21 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             `<p><strong>Ready:</strong> ${hoveredNode.conditions.Ready}</p>`;
         } else if (hoveredNode.kind === 'Container') {
           let status;
-          if(hoveredNode.started) status = 'Running';
+          if (hoveredNode.started) status = 'Running';
           else status = 'Stopped';
-          
+
           data =
             `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
             `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
             `<p><strong>ID:</strong> ${hoveredNode._id}</p>` +
-            `<p><strong>Status:</strong> ${status}</p>` + 
-            `<p><strong>Restart Count:</strong> ${hoveredNode.restartCount}</p>`
-        } else if (hoveredNode.kind === 'Service'){
+            `<p><strong>Status:</strong> ${status}</p>` +
+            `<p><strong>Restart Count:</strong> ${hoveredNode.restartCount}</p>`;
+        } else if (hoveredNode.kind === 'Service') {
           data =
             `<p><strong>Name:</strong> ${hoveredNode.name}</p>` +
             `<p><strong>Kind:</strong> ${hoveredNode.kind}</p>` +
             `<p><strong>UID:</strong> ${hoveredNode.uid}</p>` +
-            `<p><strong>Type:</strong> ${hoveredNode.type}</p>`
+            `<p><strong>Type:</strong> ${hoveredNode.type}</p>`;
         }
 
         tooltip
@@ -271,7 +279,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         else if (node.kind === 'Node') imageRadius = 50;
         else if (node.kind === 'Pod') imageRadius = 40;
         else imageRadius = 30;
-        
+
         if (distance < imageRadius) {
           draw();
           setToolMetric(node);

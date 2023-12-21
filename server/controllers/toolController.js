@@ -8,6 +8,7 @@ const toolController = {};
 toolController.addSnapshotTime = async (req, res, next) => {
   try {
     res.locals.snapshot = Date.now();
+    console.log('Snapshot time in milliseconds: ', res.locals.snapshot);
     return next();
   } catch (error) {
     console.log('Error: In addSnapshotTime middleware', error);
@@ -17,17 +18,16 @@ toolController.addSnapshotTime = async (req, res, next) => {
 toolController.postNodes = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
+
     //Fetches and parses data
-    const response = await fetch('http://localhost:10000/api/v1/nodes');
+    const response = await fetch('http://localhost:8083/api/v1/nodes');
     const data = await response.json();
     const parsedDataArray = nodesParser(data);
-
     //Uploads to database and persists through res.locals
     const nodesData = [];
     for (let i = 0; i < parsedDataArray.length; i++) {
-      const { kind, name, uid, creationTimestamp, conditions } =
+      const { kind, name, uid, creationTimestamp, conditions, namespace } =
         parsedDataArray[i];
-
       const newNode = await Node.create({
         snapshot,
         kind,
@@ -36,10 +36,8 @@ toolController.postNodes = async (req, res, next) => {
         creationTimestamp,
         conditions,
       });
-
       nodesData.push(newNode);
     }
-
     res.locals.nodesData = nodesData;
     return next();
   } catch (error) {
@@ -50,8 +48,7 @@ toolController.postNodes = async (req, res, next) => {
 toolController.postPods = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-
-    const response = await fetch('http://localhost:10000/api/v1/pods');
+    const response = await fetch('http://localhost:8083/api/v1/pods');
     const data = await response.json();
     const parsedDataArray = podsParser(data);
 
@@ -69,7 +66,6 @@ toolController.postPods = async (req, res, next) => {
         status,
         conditions,
       } = parsedDataArray[i];
-
       const newPod = await Pod.create({
         snapshot,
         kind,
@@ -83,10 +79,8 @@ toolController.postPods = async (req, res, next) => {
         status,
         conditions,
       });
-
       podsData.push(newPod);
     }
-
     res.locals.podsData = podsData;
     return next();
   } catch (error) {
@@ -110,6 +104,7 @@ toolController.postContainers = async (req, res, next) => {
           kind: 'Container',
           name,
           namespace: podsData[i].namespace,
+          podName: podsData[i].name,
           labels: podsData[i].labels,
           image,
           ready,
@@ -117,7 +112,6 @@ toolController.postContainers = async (req, res, next) => {
           started,
           startedAt,
         });
-
         containersData.push(newContainer);
       }
     }
@@ -132,8 +126,7 @@ toolController.postContainers = async (req, res, next) => {
 toolController.postServices = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-
-    const response = await fetch('http://localhost:10000/api/v1/services');
+    const response = await fetch('http://localhost:8083/api/v1/services');
     const data = await response.json();
     const parsedDataArray = servicesParser(data);
 
@@ -149,7 +142,6 @@ toolController.postServices = async (req, res, next) => {
         selector,
         type,
       } = parsedDataArray[i];
-
       const newService = await Service.create({
         snapshot,
         kind,
@@ -161,10 +153,8 @@ toolController.postServices = async (req, res, next) => {
         selector,
         type,
       });
-
       servicesData.push(newService);
     }
-
     res.locals.servicesData = servicesData;
     return next();
   } catch (error) {
@@ -205,10 +195,10 @@ toolController.clusterData = (req, res, next) => {
   const serviceArray = res.locals.servicesData;
 
   const cluster = [...podArray, ...containerArray, ...serviceArray];
-  const nameSpace = ['kube-system'];
+  const nameSpace = ['kube-system', 'kube-public', 'kube-node-lease'];
 
   const filterCluster = cluster.filter(
-    (ele) => !nameSpace.includes(ele.namespace) && ele.name !== 'kubernetes'
+    (ele) => !nameSpace.includes(ele.namespace)
   );
 
   res.locals.clusterData = {
