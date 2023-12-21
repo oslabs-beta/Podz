@@ -26,7 +26,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
   useEffect(() => {
     // Specify the dimensions of the chart.
     const width = 1400;
-    const height = 709;
+    const height = 759;
     // const width = 700;
     // const height = 600;
 
