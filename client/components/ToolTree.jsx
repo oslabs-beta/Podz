@@ -25,8 +25,8 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
 
   useEffect(() => {
     // Specify the dimensions of the chart.
-    const width = 1500;
-    const height = 809;
+    const width = 1400;
+    const height = 709;
     // const width = 700;
     // const height = 600;
 
@@ -81,7 +81,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             return 125;
           }) // link's length
       )
-      .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
+      .force('charge', d3.forceManyBody().strength(-70).theta(0)) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw); // event listener; updates node positions or visualization

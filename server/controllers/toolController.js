@@ -20,7 +20,7 @@ toolController.postNodes = async (req, res, next) => {
     const { snapshot } = res.locals;
 
     //Fetches and parses data
-    const response = await fetch('http://localhost:8083/api/v1/nodes');
+    const response = await fetch('http://localhost:10000/api/v1/nodes');
     const data = await response.json();
     const parsedDataArray = nodesParser(data);
     //Uploads to database and persists through res.locals
@@ -48,7 +48,7 @@ toolController.postNodes = async (req, res, next) => {
 toolController.postPods = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-    const response = await fetch('http://localhost:8083/api/v1/pods');
+    const response = await fetch('http://localhost:10000/api/v1/pods');
     const data = await response.json();
     const parsedDataArray = podsParser(data);
 
@@ -126,7 +126,7 @@ toolController.postContainers = async (req, res, next) => {
 toolController.postServices = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-    const response = await fetch('http://localhost:8083/api/v1/services');
+    const response = await fetch('http://localhost:10000/api/v1/services');
     const data = await response.json();
     const parsedDataArray = servicesParser(data);
 
@@ -164,7 +164,7 @@ toolController.postServices = async (req, res, next) => {
 
 // toolController.postNamespaces = async (req, res, next) => {
 //   try {
-//     const response = await fetch('http://localhost:8083/api/v1/namespaces');
+//     const response = await fetch('http://localhost:10000/api/v1/namespaces');
 //     const data = await response.json();
 //     const parsedDataArray = namespacesParser(data);
 

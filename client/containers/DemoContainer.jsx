@@ -10,7 +10,9 @@ const DemoContainer = () => {
   return (
     <div id='demoContainer'>
       <h1>Try Dev Tool</h1>
-      <button onClick={tryTool}>Try Tool Now!</button>
+      <button className='demoButton' onClick={tryTool}>
+        Try Tool Now!
+      </button>
     </div>
   );
 };
