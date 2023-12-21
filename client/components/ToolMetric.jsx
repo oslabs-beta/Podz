@@ -14,13 +14,7 @@ const ToolMetric = ({ nodeData }) => {
     data = (
       <div className='toolMetric'>
         <p>
-          <strong>Name:</strong> {nodeData.name}
-        </p>
-        <p>
           <strong>Kind:</strong> {nodeData.kind}
-        </p>
-        <p>
-          <strong>UID:</strong> {nodeData.uid}
         </p>
       </div>
     );
@@ -149,9 +143,6 @@ const ToolMetric = ({ nodeData }) => {
         </p>
         <p>
           <strong>Kind:</strong> {nodeData.kind}
-        </p>
-        <p>
-          <strong>ID:</strong> {nodeData._id}
         </p>
         <p>
           <strong>UID:</strong> {nodeData.uid}

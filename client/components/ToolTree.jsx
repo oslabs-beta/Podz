@@ -29,28 +29,27 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
     TLDR: different color for nodes in different groups; used for circles */
     // const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    // The force simulation mutates links and nodes, so create a copy
-    // so that re-evaluating this cell produces the same result.
     const nodes = clusterData.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
+    // const specificNode = nodes.find(node => node.kind === 'MasterNode');
     // const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     const links = [];
     for (const ele of nodes) {
       if (ele.kind === 'Node') {
-        links.push({ source: ele.name, target: nodes[0].name });
+        links.push({ source: nodes[0].name, target: ele.name });
         for (const ele2 of nodes) {
           if (ele2.kind === 'Pod' && ele2.nodeName === ele.name) {
-            links.push({ source: ele.name, target: ele2.name });
+            links.push({ source: ele2.name, target: ele.name });
           }
         }
       } else if (ele.kind === 'Pod') {
         for (const ele2 of nodes) {
           if (ele2.kind === 'Container' && ele2.labels[0].key === ele.labels[0].key) {
-            links.push({ source: ele.name, target: ele2.name });
+            links.push({ source: ele2.name, target: ele.name });
           } else if (
             ele2.kind === 'Service' &&
             ele2.selector.app === ele.labels[0].key
           ) {
-            links.push({ source: ele.name, target: ele2.name });
+            links.push({ source: ele2.name, target: ele.name });
           }
         }
       }
@@ -65,20 +64,23 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         d3
           .forceLink(links)
           .id((d) => d.name) // links and gives id to nodes
-          .distance(125) // link's length
+          .distance((d) => {
+            if(d.source.kind === 'Pod' && d.target.kind === 'Node') return 175;
+            return 125
+          }) // link's length
       )
-      .force('charge', d3.forceManyBody().strength(-15).theta(1)) // repels all nodes when dragging a node
+      .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
-      .on('tick', draw); // event listener; updates node positions or visualization
+      .on('tick', draw) // event listener; updates node positions or visualization
 
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
-      .attr('width', `${dpi * width}vh`) // set width
-      .attr('height', `${dpi * height}vh`) // set height
+      .attr('width', `${dpi * width}px`) // set width
+      .attr('height', `${dpi * height}px`) // set height
       .attr(
         'style',
-        'max-width: 100%; max-height: 100%; background-color: #ECECEC; border: 1px solid black'
+        'max-width: 100%; max-height: 100%'
       ) // styling
       .node(); // retrieves the underlying DOM node of the canvas created by D3
 
@@ -96,6 +98,10 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
 
       /*-------------------NODES-------------------*/
       context.globalAlpha = 1; // transparency for nodes
+
+      // nodes.filter(node => node.kind !== 'MasterNode').forEach(drawNode);
+      // const specificNode = nodes.find(node => node.kind === 'MasterNode');
+      // if (specificNode) drawNode(specificNode);
       nodes.forEach((node) => {
         drawNode(node); // Draw the node
         // context.fillStyle = color(node.group); // Color of node based on group #
@@ -114,7 +120,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       context.lineTo(d.target.x, d.target.y);
 
       context.stroke(); // renders the line of the links
-      context.restore(); // Restore the drawing state to what it was before the context.save()
+      // context.restore(); // Restore the drawing state to what it was before the context.save()
     }
 
     function drawNode(d) {
@@ -129,7 +135,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       // context.arc(d.x, d.y, 15, 0, 2 * Math.PI);
       
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
-      context.moveTo(d.x + imageRadius, d.y);
+      context.moveTo(d.x, d.y);
       const img = new Image();
       if (d.kind === 'MasterNode') {
         img.src = masterNode;
@@ -166,10 +172,16 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
           .subject((event) => {
             // subject is used to determine the subject of the drag
             const [px, py] = d3.pointer(event, canvas); // pointer() -> returns pointer's position relative to the canvas
-            return d3.least(nodes, ({ x, y }) => {
-              // least() -> finds the nearest node closest to the pointer position
+            let dragRadius;
+
+            return d3.least(nodes, ({ x, y, kind }) => { // least() -> finds the nearest node closest to the pointer position
               const dist2 = (x - px) ** 2 + (y - py) ** 2;
-              if (dist2 < 400) return dist2;
+              if (kind === 'MasterNode') dragRadius = 3500;
+              else if (kind === 'Node') dragRadius = 2450;
+              else if (kind === 'Pod') dragRadius = 1600;
+              else dragRadius = 880;
+
+              if (dist2 < dragRadius) return dist2;
             });
           })
           // the 5 ".on()" functions below are event listeners
@@ -182,7 +194,6 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
 
     function hovered(event) {
       if (event.defaultPrevented) return; // if any other event, return
-
       const [mouseX, mouseY] = d3.pointer(event);
 
       let hoveredNode = null;
@@ -191,6 +202,11 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         const distance = Math.sqrt(
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
+
+        if (node.kind === 'MasterNode') imageRadius = 60;
+        else if (node.kind === 'Node') imageRadius = 50;
+        else if (node.kind === 'Pod') imageRadius = 40;
+        else imageRadius = 30;
         if (distance < imageRadius) hoveredNode = node;
       });
 
@@ -250,6 +266,12 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         const distance = Math.sqrt(
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
+
+        if (node.kind === 'MasterNode') imageRadius = 60;
+        else if (node.kind === 'Node') imageRadius = 50;
+        else if (node.kind === 'Pod') imageRadius = 40;
+        else imageRadius = 30;
+        
         if (distance < imageRadius) {
           draw();
           setToolMetric(node);
