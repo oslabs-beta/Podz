@@ -1,4 +1,6 @@
 const { Node, Pod, Container, Service } = require('../models/toolModel.js');
+const hostPort = process.env.HOST_PORT
+const KubernetesURL = 'http://localhost:' + hostPort
 
 const dataParser = require('./dataParser.js');
 const { nodesParser, podsParser, servicesParser } = dataParser;
