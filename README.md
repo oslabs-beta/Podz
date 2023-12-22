@@ -1,4 +1,4 @@
-![Logo](src/assets/PodzLogo.png)
+![Logo](client/assets/PodzLogo.png)
 
 <div align='center'>
 
