@@ -102,11 +102,14 @@ const ToolMetric = ({ nodeData }) => {
     if (nodeData.started) status = 'Running';
     else status = 'Stopped';
 
+<<<<<<< HEAD
     const labels = [];
     for (const ele in nodeData.labels) {
       labels.push(ele.key);
     }
 
+=======
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
     data = (
       <div className='toolMetric'>
         <p>
@@ -116,9 +119,6 @@ const ToolMetric = ({ nodeData }) => {
           <strong>Kind:</strong> {nodeData.kind}
         </p>
         <p>
-          <strong>ID:</strong> {nodeData._id}
-        </p>
-        <p>
           <strong>Image:</strong> {nodeData.image}
         </p>
         <p>
@@ -126,9 +126,6 @@ const ToolMetric = ({ nodeData }) => {
         </p>
         <p>
           <strong>Restart Count:</strong> {nodeData.restartCount}
-        </p>
-        <p>
-          <strong>Labels:</strong> {labels}
         </p>
         <p>
           <strong>Started Since:</strong> {nodeData.startedAt}
@@ -151,7 +148,7 @@ const ToolMetric = ({ nodeData }) => {
           <strong>Cluster IP:</strong> {nodeData.clusterIPs}
         </p>
         <p>
-          <strong>Selector:</strong> app: {nodeData.selector.app}
+          <strong>Selector:</strong> {nodeData.selector.app}
         </p>
         <p>
           <strong>Type:</strong> {nodeData.type}

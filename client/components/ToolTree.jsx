@@ -25,8 +25,8 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
 
   useEffect(() => {
     // Specify the dimensions of the chart.
-    const width = 1500;
-    const height = 809;
+    const width = 1400;
+    const height = 759;
     // const width = 700;
     // const height = 600;
 
@@ -80,7 +80,11 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             return 125;
           }) // link's length
       )
+<<<<<<< HEAD
       .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
+=======
+      .force('charge', d3.forceManyBody().strength(-70).theta(0)) // repels all nodes when dragging a node
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw) // event listener; updates node positions or visualization
@@ -141,7 +145,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       /* modifies the circles (nodes)
          context.arc(x, y, radius, startAngle, endAngle, anticlockwise); */
       // context.arc(d.x, d.y, 15, 0, 2 * Math.PI);
-      
+
       /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x, d.y);
       const img = new Image();

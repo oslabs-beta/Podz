@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://podz:Codesmith@cluster0.26b71cr.mongodb.net/?retryWrites=true&w=majority', {
-  dbName: 'Cluster0'
-});
-mongoose.connection.once('open', () => {
-  console.log('--------------------------------------------------------Connected to Database-------------------------------------------------------');
-});
+mongoose
+  .connect(process.env.MONGO_URI, {
+    dbName: 'ClusterData',
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Connected to Mongo DB.'))
+  .catch((err) => console.log(err));
+
 const Schema = mongoose.Schema;
 
 const nodeSchema = new Schema({
