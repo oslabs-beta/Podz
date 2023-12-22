@@ -11,7 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.0.2",
+    "d3": "^7.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.16.3",
+    "mongoose": "^5.11.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1"

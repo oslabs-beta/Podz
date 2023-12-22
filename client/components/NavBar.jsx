@@ -1,11 +1,18 @@
 import React from 'react';
-import logo from '../assets/logo.png';
-import name from '../assets/name.png';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  function returnHome() {
+    navigate('/');
+    scrollTo(0, 0);
+  }
+
   return (
     <div className='navBar'>
-      <img className='navName' src={name} />
+      <div className='navName' onClick={returnHome}>
+        Podz
+      </div>
       <div className='navTab'>
         <a href='#featureContainer'>Features</a>
         <a href='#demoContainer'>Demo</a>
