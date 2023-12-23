@@ -117,8 +117,13 @@ dataParser.podsParser = (pods) => {
 dataParser.servicesParser = (service) => {
   const newArray = [];
 
+<<<<<<< HEAD
+  for (let i = 0; i < obj.items.length; i++) {
+    const ele = obj.items[i];
+=======
   for (let i = 0; i < service.items.length; i++) {
     const ele = service.items[i];
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
     const newObj = {};
     newObj.kind = 'Service';
     newObj.name = ele.metadata.name;

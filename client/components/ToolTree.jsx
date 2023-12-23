@@ -41,17 +41,16 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
     TLDR: different color for nodes in different groups; used for circles */
     // const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    // The force simulation mutates links and nodes, so create a copy
-    // so that re-evaluating this cell produces the same result.
     const nodes = clusterData.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
+    // const specificNode = nodes.find(node => node.kind === 'MasterNode');
     // const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     const links = [];
     for (const ele of nodes) {
       if (ele.kind === 'Node') {
-        links.push({ source: ele.name, target: nodes[0].name });
+        links.push({ source: nodes[0].name, target: ele.name });
         for (const ele2 of nodes) {
           if (ele2.kind === 'Pod' && ele2.nodeName === ele.name) {
-            links.push({ source: ele.name, target: ele2.name });
+            links.push({ source: ele2.name, target: ele.name });
           }
         }
       } else if (ele.kind === 'Pod') {
@@ -62,7 +61,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             ele2.kind === 'Service' &&
             commonKeysAndValues(ele.labels, ele2.selector)
           ) {
-            links.push({ source: ele.name, target: ele2.name });
+            links.push({ source: ele2.name, target: ele.name });
           }
         }
       }
@@ -81,10 +80,14 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             return 125;
           }) // link's length
       )
+<<<<<<< HEAD
+      .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
+=======
       .force('charge', d3.forceManyBody().strength(-70).theta(0)) // repels all nodes when dragging a node
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
-      .on('tick', draw); // event listener; updates node positions or visualization
+      .on('tick', draw) // event listener; updates node positions or visualization
 
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element

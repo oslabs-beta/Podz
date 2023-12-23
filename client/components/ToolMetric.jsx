@@ -102,6 +102,14 @@ const ToolMetric = ({ nodeData }) => {
     if (nodeData.started) status = 'Running';
     else status = 'Stopped';
 
+<<<<<<< HEAD
+    const labels = [];
+    for (const ele in nodeData.labels) {
+      labels.push(ele.key);
+    }
+
+=======
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
     data = (
       <div className='toolMetric'>
         <p>
