@@ -106,10 +106,14 @@ html {
 .navName {
   color: #36395a;
   height: 50px;
+<<<<<<< HEAD
+  margin-left: 40px;
+=======
   font-family: 'Jura', sans-serif;
   font-size: 50px;
   font-weight: bold;
   margin-left: 10px;
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
   cursor: pointer;
 }
 
@@ -120,7 +124,11 @@ html {
 }
 
 .navTab a {
+<<<<<<< HEAD
+  font-size: 20px;
+=======
   font-size: 22px;
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
   font-family: 'Jura', sans-serif;
   text-decoration: none;
   color: #36395a;
@@ -163,16 +171,31 @@ html {
 .toolName {
   color: #36395a;
   height: 50px;
+<<<<<<< HEAD
+  margin-left: 40px;
+  cursor: pointer;
+}
+
+.toolLogin {
+  margin-right: 50px;
+  padding: 10px;
+  font-size: 20px;
+  color: white;
+  border: none;
+  background-color: navy;
+=======
   font-family: 'Jura', sans-serif;
   font-size: 50px;
   font-weight: bold;
   margin-left: 10px;
   cursor: pointer;
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
 }
 
 /* Tool Display */
 .toolDisplayContainer {
   display: flex;
+  margin-top: 50px;
 }
 
 .toolContainer {
@@ -202,6 +225,20 @@ html {
 
 .toolBuild {
   align-self: center;
+<<<<<<< HEAD
+  border: 1px solid rgb(138, 209, 237);
+  border-radius: 10px;
+  background: rgb(167, 220, 241);
+  width: 95%;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Jura', sans-serif;
+  padding: 15px 25px;
+}
+
+.toolBuild:hover {
+  box-shadow: 0px 0px 10px rgb(138, 209, 237);
+=======
   display: inline-flex;
   justify-content: center;
   width: 100%;
@@ -236,12 +273,21 @@ html {
 .toolBuild:active {
   box-shadow: #d6d6e7 0 3px 7px inset;
   transform: translateY(2px);
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
 }
 
 /* Tool Metric */
 .toolMetric {
   display: flex;
   flex-direction: column;
+<<<<<<< HEAD
+  border-radius: 20px;
+  background: rgb(167, 220, 241);
+  height: 40vh;
+  padding: 30px;
+  margin-top: 50px;
+  font-size: 18px;
+=======
   border-radius: 5px;
   border-width: 0;
   background-color: rgb(218, 218, 218);
@@ -255,6 +301,7 @@ html {
   box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
     rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9696a2 0 -3px 0 inset;
   z-index: 1;
+>>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
 }
 
 .toolMetric ul {
