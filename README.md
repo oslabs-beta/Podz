@@ -49,7 +49,7 @@ To use Minikube with Podz, start Minikube with this command:
 
 > minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
 
-What this command does is prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
+What this command does is start up minikube and prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
 Next, run the kubectl command:
 
 > kubectl proxy --port=4321
@@ -66,6 +66,9 @@ Next, run the command:
 
 As stated above, 4321 is the Podz default. This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
+## Examples
+
+Example tutorial
 
 ## Roadmap
 
