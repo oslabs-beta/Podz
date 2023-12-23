@@ -80,11 +80,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             return 125;
           }) // link's length
       )
-<<<<<<< HEAD
-      .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
-=======
       .force('charge', d3.forceManyBody().strength(-70).theta(0)) // repels all nodes when dragging a node
->>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw) // event listener; updates node positions or visualization
