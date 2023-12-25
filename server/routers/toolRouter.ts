@@ -1,7 +1,6 @@
-const path = require('path');
-const express = require('express');
-
-const toolController = require('../controllers/toolController.js');
+import path from 'path'
+import express, { Request, Response } from 'express'
+import toolController from '../controllers/toolController'
 
 const {
   addSnapshotTime,
@@ -16,7 +15,7 @@ const router = express.Router();
 
 router.use(express.static(path.resolve(__dirname, '../../build')));
 
-router.get('/', (req, res) =>
+router.get('/', (req: Request, res: Response) =>
   res.sendFile(path.resolve(__dirname, '../build/index.html'))
 );
 
@@ -28,13 +27,12 @@ router.get(
   postContainers,
   postServices,
   clusterData,
-  (req, res) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.clusterData);
   }
 );
 
-router.get('/data', (req, res) => {
+// router.get('/data', (req: Request, res: Response) => {
   
-})
-
-module.exports = router;
+// })
+export default router;

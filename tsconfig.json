@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "allowJs": true,
+    // "allowImportingTsExtensions": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "outDir":"dist"
+  },
+  "include": ["server/**/*"]
+}
