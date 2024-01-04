@@ -25,7 +25,7 @@ const ToolDisplayContainer = () => {
     <div className='toolDisplayContainer'>
       <ToolTree setToolMetric={setMetric} clusterData={cluster} />
       <div className='toolInfo'>
-        {/* <PortInputForm /> */}
+        <PortInputForm />
         <button className='toolBuild' onClick={fetchData}>
           {loading ? 'Loading ...' : 'Load Cluster'}
         </button>

@@ -4,6 +4,7 @@ const express = require('express');
 const toolController = require('../controllers/toolController.js');
 
 const {
+  setPort,
   addSnapshotTime,
   postNodes,
   postPods,
@@ -30,6 +31,14 @@ router.get(
   clusterData,
   (req, res) => {
     return res.status(200).json(res.locals.clusterData);
+  }
+);
+
+router.get(
+  '/port',
+  setPort,
+  (req, res) => {
+    return res.status(200).json();
   }
 );
 

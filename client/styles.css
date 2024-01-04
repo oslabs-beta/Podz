@@ -290,10 +290,11 @@ html {
   line-height: 20px; /* Match the height of the color box */
 }
 
-.Input {
+.input {
   align-self: center;
   display: inline-flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   font-size: 25px;
   padding: 10px;
@@ -316,4 +317,27 @@ html {
   white-space: nowrap;
   will-change: box-shadow, transform;
   z-index: 1;
+}
+
+.inputField {
+  border: none;
+  background: transparent;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  font-size: 25px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #36395a;
+  width: 20%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

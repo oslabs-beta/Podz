@@ -1,11 +1,21 @@
 const { Node, Pod, Container, Service } = require('../models/toolModel.js');
-const hostPort = process.env.HOST_PORT
-const KubernetesURL = 'http://localhost:' + hostPort
+let HOST_PORT = 4321;
+let kubernetesURL = 'http://localhost:' + HOST_PORT;
 
 const dataParser = require('./dataParser.js');
 const { nodesParser, podsParser, servicesParser } = dataParser;
 
 const toolController = {};
+
+toolController.setPort = async (req, res, next) => {
+  try {
+    HOST_PORT = req.query.HOST_PORT
+    kubernetesURL = 'http://localhost:' + HOST_PORT;
+    return next();
+  } catch (error) {
+    console.log('Error: In setPort middleware', error);
+  }
+};
 
 toolController.addSnapshotTime = async (req, res, next) => {
   try {
@@ -22,13 +32,13 @@ toolController.postNodes = async (req, res, next) => {
     const { snapshot } = res.locals;
 
     //Fetches and parses data
-    const response = await fetch('http://localhost:10000/api/v1/nodes');
+    const response = await fetch(kubernetesURL + '/api/v1/nodes');
     const data = await response.json();
     const parsedDataArray = nodesParser(data);
     //Uploads to database and persists through res.locals
     const nodesData = [];
     for (let i = 0; i < parsedDataArray.length; i++) {
-      const { kind, name, uid, creationTimestamp, conditions, namespace } =
+      const { kind, name, uid, creationTimestamp, conditions } =
         parsedDataArray[i];
       const newNode = await Node.create({
         snapshot,
@@ -50,7 +60,7 @@ toolController.postNodes = async (req, res, next) => {
 toolController.postPods = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-    const response = await fetch('http://localhost:10000/api/v1/pods');
+    const response = await fetch(kubernetesURL + '/api/v1/pods');
     const data = await response.json();
     const parsedDataArray = podsParser(data);
 
@@ -100,7 +110,6 @@ toolController.postContainers = async (req, res, next) => {
       for (let j = 0; j < podsData[i].containers.length; j++) {
         const { name, image, ready, restartCount, started, startedAt } =
           podsData[i]['containers'][j];
-
         const newContainer = await Container.create({
           snapshot,
           kind: 'Container',
@@ -128,7 +137,7 @@ toolController.postContainers = async (req, res, next) => {
 toolController.postServices = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-    const response = await fetch('http://localhost:10000/api/v1/services');
+    const response = await fetch(kubernetesURL + '/api/v1/services');
     const data = await response.json();
     const parsedDataArray = servicesParser(data);
 
@@ -166,7 +175,7 @@ toolController.postServices = async (req, res, next) => {
 
 // toolController.postNamespaces = async (req, res, next) => {
 //   try {
-//     const response = await fetch('http://localhost:10000/api/v1/namespaces');
+//     const response = await fetch(kubernetesURL + /api/v1/namespaces');
 //     const data = await response.json();
 //     const parsedDataArray = namespacesParser(data);
 
