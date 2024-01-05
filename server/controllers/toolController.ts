@@ -1,11 +1,15 @@
-const { Node, Pod, Container, Service } = require('../models/toolModel.js');
+import { Request, Response, NextFunction } from 'express';
+import { Node, Pod, Container, Service } from '../models/toolModel';
 
-const dataParser = require('./dataParser.js');
+import dataParser from './dataParser.js'
 const { nodesParser, podsParser, servicesParser } = dataParser;
 
-const toolController = {};
 
-toolController.addSnapshotTime = async (req, res, next) => {
+const toolController: Record<string, (req: Request, 
+  res: Response, 
+  next: NextFunction) => void | Promise<void>> = {};
+
+toolController.addSnapshotTime = async (req: Request, res: Response, next: NextFunction) => {
   try {
     res.locals.snapshot = Date.now();
     console.log('Snapshot time in milliseconds: ', res.locals.snapshot);
@@ -15,7 +19,7 @@ toolController.addSnapshotTime = async (req, res, next) => {
   }
 };
 
-toolController.postNodes = async (req, res, next) => {
+toolController.postNodes = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { snapshot } = res.locals;
 
@@ -26,8 +30,7 @@ toolController.postNodes = async (req, res, next) => {
     //Uploads to database and persists through res.locals
     const nodesData = [];
     for (let i = 0; i < parsedDataArray.length; i++) {
-      const { kind, name, uid, creationTimestamp, conditions, namespace } =
-        parsedDataArray[i];
+      const { kind, name, uid, creationTimestamp, conditions} = parsedDataArray[i];
       const newNode = await Node.create({
         snapshot,
         kind,
@@ -45,14 +48,10 @@ toolController.postNodes = async (req, res, next) => {
   }
 };
 
-toolController.postPods = async (req, res, next) => {
+toolController.postPods = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { snapshot } = res.locals;
-<<<<<<< HEAD
-    const response = await fetch('http://localhost:8083/api/v1/pods');
-=======
     const response = await fetch('http://localhost:10000/api/v1/pods');
->>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
     const data = await response.json();
     const parsedDataArray = podsParser(data);
 
@@ -92,7 +91,7 @@ toolController.postPods = async (req, res, next) => {
   }
 };
 
-toolController.postContainers = async (req, res, next) => {
+toolController.postContainers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { snapshot } = res.locals;
 
@@ -127,14 +126,10 @@ toolController.postContainers = async (req, res, next) => {
   }
 };
 
-toolController.postServices = async (req, res, next) => {
+toolController.postServices = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { snapshot } = res.locals;
-<<<<<<< HEAD
-    const response = await fetch('http://localhost:8083/api/v1/services');
-=======
     const response = await fetch('http://localhost:10000/api/v1/services');
->>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
     const data = await response.json();
     const parsedDataArray = servicesParser(data);
 
@@ -196,7 +191,7 @@ toolController.postServices = async (req, res, next) => {
 //   }
 // };
 
-toolController.clusterData = (req, res, next) => {
+toolController.clusterData = (req: Request, res: Response, next: NextFunction) => {
   const nodeArray = res.locals.nodesData;
   const podArray = res.locals.podsData;
   const containerArray = res.locals.containersData;
@@ -215,4 +210,4 @@ toolController.clusterData = (req, res, next) => {
   return next();
 };
 
-module.exports = toolController;
+export default toolController;

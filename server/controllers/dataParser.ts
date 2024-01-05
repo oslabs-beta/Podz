@@ -1,14 +1,24 @@
-const dataParser = {};
+const dataParser: any = {};
+
+
 
 /* Node Parser */
-dataParser.nodesParser = (nodes) => {
+dataParser.nodesParser = (nodes: any) => {
   //Filters through desired conditions data;
-  const conditionsFilter = (node) => {
-    const resultObj = {};
+  const conditionsFilter = (node: any) => {
+
+    const resultObj: any = {};
     const conditions = node['status']['conditions'];
     for (let i = 0; i < conditions.length; i++) {
       // resultObj[conditions[i]["type"]] = conditions[i]["type"]
-      const newObj = {};
+      interface NewObj {
+        status: String,
+        message: String
+      }
+      const newObj: NewObj = {
+        status: '',
+        message: ''
+      };
       newObj.status = conditions[i]['status'];
       newObj.message = conditions[i]['message'];
       resultObj[conditions[i]['type']] = newObj;
@@ -29,7 +39,7 @@ dataParser.nodesParser = (nodes) => {
   const { items } = nodes;
   const newArray = [];
   for (let i = 0; i < items.length; i++) {
-    const newObj = {};
+    const newObj: any = {};
     const node = items[i];
     newObj.kind = 'Node';
     newObj.name = node['metadata']['name'];
@@ -46,10 +56,10 @@ dataParser.nodesParser = (nodes) => {
 };
 
 /* Pod Parser */
-dataParser.podsParser = (pods) => {
+dataParser.podsParser = (pods: any) => {
   //Filters through desired conditions data;
-  const conditionsFilter = (pod) => {
-    const resultObj = {};
+  const conditionsFilter = (pod: any) => {
+    const resultObj: any = {};
     const conditions = pod['status']['conditions'];
     for (let i = 0; i < conditions.length; i++) {
       // resultObj[conditions[i]["type"]] = conditions[i]["type"]
@@ -62,13 +72,13 @@ dataParser.podsParser = (pods) => {
     return resultObj;
   };
 
-  const containerFilter = (pod) => {
+  const containerFilter = (pod: any) => {
     const resultArray = [];
     const containers = pod['spec']['containers'];
     const containerStatuses = pod['status']['containerStatuses'];
     // console.log(containerStatuses)
     for (let i = 0; i < containers.length; i++) {
-      const newObj = {};
+      const newObj:any = {};
       newObj.name = containers[i]['name'];
       newObj.image = containers[i]['image'];
       newObj.ready = containerStatuses[i]['ready'];
@@ -81,8 +91,8 @@ dataParser.podsParser = (pods) => {
     return resultArray;
   };
 
-  const labelFilter = (pod) => {
-    const resultObj = {};
+  const labelFilter = (pod: any) => {
+    const resultObj: any = {};
     for (let key in pod) {
       const keyWithoutPeriods = key.replace(/\./g, '%2E');
       resultObj[keyWithoutPeriods] = pod[key];
@@ -93,7 +103,7 @@ dataParser.podsParser = (pods) => {
   const { items } = pods;
   const newArray = [];
   for (let i = 0; i < items.length; i++) {
-    const newObj = {};
+    const newObj: any = {};
     const pod = items[i];
     newObj.kind = 'Pod';
     newObj.name = pod['metadata']['name'];
@@ -114,17 +124,12 @@ dataParser.podsParser = (pods) => {
 };
 
 /* Service Parser */
-dataParser.servicesParser = (service) => {
+dataParser.servicesParser = (service: any) => {
   const newArray = [];
 
-<<<<<<< HEAD
-  for (let i = 0; i < obj.items.length; i++) {
-    const ele = obj.items[i];
-=======
   for (let i = 0; i < service.items.length; i++) {
     const ele = service.items[i];
->>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
-    const newObj = {};
+    const newObj:any = {};
     newObj.kind = 'Service';
     newObj.name = ele.metadata.name;
     newObj.namespace = ele.metadata.namespace;
@@ -156,4 +161,4 @@ dataParser.servicesParser = (service) => {
 //   return newArray;
 // };
 
-module.exports = dataParser;
+export default dataParser;

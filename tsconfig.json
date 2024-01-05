@@ -10,5 +10,6 @@
     "noImplicitAny": true,
     "outDir":"dist"
   },
-  "include": ["server/**/*"]
+  "include": ["server/**/*"],
+  "exclude": ["node_modules"]
 }

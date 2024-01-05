@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -7,11 +7,20 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log('Connected to Mongo DB.'))
-  .catch((err) => console.log(err));
+  .catch((error) => console.log(error));
 
 const Schema = mongoose.Schema;
 
-const nodeSchema = new Schema({
+interface Node {
+  snapshot: Number,
+  kind: String,
+  name: String,
+  uid: String,
+  creationTimestamp: String,
+  conditions: Object
+}
+
+const nodeSchema = new Schema<Node>({
   snapshot: { type: Number, required: true },
   kind: { type: String, required: true },
   name: { type: String, required: true },
@@ -20,7 +29,15 @@ const nodeSchema = new Schema({
   conditions: { type: Object, required: true },
 });
 
-const Node = mongoose.model('node', nodeSchema);
+const Node = mongoose.model<Node>('node', nodeSchema);
+
+interface Pod extends Node {
+  namespace: String,
+  labels: Object,
+  containers: Object,
+  nodeName: String,
+  status: String
+}
 
 const podSchema = new Schema({
   snapshot: { type: Number, required: true },
@@ -36,9 +53,22 @@ const podSchema = new Schema({
   conditions: { type: Object, required: true },
 });
 
-const Pod = mongoose.model('pod', podSchema);
+const Pod = mongoose.model<Pod>('pod', podSchema);
 
-const containerSchema = new Schema({
+interface Container {
+  snapshot: Number,
+  kind: String,
+  name: String,
+  namespace: String,
+  podName: String,
+  image: String,
+  ready: String,
+  restartCount: String,
+  started: Boolean,
+  startedAt: String
+}
+
+const containerSchema = new Schema<Container>({
   snapshot: { type: Number, required: true },
   kind: { type: String, required: true },
   name: { type: String, required: true },
@@ -51,21 +81,33 @@ const containerSchema = new Schema({
   startedAt: { type: String, required: true },
 });
 
-const Container = mongoose.model('container', containerSchema);
+const Container = mongoose.model<Container>('container', containerSchema);
 
-const serviceSchema = new Schema({
+interface Service {
+  snapshot: Number,
+  kind: String,
+  name: String,
+  namespace: String,
+  uid: String,
+  creationTimestamp: String,
+  clusterIPs: [String],
+  selector: Object,
+  type: String,
+}
+
+const serviceSchema = new Schema<Service>({
   snapshot: { type: Number, required: true },
   kind: { type: String, required: true },
   name: { type: String, required: true },
   namespace: { type: String, required: true },
   uid: { type: String, required: true },
   creationTimestamp: { type: String, required: true },
-  clusterIPs: { type: Array, required: true },
+  clusterIPs: { type: [String], required: true },
   selector: { type: Object, required: true },
   type: { type: String, required: true },
 });
 
-const Service = mongoose.model('service', serviceSchema);
+const Service = mongoose.model<Service>('service', serviceSchema);
 
 // const namespaceSchema = new Schema({
 //   snapshot: { type: Number, required: true },
@@ -76,4 +118,4 @@ const Service = mongoose.model('service', serviceSchema);
 //   status: { type: Object, required: true },
 // });
 
-module.exports = { Node, Pod, Container, Service };
+export { Node, Pod, Container, Service };
