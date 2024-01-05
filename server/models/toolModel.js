@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
 
-mongoose
-  .connect(process.env.MONGO_URI, {
-    dbName: 'ClusterData',
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Connected to Mongo DB.'))
-  .catch((err) => console.log(err));
+const addDB = async (req, res, next) => {
+  try {
+    let mongoURL = req.body.databaseLink;
+
+    let connectDB = await mongoose.connect(mongoURL, {
+      dbName: 'ClusterData',
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    return next();
+  } catch (error) {
+    console.log('Error: In addDB middleware', error);
+  }
+};
 
 const Schema = mongoose.Schema;
 
@@ -76,4 +83,4 @@ const Service = mongoose.model('service', serviceSchema);
 //   status: { type: Object, required: true },
 // });
 
-module.exports = { Node, Pod, Container, Service };
+module.exports = { addDB, Node, Pod, Container, Service };

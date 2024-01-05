@@ -3,7 +3,21 @@ const { Node, Pod, Container, Service } = require('../models/toolModel.js');
 const dataParser = require('./dataParser.js');
 const { nodesParser, podsParser, servicesParser } = dataParser;
 
+let apiPort = 10000;
+
 const toolController = {};
+
+toolController.addPort = async (req, res, next) => {
+  try {
+    let userPort = Number(req.body.portNumber);
+    if (userPort) {
+      apiPort = userPort;
+    }
+    return next();
+  } catch (error) {
+    console.log('Error: In addPort middleware', error);
+  }
+};
 
 toolController.addSnapshotTime = async (req, res, next) => {
   try {
@@ -20,7 +34,7 @@ toolController.postNodes = async (req, res, next) => {
     const { snapshot } = res.locals;
 
     //Fetches and parses data
-    const response = await fetch('http://localhost:10000/api/v1/nodes');
+    const response = await fetch(`http://localhost:${apiPort}/api/v1/nodes`);
     const data = await response.json();
     const parsedDataArray = nodesParser(data);
     //Uploads to database and persists through res.locals
@@ -48,7 +62,7 @@ toolController.postNodes = async (req, res, next) => {
 toolController.postPods = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-    const response = await fetch('http://localhost:10000/api/v1/pods');
+    const response = await fetch(`http://localhost:${apiPort}/api/v1/pods`);
     const data = await response.json();
     const parsedDataArray = podsParser(data);
 
@@ -126,7 +140,7 @@ toolController.postContainers = async (req, res, next) => {
 toolController.postServices = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-    const response = await fetch('http://localhost:10000/api/v1/services');
+    const response = await fetch(`http://localhost:${apiPort}/api/v1/services`);
     const data = await response.json();
     const parsedDataArray = servicesParser(data);
 
@@ -164,7 +178,7 @@ toolController.postServices = async (req, res, next) => {
 
 // toolController.postNamespaces = async (req, res, next) => {
 //   try {
-//     const response = await fetch('http://localhost:10000/api/v1/namespaces');
+//     const response = await fetch(`http://localhost:${apiPort}/api/v1/namespaces`);
 //     const data = await response.json();
 //     const parsedDataArray = namespacesParser(data);
 

@@ -1,9 +1,11 @@
 const path = require('path');
 const express = require('express');
 
+const { addDB } = require('../models/toolModel.js');
 const toolController = require('../controllers/toolController.js');
 
 const {
+  addPort,
   addSnapshotTime,
   postNodes,
   postPods,
@@ -32,5 +34,9 @@ router.get(
     return res.status(200).json(res.locals.clusterData);
   }
 );
+
+router.post('/data', addDB, addPort, (req, res) => {
+  return res.status(200).json('Info Added');
+});
 
 module.exports = router;
