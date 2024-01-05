@@ -129,6 +129,7 @@ html {
   position: relative;
   top: -2px;
 }
+
 /* Intro Section */
 .introContainer {
   display: flex;
@@ -149,8 +150,6 @@ html {
 .introLogo {
   height: 300px;
 }
-
-/* Main Page Bottom */
 
 /* ToolBar */
 .toolBar {
@@ -198,6 +197,33 @@ html {
   flex-direction: column;
   align-items: center;
   width: 20%;
+}
+
+.toolForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 5px;
+  background-color: rgb(218, 218, 218);
+  width: 88%;
+  padding: 10px 25px;
+  margin-bottom: 30px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9696a2 0 -3px 0 inset;
+  z-index: 1;
+}
+
+.Input {
+  height: 25px;
+  font-size: 18px;
+  color: #36395a;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.addInput {
+  font-size: 18px;
+  color: #36395a;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .toolBuild {
@@ -288,31 +314,4 @@ html {
 
 .legend-label {
   line-height: 20px; /* Match the height of the color box */
-}
-
-.toolForm {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  border-radius: 5px;
-  background-color: rgb(218, 218, 218);
-  width: 88%;
-  padding: 10px 25px;
-  margin-bottom: 30px;
-  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
-    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9696a2 0 -3px 0 inset;
-  z-index: 1;
-}
-
-.Input {
-  height: 25px;
-  font-size: 18px;
-  color: #36395a;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.addInput {
-  font-size: 18px;
-  color: #36395a;
-  font-family: 'JetBrains Mono', monospace;
 }
