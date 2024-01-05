@@ -26,19 +26,20 @@ toolController.postNodes = async (req, res, next) => {
     //Uploads to database and persists through res.locals
     const nodesData = [];
     for (let i = 0; i < parsedDataArray.length; i++) {
-      const { kind, name, uid, creationTimestamp, conditions, namespace } =
-        parsedDataArray[i];
+      const { kind, name, uid, creationTimestamp, conditions } = parsedDataArray[i];
+      console.log(parsedDataArray[i])
       const newNode = await Node.create({
         snapshot,
         kind,
         name,
         uid,
         creationTimestamp,
-        conditions,
+        conditions
       });
       nodesData.push(newNode);
     }
     res.locals.nodesData = nodesData;
+    console.log(res.locals.nodesData);
     return next();
   } catch (error) {
     console.log('Error: In postNodes middleware', error);
