@@ -26,8 +26,8 @@ describe('Server Endpoints', () => {
       it('responds with 301 status and text/html content type', () => {
         return request(server)
           .get('/tool')
-          .expect('Content-Type', /text\/html/)
-          .expect(301); // 301 ->
+          .expect('Content-Type', /application\/json/)
+          .expect(404);
       });
     });
   });
@@ -37,6 +37,21 @@ describe('Server Endpoints', () => {
       it('responds with 200 status and JSON content type', () => {
         return request(server)
           .get('/tool/data')
+          .expect('Content-Type', /application\/json/)
+          .expect(200);
+      });
+    });
+    
+    describe('POST', () => {
+      it('responds with 200 status and JSON content type', () => {
+        return request(server)
+          .post('/tool/data')
+          .send({
+            // PUT YOUR MONGODB LINK (IMPORTANT!!!)
+            databaseLink: 'Input Your MongoDB Link Here',
+            // PUT YOUR API SERVER PORT (IMPORTANT!!!)
+            portNumber: 10000,
+          })
           .expect('Content-Type', /application\/json/)
           .expect(200);
       });
