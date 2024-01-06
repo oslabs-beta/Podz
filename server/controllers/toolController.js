@@ -39,6 +39,7 @@ toolController.postNodes = async (req, res, next) => {
       nodesData.push(newNode);
     }
     res.locals.nodesData = nodesData;
+    console.log("8==D");
     console.log(res.locals.nodesData);
     return next();
   } catch (error) {

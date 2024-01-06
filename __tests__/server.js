@@ -25,7 +25,7 @@ describe('Server Endpoints', () => {
         return request(server)
           .get('/tool')
           .expect('Content-Type', /text\/html/)
-          .expect(301);
+          .expect(301); // 301 -> 
       });
     });
   });

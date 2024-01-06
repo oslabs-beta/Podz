@@ -28,6 +28,7 @@ describe('Database Tests', () => {
       })
     });
   
+    // CREATE JSON FILE AND USE AS A DATABASE
     describe('postNodes', () => {
       it('res.locals.nodesData correctly stored', async () => {
         await db.postNodes(req, res, next);
@@ -42,15 +43,15 @@ describe('Database Tests', () => {
 
     });
   
-    describe('postContainers', () => {
+    xdescribe('postContainers', () => {
       
     });
   
-    describe('postServices', () => {
+    xdescribe('postServices', () => {
       
     });
   
-    describe('clusterData', () => {
+    xdescribe('clusterData', () => {
       
     });
   })
