@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const addDB = async (req, res, next) => {
   try {
-    let mongoURL = req.body.databaseLink;
+    const mongoURL = req.body.databaseLink;
 
-    let connectDB = await mongoose.connect(mongoURL, {
+    const connectDB = await mongoose.connect(mongoURL, {
       dbName: 'ClusterData',
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -73,14 +73,5 @@ const serviceSchema = new Schema({
 });
 
 const Service = mongoose.model('service', serviceSchema);
-
-// const namespaceSchema = new Schema({
-//   snapshot: { type: Number, required: true },
-//   kind: { type: String, required: true },
-//   name: { type: String, required: true },
-//   uid: { type: String, required: true },
-//   creationTimestamp: { type: String, required: true },
-//   status: { type: Object, required: true },
-// });
 
 module.exports = { addDB, Node, Pod, Container, Service };

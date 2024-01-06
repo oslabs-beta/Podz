@@ -5,7 +5,7 @@ const { addDB } = require('../models/toolModel.js');
 const toolController = require('../controllers/toolController.js');
 
 const {
-  addPort,
+  setPort,
   addSnapshotTime,
   postNodes,
   postPods,
@@ -35,7 +35,7 @@ router.get(
   }
 );
 
-router.post('/data', addDB, addPort, (req, res) => {
+router.post('/data', addDB, setPort, (req, res) => {
   return res.status(200).json('Info Added');
 });
 

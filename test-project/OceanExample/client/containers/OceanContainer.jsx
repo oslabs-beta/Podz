@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 const OceanContainer = () => {
   const navigate = useNavigate();
+
   const seeAtlanticOcean = () => {
     navigate('/atlantic');
   };
+
   const seePacificOcean = () => {
     navigate('/pacific');
   };

@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 const ContainerContainer = () => {
   const navigate = useNavigate();
+
   const seeShipContainer = () => {
     navigate('/ship');
   };
+
   const seeDockerContainer = () => {
     navigate('/docker');
   };

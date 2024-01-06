@@ -7,7 +7,7 @@ let apiPort = 10000;
 
 const toolController = {};
 
-toolController.addPort = async (req, res, next) => {
+toolController.setPort = async (req, res, next) => {
   try {
     let userPort = Number(req.body.portNumber);
     if (userPort) {
@@ -15,14 +15,14 @@ toolController.addPort = async (req, res, next) => {
     }
     return next();
   } catch (error) {
-    console.log('Error: In addPort middleware', error);
+    console.log('Error: In setPort middleware', error);
   }
 };
 
 toolController.addSnapshotTime = async (req, res, next) => {
   try {
     res.locals.snapshot = Date.now();
-    console.log('Snapshot time in milliseconds: ', res.locals.snapshot);
+
     return next();
   } catch (error) {
     console.log('Error: In addSnapshotTime middleware', error);
@@ -175,32 +175,6 @@ toolController.postServices = async (req, res, next) => {
     console.log('Error: In postServices middleware', error);
   }
 };
-
-// toolController.postNamespaces = async (req, res, next) => {
-//   try {
-//     const response = await fetch(`http://localhost:${apiPort}/api/v1/namespaces`);
-//     const data = await response.json();
-//     const parsedDataArray = namespacesParser(data);
-
-//     const namespacesData = [];
-//     for (let i = 0; i < parsedDataArray.length; i++) {
-//       const { kind, name, uid, creationTimestamp, conditions } =
-//         parsedDataArray[i];
-//       const newNamespace = await Namespace.create({
-//         kind,
-//         name,
-//         uid,
-//         creationTimestamp,
-//         conditions,
-//       });
-//       namespacesData.push(newNamespace);
-//     }
-//     res.locals.namespacesData = namespacesData;
-//     return next();
-//   } catch (error) {
-//     console.log('Error: In getNamespaces middleware', error);
-//   }
-// };
 
 toolController.clusterData = (req, res, next) => {
   const nodeArray = res.locals.nodesData;

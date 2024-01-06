@@ -26,7 +26,7 @@ const ToolForm = ({ inputStatus }) => {
     <div className='toolForm'>
       <input
         type='text'
-        className='database Input'
+        className='database input'
         placeholder='Enter MongoDB Database Link'
         value={databaseInput}
         onChange={(e) => {
@@ -34,7 +34,7 @@ const ToolForm = ({ inputStatus }) => {
         }}
       />
       <input
-        className='port Input'
+        className='port input'
         placeholder='Enter API Server Proxy Port'
         value={portInput}
         onChange={(e) => {
