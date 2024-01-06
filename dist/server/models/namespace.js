@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var namespace = {
+const namespace = {
     "kind": "NamespaceList",
     "apiVersion": "v1",
     "metadata": {
@@ -153,10 +151,10 @@ var namespace = {
         }
     ]
 };
-var namespaceParser = function (obj) {
-    var newArray = [];
-    obj.items.forEach(function (ele) {
-        var newObj = {};
+const namespaceParser = (obj) => {
+    const newArray = [];
+    obj.items.forEach(ele => {
+        const newObj = {};
         newObj.kind = 'Namespace';
         newObj.name = ele.metadata.name;
         newObj.uid = ele.metadata.uid;

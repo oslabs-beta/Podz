@@ -1,20 +1,14 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Service = exports.Container = exports.Pod = exports.Node = void 0;
-var mongoose_1 = __importDefault(require("mongoose"));
-mongoose_1.default
+import mongoose from 'mongoose';
+mongoose
     .connect(process.env.MONGO_URI, {
     dbName: 'ClusterData',
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-    .then(function () { return console.log('Connected to Mongo DB.'); })
-    .catch(function (error) { return console.log(error); });
-var Schema = mongoose_1.default.Schema;
-var nodeSchema = new Schema({
+    .then(() => console.log('Connected to Mongo DB.'))
+    .catch((error) => console.log(error));
+const Schema = mongoose.Schema;
+const nodeSchema = new Schema({
     snapshot: { type: Number, required: true },
     kind: { type: String, required: true },
     name: { type: String, required: true },
@@ -22,9 +16,8 @@ var nodeSchema = new Schema({
     creationTimestamp: { type: String, required: true },
     conditions: { type: Object, required: true },
 });
-var Node = mongoose_1.default.model('node', nodeSchema);
-exports.Node = Node;
-var podSchema = new Schema({
+const Node = mongoose.model('node', nodeSchema);
+const podSchema = new Schema({
     snapshot: { type: Number, required: true },
     kind: { type: String, required: true },
     name: { type: String, required: true },
@@ -37,9 +30,8 @@ var podSchema = new Schema({
     status: { type: String, required: true },
     conditions: { type: Object, required: true },
 });
-var Pod = mongoose_1.default.model('pod', podSchema);
-exports.Pod = Pod;
-var containerSchema = new Schema({
+const Pod = mongoose.model('pod', podSchema);
+const containerSchema = new Schema({
     snapshot: { type: Number, required: true },
     kind: { type: String, required: true },
     name: { type: String, required: true },
@@ -51,9 +43,8 @@ var containerSchema = new Schema({
     started: { type: Boolean, required: true },
     startedAt: { type: String, required: true },
 });
-var Container = mongoose_1.default.model('container', containerSchema);
-exports.Container = Container;
-var serviceSchema = new Schema({
+const Container = mongoose.model('container', containerSchema);
+const serviceSchema = new Schema({
     snapshot: { type: Number, required: true },
     kind: { type: String, required: true },
     name: { type: String, required: true },
@@ -64,5 +55,13 @@ var serviceSchema = new Schema({
     selector: { type: Object, required: true },
     type: { type: String, required: true },
 });
-var Service = mongoose_1.default.model('service', serviceSchema);
-exports.Service = Service;
+const Service = mongoose.model('service', serviceSchema);
+// const namespaceSchema = new Schema({
+//   snapshot: { type: Number, required: true },
+//   kind: { type: String, required: true },
+//   name: { type: String, required: true },
+//   uid: { type: String, required: true },
+//   creationTimestamp: { type: String, required: true },
+//   status: { type: Object, required: true },
+// });
+export { Node, Pod, Container, Service };

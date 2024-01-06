@@ -1,14 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var dataParser = {};
+const dataParser = {};
 /* Node Parser */
-dataParser.nodesParser = function (nodes) {
+dataParser.nodesParser = (nodes) => {
     //Filters through desired conditions data;
-    var conditionsFilter = function (node) {
-        var resultObj = {};
-        var conditions = node['status']['conditions'];
-        for (var i = 0; i < conditions.length; i++) {
-            var newObj = {
+    const conditionsFilter = (node) => {
+        const resultObj = {};
+        const conditions = node['status']['conditions'];
+        for (let i = 0; i < conditions.length; i++) {
+            const newObj = {
                 status: '',
                 message: ''
             };
@@ -27,11 +25,11 @@ dataParser.nodesParser = function (nodes) {
     //     }
     //   }
     // }
-    var items = nodes.items;
-    var newArray = [];
-    for (var i = 0; i < items.length; i++) {
-        var newObj = {};
-        var node = items[i];
+    const { items } = nodes;
+    const newArray = [];
+    for (let i = 0; i < items.length; i++) {
+        const newObj = {};
+        const node = items[i];
         newObj.kind = 'Node';
         newObj.name = node['metadata']['name'];
         newObj.uid = node['metadata']['uid'];
@@ -45,12 +43,12 @@ dataParser.nodesParser = function (nodes) {
     return newArray;
 };
 /* Pod Parser */
-dataParser.podsParser = function (pods) {
+dataParser.podsParser = (pods) => {
     //Filters through desired conditions data;
-    var conditionsFilter = function (pod) {
-        var resultObj = {};
-        var conditions = pod['status']['conditions'];
-        for (var i = 0; i < conditions.length; i++) {
+    const conditionsFilter = (pod) => {
+        const resultObj = {};
+        const conditions = pod['status']['conditions'];
+        for (let i = 0; i < conditions.length; i++) {
             // resultObj[conditions[i]["type"]] = conditions[i]["type"]
             // const newObj = {};
             // newObj.status = conditions[i]["status"]
@@ -60,13 +58,13 @@ dataParser.podsParser = function (pods) {
         }
         return resultObj;
     };
-    var containerFilter = function (pod) {
-        var resultArray = [];
-        var containers = pod['spec']['containers'];
-        var containerStatuses = pod['status']['containerStatuses'];
+    const containerFilter = (pod) => {
+        const resultArray = [];
+        const containers = pod['spec']['containers'];
+        const containerStatuses = pod['status']['containerStatuses'];
         // console.log(containerStatuses)
-        for (var i = 0; i < containers.length; i++) {
-            var newObj = {};
+        for (let i = 0; i < containers.length; i++) {
+            const newObj = {};
             newObj.name = containers[i]['name'];
             newObj.image = containers[i]['image'];
             newObj.ready = containerStatuses[i]['ready'];
@@ -78,19 +76,19 @@ dataParser.podsParser = function (pods) {
         }
         return resultArray;
     };
-    var labelFilter = function (pod) {
-        var resultObj = {};
-        for (var key in pod) {
-            var keyWithoutPeriods = key.replace(/\./g, '%2E');
+    const labelFilter = (pod) => {
+        const resultObj = {};
+        for (let key in pod) {
+            const keyWithoutPeriods = key.replace(/\./g, '%2E');
             resultObj[keyWithoutPeriods] = pod[key];
         }
         return resultObj;
     };
-    var items = pods.items;
-    var newArray = [];
-    for (var i = 0; i < items.length; i++) {
-        var newObj = {};
-        var pod = items[i];
+    const { items } = pods;
+    const newArray = [];
+    for (let i = 0; i < items.length; i++) {
+        const newObj = {};
+        const pod = items[i];
         newObj.kind = 'Pod';
         newObj.name = pod['metadata']['name'];
         newObj.namespace = pod['metadata']['namespace'];
@@ -109,11 +107,11 @@ dataParser.podsParser = function (pods) {
     return newArray;
 };
 /* Service Parser */
-dataParser.servicesParser = function (service) {
-    var newArray = [];
-    for (var i = 0; i < service.items.length; i++) {
-        var ele = service.items[i];
-        var newObj = {};
+dataParser.servicesParser = (service) => {
+    const newArray = [];
+    for (let i = 0; i < service.items.length; i++) {
+        const ele = service.items[i];
+        const newObj = {};
         newObj.kind = 'Service';
         newObj.name = ele.metadata.name;
         newObj.namespace = ele.metadata.namespace;
@@ -142,4 +140,4 @@ dataParser.servicesParser = function (service) {
 //   });
 //   return newArray;
 // };
-exports.default = dataParser;
+export default dataParser;

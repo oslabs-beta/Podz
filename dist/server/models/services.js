@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var serviceObject = {
+const serviceObject = {
     "kind": "ServiceList",
     "apiVersion": "v1",
     "metadata": {
@@ -303,12 +301,12 @@ var serviceObject = {
         }
     ]
 };
-var usefulData = function (obj) {
-    var result = [];
+const usefulData = (obj) => {
+    const result = [];
     // for (let i = 0; i < obj.items.length; i++) {
     // }
-    obj.items.forEach(function (ele) {
-        var node = {};
+    obj.items.forEach(ele => {
+        const node = {};
         node.kind = obj.kind;
         node.name = ele.metadata.name;
         node.uid = ele.metadata.uid;
