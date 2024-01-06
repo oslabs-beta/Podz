@@ -11,6 +11,11 @@
   },
   "author": "",
   "license": "ISC",
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|webp|svg)$": "identity-obj-proxy"
+    }
+  },
   "dependencies": {
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.0.2",
