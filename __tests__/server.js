@@ -42,14 +42,15 @@ describe('Server Endpoints', () => {
       });
     });
 
-    xdescribe('POST', () => {
+    describe('POST', () => {
       it('responds with 200 status and JSON content type', () => {
         return request(server)
           .post('/tool/data')
           .send({
-            // PUT YOUR MONGODB LINK (IMPORTANT!!!!)
+            // PUT YOUR MONGODB LINK (IMPORTANT!!!)
             databaseLink: 'Input Your MongoDB Link Here',
-            portNumber: 56789,
+            // PUT YOUR API SERVER PORT (IMPORTANT!!!)
+            portNumber: 10000,
           })
           .expect('Content-Type', /application\/json/)
           .expect(200);

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const db = require('../server/controllers/toolController');
 const {
   addDB,
   Node,
@@ -7,6 +6,8 @@ const {
   Container,
   Service,
 } = require('../server/models/toolModel.js');
+
+const controller = require('../server/controllers/toolController.js');
 
 jest.setTimeout(60000); // 60 sec before timeout
 
@@ -17,13 +18,16 @@ describe('Database Tests', () => {
 
   afterAll(() => {
     Node.findOneAndDelete({ snapshot: res.locals.snapshot });
+    Pod.findOneAndDelete({ snapshot: res.locals.snapshot });
+    Container.findOneAndDelete({ snapshot: res.locals.snapshot });
+    Service.findOneAndDelete({ snapshot: res.locals.snapshot });
     mongoose.disconnect();
   });
 
   describe('Setting up database and port before loading cluster', () => {
     describe('addDB', () => {
       it('Connected to a database', async () => {
-        // PUT YOUR MONGODB LINK (IMPORTANT!!!!)
+        // PUT YOUR MONGODB LINK (IMPORTANT!!!)
         req.body.databaseLink = 'Input Your MongoDB Link Here';
         await addDB(req, res, next);
         expect(next).toHaveBeenCalled();
@@ -32,8 +36,9 @@ describe('Database Tests', () => {
 
     describe('setPort', () => {
       it('Successfully set a port', async () => {
-        req.body.portNumber = 56789;
-        await db.setPort(req, res, next);
+        // PUT YOUR API SERVER PORT (IMPORTANT!!!)
+        req.body.portNumber = 10000;
+        await controller.setPort(req, res, next);
         expect(next).toHaveBeenCalled();
       });
     });
@@ -42,7 +47,7 @@ describe('Database Tests', () => {
   describe('toolController', () => {
     describe('addSnapshotTime', () => {
       it('res.locals.snapshot correctly stored', async () => {
-        await db.addSnapshotTime(req, res, next);
+        await controller.addSnapshotTime(req, res, next);
         expect(res.locals.snapshot).toEqual(expect.any(Number));
         expect(next).toHaveBeenCalled();
       });
@@ -50,7 +55,7 @@ describe('Database Tests', () => {
 
     describe('postNodes', () => {
       it('res.locals.nodesData correctly stored', async () => {
-        await db.postNodes(req, res, next);
+        await controller.postNodes(req, res, next);
         expect(res.locals.nodesData.length).not.toEqual(0);
         expect(next).toHaveBeenCalled();
       });
@@ -58,7 +63,7 @@ describe('Database Tests', () => {
 
     describe('postPods', () => {
       it('res.locals.podsData correctly stored', async () => {
-        await db.postPods(req, res, next);
+        await controller.postPods(req, res, next);
         expect(res.locals.podsData.length).not.toEqual(0);
         expect(next).toHaveBeenCalled();
       });
@@ -66,7 +71,7 @@ describe('Database Tests', () => {
 
     describe('postContainers', () => {
       it('res.locals.containersData correctly stored', async () => {
-        await db.postContainers(req, res, next);
+        await controller.postContainers(req, res, next);
         expect(res.locals.containersData.length).not.toEqual(0);
         expect(next).toHaveBeenCalled();
       });
@@ -74,7 +79,7 @@ describe('Database Tests', () => {
 
     describe('postServices', () => {
       it('res.locals.servicesData correctly stored', async () => {
-        await db.postServices(req, res, next);
+        await controller.postServices(req, res, next);
         expect(res.locals.servicesData.length).not.toEqual(0);
         expect(next).toHaveBeenCalled();
       });
@@ -82,10 +87,9 @@ describe('Database Tests', () => {
 
     describe('clusterData', () => {
       it('res.locals.clusterData correctly stored', async () => {
-        await db.clusterData(req, res, next);
+        await controller.clusterData(req, res, next);
         expect(res.locals.clusterData.length).not.toEqual(0);
         expect(next).toHaveBeenCalled();
-        console.log(res);
       });
     });
   });
