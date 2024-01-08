@@ -9,7 +9,7 @@ const App = ()=> {
       path: '/',
       element: <MainContainer />,
     },
-    { 
+    {
       path: '/tool', 
       element: <ToolContainer /> 
     },
