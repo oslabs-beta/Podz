@@ -1,0 +1,307 @@
+/* Both Site */
+body {
+  margin: 0px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Main Site */
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 200px;
+}
+
+.mainContainer #featureContainer,
+#demoContainer,
+#teamContainer {
+  padding: 0px 0px 0px 0px;
+  text-align: center;
+  font-family: 'Jura', sans-serif;
+}
+
+/* NavBar */
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navName {
+  color: #36395a;
+  height: 50px;
+  font-family: 'Jura', sans-serif;
+  font-size: 50px;
+  font-weight: bold;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.navTab {
+  display: flex;
+  gap: 20px;
+  margin-right: 50px;
+}
+
+.navTab a {
+  font-size: 22px;
+  font-family: 'Jura', sans-serif;
+  text-decoration: none;
+  color: #36395a;
+}
+
+.navTab a:hover {
+  position: relative;
+  top: -2px;
+}
+
+/* Intro Section */
+.introContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jura', sans-serif;
+  gap: 150px;
+  margin-top: 250px;
+}
+
+.introText {
+  font-size: 20px;
+  width: 25%;
+  text-align: center;
+  color: #36395a;
+}
+
+.introLogo {
+  height: 300px;
+}
+
+/* Feature Section */
+.featureContent {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.featureTextTitle {
+  font-weight: bold;
+  text-align: center;
+}
+
+#feature1,
+#feature2,
+#feature3 {
+  font-size: 15px;
+  margin-inline: 1%;
+  text-align: center;
+  width: 20%;
+}
+
+#feature2 {
+  border-inline: groove;
+}
+
+.icon {
+  height: 100px;
+  width: 100px;
+}
+
+/* Demo Section */
+.demoButton {
+  align-self: center;
+  display: inline-flex;
+  justify-content: center;
+  width: 20%;
+  font-size: 25px;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: rgb(218, 218, 218);
+  border-radius: 5px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9696a2 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #36395a;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  height: 50px;
+  text-decoration: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow, transform;
+}
+
+.demoButton:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.demoButton:active {
+  box-shadow: #d6d6e7 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+/* Tool Site */
+.toolContainer {
+  height: 100vh;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0),
+    rgba(41, 212, 255, 1) 0%,
+    rgba(0, 158, 201, 1) 20%,
+    rgba(0, 134, 207, 1) 40%,
+    rgba(0, 109, 212, 1) 60%,
+    rgba(0, 82, 176, 1) 80%,
+    rgba(11, 64, 143, 1) 100%
+  );
+}
+
+/* ToolBar */
+.toolBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.toolName {
+  color: #36395a;
+  height: 50px;
+  font-family: 'Jura', sans-serif;
+  font-size: 50px;
+  font-weight: bold;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* Tool Display */
+.toolDisplayContainer {
+  display: flex;
+}
+
+/* Tool Tree */
+.toolTree {
+  padding-left: 50px;
+  width: 75%;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 0px 10px 0px 10px;
+  background-color: #36395a;
+  font-family: 'JetBrains Mono', monospace;
+  color: white;
+  border-radius: 5px;
+}
+
+/* Tool Form */
+.toolInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20%;
+}
+
+.toolForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 5px;
+  background-color: rgb(218, 218, 218);
+  width: 88%;
+  padding: 10px 25px;
+  margin-bottom: 30px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9696a2 0 -3px 0 inset;
+  z-index: 1;
+}
+
+.input {
+  height: 25px;
+  font-size: 18px;
+  color: #36395a;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.addInput {
+  font-size: 18px;
+  color: #36395a;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.toolBuild {
+  align-self: center;
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 25px;
+  padding: 10px;
+  background-color: rgb(218, 218, 218);
+  border-radius: 5px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9696a2 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #36395a;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  height: 50px;
+  text-decoration: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow, transform;
+  z-index: 1;
+}
+
+.toolBuild:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.toolBuild:active {
+  box-shadow: #d6d6e7 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+/* Tool Metric */
+.toolMetric {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border-width: 0;
+  background-color: rgb(218, 218, 218);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 19px;
+  color: #36395a;
+  height: 80%;
+  width: 88%;
+  padding: 10px 25px;
+  margin-top: 30px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9696a2 0 -3px 0 inset;
+  z-index: 1;
+}
+
+.toolMetric ul {
+  padding: 0px 0px 0px 20px;
+  margin: 5px;
+}
