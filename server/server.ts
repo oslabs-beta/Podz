@@ -1,4 +1,4 @@
-const express = require('express');
+import express, { Request, Response, NextFunction } from 'express';
 
 const app = express();
 const PORT = 3000;
@@ -8,12 +8,20 @@ const toolRouter = require('./routers/toolRouter.js');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+interface ServerError {
+  log: string;
+  status: number;
+  message: { err: string };
+}
+
 app.use('/tool', toolRouter);
 
-app.use((req, res) => res.status(404).send('Page Not Found'));
+app.use((req: Request, res: Response) =>
+  res.status(404).send('Page Not Found')
+);
 
-app.use((err, req, res, next) => {
-  const defaultErr = {
+app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
+  const defaultErr: ServerError = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
     message: { err: 'An error occurred' },
@@ -26,5 +34,3 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });
-
-module.exports = app;

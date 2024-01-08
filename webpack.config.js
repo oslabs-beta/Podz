@@ -1,10 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    src: './client/index.js',
+    src: './client/index.tsx',
   },
   output: {
     filename: 'bundle.js',
@@ -21,6 +22,11 @@ module.exports = {
         },
       },
       {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+      {
         test: /\.css/,
         use: ['style-loader', 'css-loader'],
       },
@@ -30,10 +36,16 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
       template: './client/index.html',
+    }),
+    new CopyPlugin({
+      patterns: [{ from: './client/styles.css' }],
     }),
   ],
   devServer: {
