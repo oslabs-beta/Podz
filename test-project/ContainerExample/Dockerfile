@@ -10,6 +10,7 @@ COPY . .
 
 CMD ["npm", "run", "dev"]
 
+# open the terminal in ContainerExample
 # run 'docker build -t containerexample:1.0 .'
 # check your images with 'docker images' or use docker desktop
 # run 'docker run -d -p 2223:8080 containerexample:1.0'

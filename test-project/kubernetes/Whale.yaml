@@ -59,4 +59,4 @@ spec:
       # this needs to be the port of the pods
       targetPort: 8080
       # from nodeport type
-      nodePort: 31001
+      nodePort: 31003

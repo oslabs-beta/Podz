@@ -11,15 +11,17 @@ const DustParticles = () => {
       setInit(true);
     });
   }, []);
-  const particlesLoaded = (container) => {
-    console.log(container);
-  };
+
+  // const particlesLoaded = (container) => {
+  //   console.log(container);
+  // };
+
   return (
     <div>
       {init && (
         <Particles
           id='dustParticles'
-          particlesLoaded={particlesLoaded}
+          // particlesLoaded={particlesLoaded}
           options={{
             fullScreen: true,
             // background: {

@@ -24,27 +24,17 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // Specify the dimensions of the chart.
+    // Specify the dimensions of the canvas.
     const width = 1400;
     const height = 759;
     // const width = 700;
     // const height = 600;
 
-    // const radius = 15; // radius of circle
     let imageRadius = 60; // radius of image
-
-    // calculates the device pixel ratio
-    const dpi = window.devicePixelRatio;
-
-    /* Specify the color scale; schemeCategory10 provides an array of 10 diff colors
-      scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
-    TLDR: different color for nodes in different groups; used for circles */
-    // const color = d3.scaleOrdinal(d3.schemeCategory10);
+    const dpi = window.devicePixelRatio; // calculates the device pixel ratio
 
     const nodes = clusterData.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
-    // const specificNode = nodes.find(node => node.kind === 'MasterNode');
-    // const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
-    const links = [];
+    const links = []; // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     for (const ele of nodes) {
       if (ele.kind === 'Node') {
         links.push({ source: nodes[0].name, target: ele.name });
@@ -68,26 +58,20 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
     }
     const simulation = d3
       .forceSimulation(nodes) // creates new force simulation
-      // .force() -> adds a force to simulation
-      // force("name", function)
-      .force(
+      .force( // .force() -> adds a force to simulation
         'link',
         d3
           .forceLink(links)
           .id((d) => d.name) // links and gives id to nodes
-          .distance((d) => {
+          .distance((d) => { // link's length
             if (d.source.kind === 'Pod' && d.target.kind === 'Node') return 175;
             return 125;
-          }) // link's length
+          })
       )
-<<<<<<< HEAD
-      .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
-=======
       .force('charge', d3.forceManyBody().strength(-70).theta(0)) // repels all nodes when dragging a node
->>>>>>> 08e01b5952c4512513118d5d2bb970dd91a52f1c
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
-      .on('tick', draw) // event listener; updates node positions or visualization
+      .on('tick', draw) // each tick will update the node positions
 
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
@@ -110,43 +94,22 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
 
       /*-------------------NODES-------------------*/
       context.globalAlpha = 1; // transparency for nodes
-
-      // nodes.filter(node => node.kind !== 'MasterNode').forEach(drawNode);
-      // const specificNode = nodes.find(node => node.kind === 'MasterNode');
-      // if (specificNode) drawNode(specificNode);
-      nodes.forEach((node) => {
-        drawNode(node); // Draw the node
-        // context.fillStyle = color(node.group); // Color of node based on group #
-        // context.strokeStyle = node.strokeStyle; // #000 gives the circles a black outline
-        // context.fill(); // renders color onto node
-        // context.stroke(); // stroke the path for the node
-      });
+      nodes.forEach(drawNode);
       context.restore(); // Restore the drawing state to what it was before the second context.save()
     }
 
     function drawLink(d) {
-      // Move the drawing cursor to (x, y) position
+      // Moves the drawing cursor to (x, y) position
       context.moveTo(d.source.x, d.source.y);
 
-      // Draw a line from the current cursor position to the new point
+      // Draws a line from the current cursor position to the new point
       context.lineTo(d.target.x, d.target.y);
 
       context.stroke(); // renders the line of the links
-      // context.restore(); // Restore the drawing state to what it was before the context.save()
     }
 
     function drawNode(d) {
       context.beginPath(); // Begin a new path for drawing each node
-      /*-----------------------CIRCLES-----------------------*/
-      /* Move the drawing cursor to (x, y) position
-         nodes has a weird white line when x is too low */
-      // context.moveTo(d.x + 10, d.y);
-
-      /* modifies the circles (nodes)
-         context.arc(x, y, radius, startAngle, endAngle, anticlockwise); */
-      // context.arc(d.x, d.y, 15, 0, 2 * Math.PI);
-
-      /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x, d.y);
       const img = new Image();
       if (d.kind === 'MasterNode') {

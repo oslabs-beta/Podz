@@ -1,7 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv'
-dotenv.config();
-import toolRouter from './routers/toolRouter'
+import toolRouter from './routers/toolRouter.js'
 
 interface ServerError {
   log: string;

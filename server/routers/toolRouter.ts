@@ -1,8 +1,11 @@
 import path from 'path'
+import { fileURLToPath } from 'url';
 import express, { Request, Response } from 'express'
-import toolController from '../controllers/toolController'
+import { addDB } from '../models/toolModel.js';
+import toolController from '../controllers/toolController.js'
 
 const {
+  setPort,
   addSnapshotTime,
   postNodes,
   postPods,
@@ -12,7 +15,8 @@ const {
 } = toolController;
 
 const router = express.Router();
-
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 router.use(express.static(path.resolve(__dirname, '../../build')));
 
 router.get('/', (req: Request, res: Response) =>
@@ -27,12 +31,13 @@ router.get(
   postContainers,
   postServices,
   clusterData,
-  (req: Request, res: Response) => {
+  (req, res) => {
     return res.status(200).json(res.locals.clusterData);
   }
 );
 
-// router.get('/data', (req: Request, res: Response) => {
-  
-// })
+router.post('/data', addDB, setPort, (req: Request, res: Response) => {
+  return res.status(200).json('Info Added');
+});
+
 export default router;

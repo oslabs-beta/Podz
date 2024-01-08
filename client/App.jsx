@@ -3,13 +3,16 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import MainContainer from './containers/MainContainer.jsx';
 import ToolContainer from './containers/ToolContainer.jsx';
 
-const App = () => {
+const App = ()=> {
   const router = createBrowserRouter([
     {
       path: '/',
       element: <MainContainer />,
     },
-    { path: '/tool', element: <ToolContainer /> },
+    { 
+      path: '/tool', 
+      element: <ToolContainer /> 
+    },
   ]);
 
   return (

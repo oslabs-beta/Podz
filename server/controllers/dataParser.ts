@@ -146,19 +146,4 @@ dataParser.servicesParser = (service: any) => {
   return newArray;
 };
 
-// dataParsers.namespacesParser = (obj) => {
-//   const newArray = [];
-
-//   obj.items.forEach((ele) => {
-//     const newObj = {};
-//     newObj.kind = 'Namespace';
-//     newObj.name = ele.metadata.name;
-//     newObj.uid = ele.metadata.uid;
-//     newObj.creationTimestamp = ele.metadata.creationTimestamp;
-//     newObj.status = ele.status;
-//     newArray.push(newObj);
-//   });
-//   return newArray;
-// };
-
 export default dataParser;
