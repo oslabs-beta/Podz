@@ -41,7 +41,7 @@ describe('Server Endpoints', () => {
           .expect(200);
       });
     });
-
+    
     describe('POST', () => {
       it('responds with 200 status and JSON content type', () => {
         return request(server)
