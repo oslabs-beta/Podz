@@ -11,7 +11,7 @@ const controller = require('../server/controllers/toolController.js');
 
 jest.setTimeout(60000); // 60 sec before timeout
 
-describe('Database Tests', () => {
+describe('Middleware Tests', () => {
   const req = { body: {} };
   const res = { locals: {} };
   const next = jest.fn(); // Jest mock function
