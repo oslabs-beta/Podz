@@ -4,7 +4,7 @@ import IntroContainer from './IntroContainer.jsx';
 import FeatureContainer from './FeatureContainer.jsx';
 import DemoContainer from './DemoContainer.jsx';
 import TeamContainer from './TeamContainer.jsx';
-import Particle from '../components/Particle.jsx';
+import MainParticle from '../components/MainParticle.jsx';
 
 const MainContainer = () => {
   return (
@@ -14,7 +14,7 @@ const MainContainer = () => {
       <FeatureContainer />
       <DemoContainer />
       <TeamContainer />
-      <Particle />
+      <MainParticle />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 
-const DustParticles = () => {
+const MainParticle = () => {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -21,20 +21,19 @@ const DustParticles = () => {
     <div>
       {init && (
         <Particles
-          id='dustParticles'
+          id='mainParticle'
           particlesLoaded={particlesLoaded}
           options={{
-            fullScreen: true,
             // background: {
             //   color: {
-            //     value: '#0D47A1',
+            //     value: '#0d47a1',
             //   },
             // },
             fpsLimit: 120,
             interactivity: {
               events: {
                 onClick: {
-                  enable: false,
+                  enable: true,
                   mode: 'push',
                 },
                 onHover: {
@@ -48,27 +47,27 @@ const DustParticles = () => {
                   quantity: 4,
                 },
                 repulse: {
-                  distance: 100,
-                  duration: 3,
+                  distance: 200,
+                  duration: 0.4,
                 },
               },
             },
             particles: {
               color: {
-                value: 'ffffff',
+                value: '#0B408F',
               },
               links: {
                 color: '#0B408F',
                 distance: 150,
-                enable: false,
+                enable: true,
                 opacity: 0.5,
                 width: 1,
               },
               move: {
-                direction: 'top',
+                direction: 'none',
                 enable: true,
                 outModes: {
-                  default: 'out',
+                  default: 'bounce',
                 },
                 random: false,
                 speed: 1,
@@ -82,7 +81,7 @@ const DustParticles = () => {
                 value: 80,
               },
               opacity: {
-                value: 0.5,
+                value: 0.1,
               },
               shape: {
                 type: 'circle',
@@ -98,4 +97,5 @@ const DustParticles = () => {
     </div>
   );
 };
-export default DustParticles;
+
+export default MainParticle;

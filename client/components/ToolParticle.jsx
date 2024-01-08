@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 
-const Particle = () => {
+const ToolParticle = () => {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -21,19 +21,20 @@ const Particle = () => {
     <div>
       {init && (
         <Particles
-          id='tsparticles'
+          id='toolParticle'
           particlesLoaded={particlesLoaded}
           options={{
+            fullScreen: true,
             // background: {
             //   color: {
-            //     value: '#0d47a1',
+            //     value: '#0D47A1',
             //   },
             // },
             fpsLimit: 120,
             interactivity: {
               events: {
                 onClick: {
-                  enable: true,
+                  enable: false,
                   mode: 'push',
                 },
                 onHover: {
@@ -47,27 +48,27 @@ const Particle = () => {
                   quantity: 4,
                 },
                 repulse: {
-                  distance: 200,
-                  duration: 0.4,
+                  distance: 100,
+                  duration: 3,
                 },
               },
             },
             particles: {
               color: {
-                value: '#0B408F',
+                value: 'ffffff',
               },
               links: {
                 color: '#0B408F',
                 distance: 150,
-                enable: true,
+                enable: false,
                 opacity: 0.5,
                 width: 1,
               },
               move: {
-                direction: 'none',
+                direction: 'top',
                 enable: true,
                 outModes: {
-                  default: 'bounce',
+                  default: 'out',
                 },
                 random: false,
                 speed: 1,
@@ -81,7 +82,7 @@ const Particle = () => {
                 value: 80,
               },
               opacity: {
-                value: 0.1,
+                value: 0.5,
               },
               shape: {
                 type: 'circle',
@@ -97,5 +98,4 @@ const Particle = () => {
     </div>
   );
 };
-
-export default Particle;
+export default ToolParticle;
