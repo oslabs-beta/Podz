@@ -5,9 +5,10 @@ import workerNode from '../assets/workerNode.png';
 import pod from '../assets/pods.png';
 import container from '../assets/containers.png';
 import service from '../assets/services.png';
+import { ToolTreeProps } from '../../types';
 
-const ToolTree = ({ setToolMetric, clusterData }) => {
-  const commonKeysAndValues = (obj1, obj2) => {
+const ToolTree = ({ setToolMetric, clusterData }: ToolTreeProps) => {
+  const commonKeysAndValues = (obj1: any, obj2: any) => {
     const matchingKeys = Object.keys(obj1).filter((key) =>
       obj2.hasOwnProperty(key)
     );
@@ -24,34 +25,23 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // Specify the dimensions of the chart.
+    // Specify the dimensions of the canvas.
     const width = 1400;
     const height = 759;
     // const width = 700;
     // const height = 600;
 
-    // const radius = 15; // radius of circle
     let imageRadius = 60; // radius of image
+    const dpi = window.devicePixelRatio; // calculates the device pixel ratio
 
-    // calculates the device pixel ratio
-    const dpi = window.devicePixelRatio;
-
-    /* Specify the color scale; schemeCategory10 provides an array of 10 diff colors
-      scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
-    TLDR: different color for nodes in different groups; used for circles */
-    // const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-    // The force simulation mutates links and nodes, so create a copy
-    // so that re-evaluating this cell produces the same result.
-    const nodes = clusterData.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
-    // const links = data.links.map((d) => ({ ...d })); // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
-    const links = [];
+    const nodes: any = clusterData.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
+    const links: any[] = []; // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
     for (const ele of nodes) {
       if (ele.kind === 'Node') {
-        links.push({ source: ele.name, target: nodes[0].name });
+        links.push({ source: nodes[0].name, target: ele.name });
         for (const ele2 of nodes) {
           if (ele2.kind === 'Pod' && ele2.nodeName === ele.name) {
-            links.push({ source: ele.name, target: ele2.name });
+            links.push({ source: ele2.name, target: ele.name });
           }
         }
       } else if (ele.kind === 'Pod') {
@@ -62,29 +52,29 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
             ele2.kind === 'Service' &&
             commonKeysAndValues(ele.labels, ele2.selector)
           ) {
-            links.push({ source: ele.name, target: ele2.name });
+            links.push({ source: ele2.name, target: ele.name });
           }
         }
       }
     }
     const simulation = d3
       .forceSimulation(nodes) // creates new force simulation
-      // .force() -> adds a force to simulation
-      // force("name", function)
       .force(
+        // .force() -> adds a force to simulation
         'link',
         d3
           .forceLink(links)
           .id((d: any) => d.name) // links and gives id to nodes
           .distance((d) => {
+            // link's length
             if (d.source.kind === 'Pod' && d.target.kind === 'Node') return 175;
             return 125;
-          }) // link's length
+          })
       )
       .force('charge', d3.forceManyBody().strength(-70).theta(0)) // repels all nodes when dragging a node
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
-      .on('tick', draw); // event listener; updates node positions or visualization
+      .on('tick', draw); // each tick will update the node positions
 
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
@@ -107,43 +97,22 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
 
       /*-------------------NODES-------------------*/
       context.globalAlpha = 1; // transparency for nodes
-
-      // nodes.filter(node => node.kind !== 'MasterNode').forEach(drawNode);
-      // const specificNode = nodes.find(node => node.kind === 'MasterNode');
-      // if (specificNode) drawNode(specificNode);
-      nodes.forEach((node) => {
-        drawNode(node); // Draw the node
-        // context.fillStyle = color(node.group); // Color of node based on group #
-        // context.strokeStyle = node.strokeStyle; // #000 gives the circles a black outline
-        // context.fill(); // renders color onto node
-        // context.stroke(); // stroke the path for the node
-      });
+      nodes.forEach(drawNode);
       context.restore(); // Restore the drawing state to what it was before the second context.save()
     }
 
-    function drawLink(d) {
-      // Move the drawing cursor to (x, y) position
+    function drawLink(d: any) {
+      // Moves the drawing cursor to (x, y) position
       context.moveTo(d.source.x, d.source.y);
 
-      // Draw a line from the current cursor position to the new point
+      // Draws a line from the current cursor position to the new point
       context.lineTo(d.target.x, d.target.y);
 
       context.stroke(); // renders the line of the links
-      // context.restore(); // Restore the drawing state to what it was before the context.save()
     }
 
-    function drawNode(d) {
+    function drawNode(d: any) {
       context.beginPath(); // Begin a new path for drawing each node
-      /*-----------------------CIRCLES-----------------------*/
-      /* Move the drawing cursor to (x, y) position
-         nodes has a weird white line when x is too low */
-      // context.moveTo(d.x + 10, d.y);
-
-      /* modifies the circles (nodes)
-         context.arc(x, y, radius, startAngle, endAngle, anticlockwise); */
-      // context.arc(d.x, d.y, 15, 0, 2 * Math.PI);
-
-      /*-----------------------IMAGE INSTEAD OF CIRCLES-----------------------*/
       context.moveTo(d.x, d.y);
       const img = new Image();
       if (d.kind === 'MasterNode') {
@@ -202,12 +171,12 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       .on('mousemove', hovered)
       .on('click', clicked); // clicks on whole canvas, not nodes
 
-    function hovered(event) {
+    function hovered(event: any) {
       if (event.defaultPrevented) return; // if any other event, return
       const [mouseX, mouseY] = d3.pointer(event);
 
-      let hoveredNode = null;
-      nodes.forEach((node) => {
+      let hoveredNode: any = null;
+      nodes.forEach((node: any) => {
         // d3.bisector(); maybe another way to find closest node
         const distance = Math.sqrt(
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
@@ -266,12 +235,12 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       }
     }
 
-    function clicked(event) {
+    function clicked(event: any) {
       if (event.defaultPrevented) return; // if any other event, return
 
       const [mouseX, mouseY] = d3.pointer(event);
 
-      nodes.forEach((node) => {
+      nodes.forEach((node: any) => {
         const distance = Math.sqrt(
           (node.x - mouseX) ** 2 + (node.y - mouseY) ** 2
         );
@@ -288,7 +257,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
       });
     }
 
-    function dragstarted(event) {
+    function dragstarted(event: any) {
       // alphaTarget is the "temperature" of the simulation
       // it gets "hot" when dragging fast and vice versa
       // hot -> nodes move freely; cold -> nodes move slow
@@ -299,14 +268,14 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
     }
 
     // Update the subject (dragged node) position during drag.
-    function dragged(event) {
+    function dragged(event: any) {
       event.subject.fx = event.x;
       event.subject.fy = event.y;
     }
 
     // Restore the target alpha so the simulation cools after dragging ends.
     // Unfix the subject position now that it's no longer being dragged.
-    function dragended(event) {
+    function dragended(event: any) {
       if (!event.active) simulation.alphaTarget(0);
       event.subject.fx = null;
       event.subject.fy = null;
