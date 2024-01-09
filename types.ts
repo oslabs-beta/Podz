@@ -67,6 +67,12 @@ export interface ServiceSnap extends ServiceType {
   snapshot: Number;
 }
 
+export interface dataParserType {
+  nodesParser(nodes: any): NodeType[];
+  podsParser(pods: any): PodType[];
+  servicesParser(services: any): ServiceType[];
+}
+
 export interface toolControllerType {
   setPort: RequestHandler;
   addSnapshotTime: RequestHandler;
@@ -75,10 +81,4 @@ export interface toolControllerType {
   postContainers: RequestHandler;
   postServices: RequestHandler;
   clusterData: RequestHandler;
-}
-
-export interface dataParserType {
-  nodesParser(nodes: any): NodeType[];
-  podsParser(pods: any): PodType[];
-  servicesParser(services: any): ServiceType[];
 }

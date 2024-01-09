@@ -13,16 +13,11 @@ const ToolParticle = () => {
     });
   }, []);
 
-  // const particlesLoaded = (container) => {
-  //   console.log(container);
-  // };
-
   return (
     <div>
       {init && (
         <Particles
           id='toolParticle'
-          // particlesLoaded={particlesLoaded}
           options={{
             fullScreen: true,
             fpsLimit: 120,

@@ -13,16 +13,11 @@ const MainParticle = () => {
     });
   }, []);
 
-  // const particlesLoaded = (container) => {
-  //   console.log(container);
-  // };
-
   return (
     <div>
       {init && (
         <Particles
           id='mainParticle'
-          // particlesLoaded={particlesLoaded}
           options={{
             fpsLimit: 120,
             interactivity: {
