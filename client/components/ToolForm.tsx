@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { ToolFormProps } from '../../types';
 
-const ToolForm = ({ inputStatus }) => {
+const ToolForm = ({ inputStatus }: ToolFormProps) => {
   const [databaseInput, setDatabaseInput] = useState('');
   const [portInput, setPortInput] = useState('');
 

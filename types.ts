@@ -1,3 +1,26 @@
+//frontend types
+export interface ToolFormProps {
+  inputStatus(): void;
+}
+
+export interface ToolMetricProps {
+  nodeData: any;
+}
+
+export interface ToolTreeProps {
+  setToolMetric: any;
+  clusterData: {
+    data: (
+      | NodeSnap
+      | PodSnap
+      | ContainerSnap
+      | ServiceSnap
+      | { kind: String }
+    )[];
+  };
+}
+
+//backend types
 import { RequestHandler } from 'express';
 
 export interface ServerError {
