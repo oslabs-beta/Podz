@@ -3,7 +3,8 @@
 <div align='center'>
 
 [![JavaScript](https://img.shields.io/badge/javascript-yellow?style=for-the-badge&logo=javascript&logoColor=white)](https://www.javascript.com/)
-[![React](https://img.shields.io/badge/-react-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-343434?style=for-the-badge&logo=react&logoColor=00FFFF)](https://react.dev/)
 [![Node](https://img.shields.io/badge/-node-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en)
 [![Express](https://img.shields.io/badge/-Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![Docker](https://img.shields.io/badge/docker-%232496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
@@ -12,7 +13,7 @@
 ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 [![D3.js](https://img.shields.io/badge/D3.js-363636?style=for-the-badge&logo=d3.js&logoColor=orange)](https://d3js.org/)
-
+[![Jest](https://img.shields.io/badge/Jest-900C3F?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
 
 </div>
 
@@ -26,6 +27,7 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 - 📒 [Getting Started](#getting-started)
   - [Using Minikube](#using-minikube)
   - [Using Standalone Kubernetes](#using-standalone-kubernetes)
+- [Examples](#examples)
 - 🛠 [Roadmap](#roadmap)
 - 🔗 [Contributions](#contributions)
 - 🙆 [Founders](#founders)
@@ -39,9 +41,18 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 - Podz, an open-source Kubernetes dev tool, is designed to assist developers in visualizing the architecture of their Kubernetes clusters
 - Our web-based GUI enables users of any operating system running a local Kubernetes cluster to effortlessly showcase and visualize their cluster
 - With a single click, our platform easily retrieves, stores, and presents comprehensive cluster architecture along with health metrics for each node, pod, container, and service.
+- You can view previous metrics with the use of snapshots.
 - Included is an example project for users to test and explore Podz, allowing them to try out its features firsthand.
 
 ## Getting Started
+
+Download:
+
+- Docker Desktop (`https://www.docker.com/products/docker-desktop/`)
+- kubectl (`https://kubernetes.io/docs/tasks/tools/`)
+- Minikube (`https://minikube.sigs.k8s.io/docs/start/`).
+
+You need to have containers up and running before continuing on. If you need project examples, go to [examples](#examples).
 
 ### Using Minikube
 
@@ -51,30 +62,28 @@ To use Minikube with Podz, start Minikube with this command:
 > minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
 
 What this command does is start up minikube and prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
-Next, run the kubectl command:
-
-> kubectl proxy --port=4321
-
-What this command does is proxy the Kubernetes API Server on the specified port, which is required for Podz to function.
-
-We recommend and use the port 4321 by default, however, the port number can be changed to any desired port so long as the websites corresponding port match.
 
 ### Using Standalone Kubernetes
 
 For standalone Kubernetes, first disable CORS blocking of [http://] requests in the Kuberenetes API Server's configuration.
 Next, run the command:
 
-> kubectl proxy --port=4321
+> kubectl proxy --port=&lt;number&gt;
 
-As stated above, 4321 is the Podz default. This can be any port of your choice, so long as you change the Podz website’s port to match it.
+This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
 ## Examples
 
-Example tutorial
+In the `test-project` folder, you can use those project examples to store in your containers. Next, `cd` to the test project folder and run the command:
+
+> docker-compose build
+
+Now, you have 3 containers up and running!
 
 ## Roadmap
 
-- [ ] Adding functionality for Kubernetes clusters that are not using Minikube.
+- Converting to TypeScript
+- Testings for frontend
 
 ## Contributions
 
