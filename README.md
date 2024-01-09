@@ -15,7 +15,6 @@
 [![D3.js](https://img.shields.io/badge/D3.js-363636?style=for-the-badge&logo=d3.js&logoColor=orange)](https://d3js.org/)
 [![Jest](https://img.shields.io/badge/Jest-900C3F?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
 
-
 </div>
 
 <p align="center">
@@ -47,7 +46,8 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 
 ## Getting Started
 
-Download: 
+Download:
+
 - Docker Desktop (`https://www.docker.com/products/docker-desktop/`)
 - kubectl (`https://kubernetes.io/docs/tasks/tools/`)
 - Minikube (`https://minikube.sigs.k8s.io/docs/start/`).
