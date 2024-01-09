@@ -5,9 +5,10 @@ dataParser.nodesParser = (nodes) => {
   //Filters through desired conditions data;
   const conditionsFilter = (node) => {
     const resultObj = {};
+
+    //helper function
     const conditions = node['status']['conditions'];
     for (let i = 0; i < conditions.length; i++) {
-      // resultObj[conditions[i]["type"]] = conditions[i]["type"]
       const newObj = {};
       newObj.status = conditions[i]['status'];
       newObj.message = conditions[i]['message'];
@@ -15,16 +16,6 @@ dataParser.nodesParser = (nodes) => {
     }
     return resultObj;
   };
-
-  //Grabs type in conditions that's status equates to "True"
-  // const statusCheck = (node) => {
-  //   const conditions = node["status"]["conditions"]
-  //   for (let i = 0; i < conditions.length; i++){
-  //     if (conditions[i]["status"] === 'True'){
-  //       return conditions[i]["type"]
-  //     }
-  //   }
-  // }
 
   const { items } = nodes;
   const newArray = [];
@@ -36,10 +27,6 @@ dataParser.nodesParser = (nodes) => {
     newObj.uid = node['metadata']['uid'];
     newObj.creationTimestamp = node['metadata']['creationTimestamp'];
     newObj.conditions = conditionsFilter(node);
-
-    // Optional data commented out:
-    // newObj.status = statusCheck(node)
-    // newObj.images = node["status"]["images"]
     newArray.push(newObj);
   }
   return newArray;
@@ -52,11 +39,6 @@ dataParser.podsParser = (pods) => {
     const resultObj = {};
     const conditions = pod['status']['conditions'];
     for (let i = 0; i < conditions.length; i++) {
-      // resultObj[conditions[i]["type"]] = conditions[i]["type"]
-      // const newObj = {};
-      // newObj.status = conditions[i]["status"]
-      // newObj.message = conditions[i]["message"]
-      // resultObj[conditions[i]["type"]] = newObj
       resultObj[conditions[i]['type']] = conditions[i]['status'];
     }
     return resultObj;
@@ -66,7 +48,6 @@ dataParser.podsParser = (pods) => {
     const resultArray = [];
     const containers = pod['spec']['containers'];
     const containerStatuses = pod['status']['containerStatuses'];
-    // console.log(containerStatuses)
     for (let i = 0; i < containers.length; i++) {
       const newObj = {};
       newObj.name = containers[i]['name'];
@@ -76,7 +57,6 @@ dataParser.podsParser = (pods) => {
       newObj.started = containerStatuses[i]['started'];
       newObj.startedAt = containerStatuses[i]['state']['running']['startedAt'];
       resultArray.push(newObj);
-      // resultObj[containers[i]["name"]] = newObj
     }
     return resultArray;
   };
@@ -105,9 +85,6 @@ dataParser.podsParser = (pods) => {
     newObj.nodeName = pod['spec']['nodeName'];
     newObj.status = pod['status']['phase'];
     newObj.conditions = conditionsFilter(pod);
-    // newObj.conditions = conditionsFilter(node)
-    // newObj.status = statusCheck(node)
-    // newObj.images = node["status"]["images"]
     newArray.push(newObj);
   }
   return newArray;
@@ -135,20 +112,5 @@ dataParser.servicesParser = (service) => {
   }
   return newArray;
 };
-
-// dataParsers.namespacesParser = (obj) => {
-//   const newArray = [];
-
-//   obj.items.forEach((ele) => {
-//     const newObj = {};
-//     newObj.kind = 'Namespace';
-//     newObj.name = ele.metadata.name;
-//     newObj.uid = ele.metadata.uid;
-//     newObj.creationTimestamp = ele.metadata.creationTimestamp;
-//     newObj.status = ele.status;
-//     newArray.push(newObj);
-//   });
-//   return newArray;
-// };
 
 module.exports = dataParser;

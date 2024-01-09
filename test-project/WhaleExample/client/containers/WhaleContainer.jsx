@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 
 const WhaleContainer = () => {
   const navigate = useNavigate();
+
   const seeBlueWhale = () => {
     navigate('/bluewhale');
   };
+
   const seeHumpback = () => {
     navigate('/humpback');
   };
+
   const seeSpermWhale = () => {
     navigate('/spermwhale');
   };

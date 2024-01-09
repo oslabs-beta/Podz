@@ -31,16 +31,11 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
     // const height = 600;
 
     // const radius = 15; // radius of circle
-    // const radius = 15; // radius of circle
     let imageRadius = 60; // radius of image
 
     // calculates the device pixel ratio
     const dpi = window.devicePixelRatio;
 
-    /* Specify the color scale; schemeCategory10 provides an array of 10 diff colors
-      scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
-    TLDR: different color for nodes in different groups; used for circles */
-    // const color = d3.scaleOrdinal(d3.schemeCategory10);
     /* Specify the color scale; schemeCategory10 provides an array of 10 diff colors
       scaleOrdinal is a scale type used for mapping discrete domain values to a corresponding range of values
     TLDR: different color for nodes in different groups; used for circles */

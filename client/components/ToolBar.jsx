@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ToolBar = () => {
   const navigate = useNavigate();
+
   function returnHome() {
     navigate('/');
     scrollTo(0, 0);

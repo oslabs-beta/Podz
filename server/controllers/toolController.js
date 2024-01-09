@@ -3,12 +3,26 @@ const { Node, Pod, Container, Service } = require('../models/toolModel.js');
 const dataParser = require('./dataParser.js');
 const { nodesParser, podsParser, servicesParser } = dataParser;
 
+let apiPort = 10000;
+
 const toolController = {};
+
+toolController.setPort = async (req, res, next) => {
+  try {
+    let userPort = Number(req.body.portNumber);
+    if (userPort) {
+      apiPort = userPort;
+    }
+    return next();
+  } catch (error) {
+    console.log('Error: In setPort middleware', error);
+  }
+};
 
 toolController.addSnapshotTime = async (req, res, next) => {
   try {
     res.locals.snapshot = Date.now();
-    console.log('Snapshot time in milliseconds: ', res.locals.snapshot);
+
     return next();
   } catch (error) {
     console.log('Error: In addSnapshotTime middleware', error);
@@ -20,7 +34,7 @@ toolController.postNodes = async (req, res, next) => {
     const { snapshot } = res.locals;
 
     //Fetches and parses data
-    const response = await fetch('http://localhost:10000/api/v1/nodes');
+    const response = await fetch(`http://localhost:${apiPort}/api/v1/nodes`);
     const data = await response.json();
     const parsedDataArray = nodesParser(data);
     //Uploads to database and persists through res.locals
@@ -48,7 +62,7 @@ toolController.postNodes = async (req, res, next) => {
 toolController.postPods = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-    const response = await fetch('http://localhost:10000/api/v1/pods');
+    const response = await fetch(`http://localhost:${apiPort}/api/v1/pods`);
     const data = await response.json();
     const parsedDataArray = podsParser(data);
 
@@ -126,7 +140,7 @@ toolController.postContainers = async (req, res, next) => {
 toolController.postServices = async (req, res, next) => {
   try {
     const { snapshot } = res.locals;
-    const response = await fetch('http://localhost:10000/api/v1/services');
+    const response = await fetch(`http://localhost:${apiPort}/api/v1/services`);
     const data = await response.json();
     const parsedDataArray = servicesParser(data);
 
@@ -161,32 +175,6 @@ toolController.postServices = async (req, res, next) => {
     console.log('Error: In postServices middleware', error);
   }
 };
-
-// toolController.postNamespaces = async (req, res, next) => {
-//   try {
-//     const response = await fetch('http://localhost:10000/api/v1/namespaces');
-//     const data = await response.json();
-//     const parsedDataArray = namespacesParser(data);
-
-//     const namespacesData = [];
-//     for (let i = 0; i < parsedDataArray.length; i++) {
-//       const { kind, name, uid, creationTimestamp, conditions } =
-//         parsedDataArray[i];
-//       const newNamespace = await Namespace.create({
-//         kind,
-//         name,
-//         uid,
-//         creationTimestamp,
-//         conditions,
-//       });
-//       namespacesData.push(newNamespace);
-//     }
-//     res.locals.namespacesData = namespacesData;
-//     return next();
-//   } catch (error) {
-//     console.log('Error: In getNamespaces middleware', error);
-//   }
-// };
 
 toolController.clusterData = (req, res, next) => {
   const nodeArray = res.locals.nodesData;

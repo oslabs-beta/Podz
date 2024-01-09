@@ -4,6 +4,7 @@ import { loadSlim } from '@tsparticles/slim';
 
 const DustParticles = () => {
   const [init, setInit] = useState(false);
+
   useEffect(() => {
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
@@ -11,9 +12,11 @@ const DustParticles = () => {
       setInit(true);
     });
   }, []);
+
   const particlesLoaded = (container) => {
     console.log(container);
   };
+
   return (
     <div>
       {init && (
