@@ -113,8 +113,10 @@ const dataParser: dataParserType = {
         uid: service['metadata']['uid'],
         creationTimestamp: service['metadata']['creationTimestamp'],
         clusterIPs: service['spec']['clusterIPs'],
-        selector: service['spec']['selector'],
-        type: service['spec']['type'],
+        selector: service['spec']['selector']
+          ? service['spec']['selector']
+          : 'NA',
+        type: service['spec']['type'] ? service['spec']['type'] : 'NA',
       };
 
       serviceArray.push(serviceObj);

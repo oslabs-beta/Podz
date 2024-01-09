@@ -178,7 +178,10 @@ const toolController: toolControllerType = {
           selector,
           type,
         });
-        servicesData.push(newService);
+
+        if (newService.name !== 'kubernetes') {
+          servicesData.push(newService);
+        }
       }
 
       res.locals.servicesData = servicesData;
