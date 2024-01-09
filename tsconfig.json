@@ -7,5 +7,5 @@
     "esModuleInterop": true
   },
   //include all files in all folders in src folder
-  "include": ["./client/**/*", "./server/**/*"]
+  "include": ["./client/**/*", "./server/**/*", "./globals.d.ts"]
 }

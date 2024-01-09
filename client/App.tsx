@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import MainContainer from './containers/MainContainer.jsx';
-import ToolContainer from './containers/ToolContainer.jsx';
+import MainContainer from './containers/MainContainer';
+import ToolContainer from './containers/ToolContainer';
 
 const App = () => {
   const router = createBrowserRouter([

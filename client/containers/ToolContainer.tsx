@@ -1,7 +1,7 @@
 import React from 'react';
-import ToolBar from '../components/ToolBar.jsx';
-import ToolDisplayContainer from './ToolDisplayContainer.jsx';
-import ToolParticle from '../components/ToolParticle.jsx';
+import ToolBar from '../components/ToolBar';
+import ToolDisplayContainer from './ToolDisplayContainer';
+import ToolParticle from '../components/ToolParticle';
 
 const ToolContainer = () => {
   return (
