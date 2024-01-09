@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ToolTree from '../components/ToolTree.jsx';
-import ToolMetric from '../components/ToolMetric.jsx';
-import ToolForm from '../components/ToolForm.jsx';
+import ToolTree from '../components/ToolTree';
+import ToolMetric from '../components/ToolMetric';
+import ToolForm from '../components/ToolForm';
 
 const ToolDisplayContainer = () => {
   const [cluster, setCluster] = useState({ data: [] });

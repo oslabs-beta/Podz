@@ -1,8 +1,8 @@
 import path from 'path'
 import { fileURLToPath } from 'url';
 import express, { Request, Response } from 'express'
-import { addDB } from '../models/toolModel.js';
-import toolController from '../controllers/toolController.js'
+import { addDB } from '../models/toolModel';
+import toolController from '../controllers/toolController'
 
 const {
   setPort,

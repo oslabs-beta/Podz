@@ -62,7 +62,7 @@ const ToolTree = ({ setToolMetric, clusterData }) => {
         'link',
         d3
           .forceLink(links)
-          .id((d) => d.name) // links and gives id to nodes
+          .id((d: any) => d.name) // links and gives id to nodes
           .distance((d) => { // link's length
             if (d.source.kind === 'Pod' && d.target.kind === 'Node') return 175;
             return 125;

@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
     "noImplicitAny": false,
     "jsx": "react",
     "esModuleInterop": true,
-    
   },
   //include all files in all folders in src folder
-  "include": ["./client/**/*", "./server/**/*"],
+  "include": ["./client/**/*", "./server/**/*", "./global.d.ts"],
 }
