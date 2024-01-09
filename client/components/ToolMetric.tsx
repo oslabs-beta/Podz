@@ -1,6 +1,7 @@
 import React from 'react';
+import { ToolMetricProps } from '../../types';
 
-const ToolMetric = ({ nodeData }) => {
+const ToolMetric = ({ nodeData }: ToolMetricProps) => {
   let data = (
     <div className='toolMetric'>
       <p>

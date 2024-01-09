@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 
-const addDB = async (req, res, next) => {
+const addDB = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const mongoURL = req.body.databaseLink;
 
@@ -74,4 +75,4 @@ const serviceSchema = new Schema({
 
 const Service = mongoose.model('service', serviceSchema);
 
-module.exports = { addDB, Node, Pod, Container, Service };
+export { addDB, Node, Pod, Container, Service };

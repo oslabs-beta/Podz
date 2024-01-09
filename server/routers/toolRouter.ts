@@ -1,9 +1,8 @@
-const path = require('path');
-const express = require('express');
-
-const { addDB } = require('../models/toolModel.js');
-const toolController = require('../controllers/toolController.js');
-
+import path from 'path';
+import { fileURLToPath } from 'url';
+import express, { Request, Response } from 'express';
+import { addDB } from '../models/toolModel.js';
+import toolController from '../controllers/toolController.js';
 const {
   setPort,
   addSnapshotTime,
@@ -15,10 +14,11 @@ const {
 } = toolController;
 
 const router = express.Router();
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 router.use(express.static(path.resolve(__dirname, '../../build')));
 
-router.get('/', (req, res) =>
+router.get('/', (req: Request, res: Response) =>
   res.sendFile(path.resolve(__dirname, '../build/index.html'))
 );
 
@@ -30,13 +30,13 @@ router.get(
   postContainers,
   postServices,
   clusterData,
-  (req, res) => {
+  (req: Request, res: Response) => {
     return res.status(200).json(res.locals.clusterData);
   }
 );
 
-router.post('/data', addDB, setPort, (req, res) => {
+router.post('/data', addDB, setPort, (req: Request, res: Response) => {
   return res.status(200).json('Info Added');
 });
 
-module.exports = router;
+export default router;
