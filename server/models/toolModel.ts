@@ -20,7 +20,7 @@ const addDB = async (req: Request, res: Response, next: NextFunction) => {
 const Schema = mongoose.Schema;
 
 const nodeSchema = new Schema({
-  snapshot: { type: Number, required: true },
+  snapshotTime: { type: Number, required: true },
   kind: { type: String, required: true },
   name: { type: String, required: true },
   uid: { type: String, required: true },
@@ -31,7 +31,7 @@ const nodeSchema = new Schema({
 const Node = mongoose.model('node', nodeSchema);
 
 const podSchema = new Schema({
-  snapshot: { type: Number, required: true },
+  snapshotTime: { type: Number, required: true },
   kind: { type: String, required: true },
   name: { type: String, required: true },
   namespace: { type: String, required: true },
@@ -47,7 +47,7 @@ const podSchema = new Schema({
 const Pod = mongoose.model('pod', podSchema);
 
 const containerSchema = new Schema({
-  snapshot: { type: Number, required: true },
+  snapshotTime: { type: Number, required: true },
   kind: { type: String, required: true },
   name: { type: String, required: true },
   namespace: { type: String, required: true },
@@ -62,7 +62,7 @@ const containerSchema = new Schema({
 const Container = mongoose.model('container', containerSchema);
 
 const serviceSchema = new Schema({
-  snapshot: { type: Number, required: true },
+  snapshotTime: { type: Number, required: true },
   kind: { type: String, required: true },
   name: { type: String, required: true },
   namespace: { type: String, required: true },
@@ -75,4 +75,10 @@ const serviceSchema = new Schema({
 
 const Service = mongoose.model('service', serviceSchema);
 
-export { addDB, Node, Pod, Container, Service };
+const snapshotTimeSchema = new Schema({
+  snapshotTime: { type: Number, required: true },
+});
+
+const SnapshotTime = mongoose.model('snapshotTime', snapshotTimeSchema);
+
+export { addDB, Node, Pod, Container, Service, SnapshotTime };
