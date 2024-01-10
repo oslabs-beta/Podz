@@ -63,6 +63,12 @@ To use Minikube with Podz, start Minikube with this command:
 
 What this command does is start up minikube and prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
 
+Next, you will need to expose the Kubernetes API Server through proxying for HTTP requests, to do this run the command:
+
+> kubectl proxy --port=&lt;number&gt;
+
+This can be any port of your choice, so long as you change the Podz website’s port to match it.
+
 ### Using Standalone Kubernetes
 
 For standalone Kubernetes, first disable CORS blocking of [http://] requests in the Kuberenetes API Server's configuration.
@@ -71,6 +77,14 @@ Next, run the command:
 > kubectl proxy --port=&lt;number&gt;
 
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
+
+### Conecting a database
+
+Currently, Podz is able to be connected to a MongoDb database to store snapshots of the cluster health and architecture at given points of time. To connect a database, copy and paste your MongoDb connection link into the field on the "demo" page. Next enter the port that you are proxying and confirm.
+
+### Creating and loading snapshots
+
+To create a snapshot, simply to click the 'Take Snasphot' button. To load snapshots, select a time range with the calendar component, and then click the 'Load Snapshot' button. The button will open a dropdown with all snapshots taken within that range of time, ordered by time. Finally, click one of the options and the snapshot will load a previous version of the cluster.
 
 ## Examples
 
