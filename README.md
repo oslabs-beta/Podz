@@ -57,9 +57,9 @@ While you are following the steps, you may encounter an error mentioning about d
 > docker context use default
 
 For testing purposes Podz, we highly recommend the usage of Minikube, which uses a minimal local Kubernetes cluster. To use Minikube with Podz, start Minikube with this command:
-
-> minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
-
+```js
+minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
+```
 What this command does is start up minikube and prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
 
 After that is done, check if Minikube is created and started up with this command:
