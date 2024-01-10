@@ -50,11 +50,11 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 
 ## Getting Started
 
-Download:
+#### Prequisites:
 
 - Docker Desktop (`https://www.docker.com/products/docker-desktop/`)
 - kubectl (`https://kubernetes.io/docs/tasks/tools/`)
-- Minikube (`https://minikube.sigs.k8s.io/docs/start/`).
+- Minikube (optional) (`https://minikube.sigs.k8s.io/docs/start/`).
 
 Podz displays only user-made Kubernetes components and avoids the initial namespaces except 'default' ('kube-node-lease', 'kube-public', 'kube-system' are all hidden). If you need example projects, we have provided some in the [examples](#examples) section.
 
