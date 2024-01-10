@@ -28,7 +28,9 @@ const ToolSnapDropdown = ({ date, setCluster }: ToolSnapDropdownProps) => {
     }
 
     const response = await fetch(
-      `/tool/snapshot/list?start=${date[0].startDate.getTime()}&end=${date[0].endDate.getTime()}`
+      `/tool/snapshot/list?start=${date[0].startDate.getTime()}&end=${
+        date[0].endDate.getTime() + 86400000
+      }`
     );
     const data = await response.json();
     listMaker(data);
@@ -39,29 +41,14 @@ const ToolSnapDropdown = ({ date, setCluster }: ToolSnapDropdownProps) => {
     const response = await fetch(`/tool/snapshot?snapshotTime=${snapshotTime}`);
     const data = await response.json();
     setCluster(data);
-    setDisplay(false);
-  };
-
-  const currentItemClick = async () => {
-    const response = await fetch('/tool/data');
-    const data = await response.json();
-    setCluster(data);
-    setDisplay(false);
   };
 
   return (
     <div className='toolSnapDropdown'>
-      <button className='toolSnapButton' onClick={dropdownButtonClick}>
+      <button className='snapButton addInput' onClick={dropdownButtonClick}>
         Load Snapshot
       </button>
-      {display && (
-        <ul className='dropdown'>
-          <li className='dropdownItem' onClick={currentItemClick}>
-            Current
-          </li>
-          {listItems}
-        </ul>
-      )}
+      {display && <ul className='dropdown'>{listItems}</ul>}
     </div>
   );
 };

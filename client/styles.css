@@ -5,13 +5,14 @@ body {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 30%;
 }
 
 /* Main Site */
 .mainContainer {
   display: flex;
   flex-direction: column;
-  gap: 200px;
+  gap: 50vh;
 }
 
 .mainContainer #featureContainer,
@@ -77,7 +78,7 @@ html {
 }
 
 .introText {
-  font-size: 20px;
+  font-size: 5vh;
   width: 25%;
   text-align: center;
   color: #36395a;
@@ -158,7 +159,7 @@ html {
 
 /* Tool Site */
 .toolContainer {
-  height: 100vh;
+  height: 115vh;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0),
@@ -242,6 +243,7 @@ html {
   font-size: 18px;
   color: #36395a;
   font-family: 'JetBrains Mono', monospace;
+  width: 100%;
 }
 
 .toolBuild {
@@ -304,4 +306,56 @@ html {
 .toolMetric ul {
   padding: 0px 0px 0px 20px;
   margin: 5px;
+}
+
+/* Tool Snap Container */
+.toolSnapContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border-width: 0;
+  background-color: rgb(218, 218, 218);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 19px;
+  color: #36395a;
+  height: 80%;
+  width: 88%;
+  padding: 10px 25px;
+  margin-top: 30px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #9696a2 0 -3px 0 inset;
+  z-index: 1;
+}
+
+.toolSnapDateRange {
+  border: 1px solid gray;
+}
+
+.toolSnapDropdown {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.snapButton {
+  align-self: center;
+  margin: 15px 0px;
+}
+
+.dropdown {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.dropdownItem {
+  margin: 5px;
+  text-align: center;
+}
+
+.dropdownItem:hover {
+  cursor: pointer;
+  color: #d6d6e7;
+  background-color: #36395a;
 }

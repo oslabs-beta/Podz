@@ -18,10 +18,10 @@ const ToolSnapContainer = ({
 
   return (
     <div className='toolSnapContainer'>
-      <ToolSnapDateRange date={date} setDate={setDate} />
-      <button className='toolSnapButton' onClick={postSnap}>
+      <button className='snapButton addInput' onClick={postSnap}>
         Take Snapshot
       </button>
+      <ToolSnapDateRange date={date} setDate={setDate} />
       <ToolSnapDropdown date={date} setCluster={loadCluster} />
     </div>
   );

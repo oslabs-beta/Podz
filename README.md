@@ -25,9 +25,7 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 
 - 🚀 [Features](#features)
 - 📒 [Getting Started](#getting-started)
-  - [Using Minikube](#using-minikube)
-  - [Using Standalone Kubernetes](#using-standalone-kubernetes)
-- [Examples](#examples)
+- 🧰 [Examples](#examples)
 - 🛠 [Roadmap](#roadmap)
 - 🔗 [Contributions](#contributions)
 - 🙆 [Founders](#founders)
@@ -48,25 +46,37 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 
 Download:
 
-- Docker Desktop (`https://www.docker.com/products/docker-desktop/`)
-- kubectl (`https://kubernetes.io/docs/tasks/tools/`)
-- Minikube (`https://minikube.sigs.k8s.io/docs/start/`).
+- Docker Desktop (https://www.docker.com/products/docker-desktop/)
+- kubectl (https://kubernetes.io/docs/tasks/tools/)
+- Minikube (https://minikube.sigs.k8s.io/docs/start/).
 
-You need to have containers up and running before continuing on. If you need project examples, go to [examples](#examples).
+<strong style="color: red">You must have containers set up before continuing on. If you need container examples, go to [examples](#examples).</strong>
 
-### Using Minikube
+While you are following the steps, you may encounter an error mentioning about default not being found. You can run this command to fix it:
 
-For testing purposes Podz, we highly recommend the usage of [Minikube](https://minikube.sigs.k8s.io/docs/start/), which uses a minimal local Kubernetes cluster.
-To use Minikube with Podz, start Minikube with this command:
+> docker context use default
+
+For testing purposes Podz, we highly recommend the usage of Minikube, which uses a minimal local Kubernetes cluster. To use Minikube with Podz, start Minikube with this command:
 
 > minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
 
 What this command does is start up minikube and prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
 
-### Using Standalone Kubernetes
+After that is done, check if Minikube is created and started up with this command:
 
-For standalone Kubernetes, first disable CORS blocking of [http://] requests in the Kuberenetes API Server's configuration.
-Next, run the command:
+> kubectl get all
+
+Next, you need to load the images into Minikube. To do that, run this command:
+
+> minikube image load &lt;projects:version&gt;
+
+`projects` needs to be replaced by the name of the image and `version` needs to be the tag of the image. Check Docker Desktop to find the image name and tags.
+
+Now, you need to apply all `.yaml` files to kubectl by running this command:
+
+> kubectl apply -f &lt;.yml file name&gt;
+
+Lastly, we need to start up the proxy server so we can fetch for metrics of your cluster. Run the command:
 
 > kubectl proxy --port=&lt;number&gt;
 
@@ -78,12 +88,13 @@ In the `test-project` folder, you can use those project examples to store in you
 
 > docker-compose build
 
-Now, you have 3 containers up and running!
+Now, you have 3 containers set up and you should be able to see 3 images in your Docker desktop!
 
 ## Roadmap
 
-- Converting to TypeScript
+- Fully converting to TypeScript
 - Testings for frontend
+- Loading clusters in the correct position like a binary search tree
 
 ## Contributions
 
