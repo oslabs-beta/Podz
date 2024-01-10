@@ -1,7 +1,7 @@
 import React from 'react';
 import docker from '../assets/docker.png';
 import kubernetes from '../assets/kubernetes.png';
-import notification from '../assets/notification.png';
+import snapshot from '../assets/snapshot.png';
 
 const FeatureContainer = () => {
   return (
@@ -23,10 +23,10 @@ const FeatureContainer = () => {
           </h2>
         </div>
         <div id='feature3'>
-          <img className='icon' src={notification} alt='bell picture' />
-          <h1 className='featureTextTitle'>Notifications</h1>
+          <img className='icon' src={snapshot} alt='bell picture' />
+          <h1 className='featureTextTitle'>Snapshots</h1>
           <h2 className='featureText'>
-            Receive notifications of any cluster error.
+            Stores any moment of the cluster and view them later!
           </h2>
         </div>
       </div>

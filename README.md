@@ -56,7 +56,7 @@ You need to have containers up and running before continuing on. If you need pro
 
 ### Using Minikube
 
-For testing purposes Podz, we highly recommend the usage of Minikube https://minikube.sigs.k8s.io/docs/start/, which uses a minimal local Kubernetes cluster.
+For testing purposes Podz, we highly recommend the usage of [Minikube](https://minikube.sigs.k8s.io/docs/start/), which uses a minimal local Kubernetes cluster.
 To use Minikube with Podz, start Minikube with this command:
 
 > minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
