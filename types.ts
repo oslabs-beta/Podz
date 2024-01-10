@@ -41,6 +41,14 @@ export interface ToolTreeProps {
   };
 }
 
+export interface DeveloperType {
+  name: String;
+  picture: String;
+  github: String;
+  email: String;
+  linkedin: String;
+}
+
 //backend types
 import { RequestHandler } from 'express';
 
