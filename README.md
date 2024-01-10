@@ -58,36 +58,36 @@ While you are following the steps, you may encounter an error mentioning about d
 
 For testing purposes Podz, we highly recommend the usage of Minikube, which uses a minimal local Kubernetes cluster. To use Minikube with Podz, start Minikube with this command:
 ```js
-minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
+  minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
 ```
 What this command does is start up minikube and prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
 
 After that is done, check if Minikube is created and started up with this command:
-
-> kubectl get all
-
+```js
+  kubectl get all
+```
 Next, you need to load the images into Minikube. To do that, run this command:
-
-> minikube image load &lt;projects:version&gt;
-
+```js
+  minikube image load &lt;projects:version&gt;
+```
 `projects` needs to be replaced by the name of the image and `version` needs to be the tag of the image. Check Docker Desktop to find the image name and tags.
 
 Now, you need to apply all `.yaml` files to kubectl by running this command:
-
-> kubectl apply -f &lt;.yml file name&gt;
-
+```js
+  kubectl apply -f &lt;.yml file name&gt;
+```
 Lastly, we need to start up the proxy server so we can fetch for metrics of your cluster. Run the command:
-
-> kubectl proxy --port=&lt;number&gt;
-
+```js
+  kubectl proxy --port=&lt;number&gt;
+```
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
 ## Examples
 
 In the `test-project` folder, you can use those project examples to store in your containers. Next, `cd` to the test project folder and run the command:
-
-> docker-compose build
-
+```js
+  docker-compose build
+```
 Now, you have 3 containers set up and you should be able to see 3 images in your Docker desktop!
 
 ## Roadmap
