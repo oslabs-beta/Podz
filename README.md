@@ -32,6 +32,8 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 - 🔗 [Contributions](#contributions)
 - 🙆 [Founders](#founders)
 
+
+
 ## Features:
 
 <div align="center">
@@ -44,6 +46,8 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 - You can view previous metrics with the use of snapshots.
 - Included is an example project for users to test and explore Podz, allowing them to try out its features firsthand.
 
+
+
 ## Getting Started
 
 Download:
@@ -53,6 +57,7 @@ Download:
 - Minikube (`https://minikube.sigs.k8s.io/docs/start/`).
 
 You need to have containers up and running before continuing on. If you need project examples, go to [examples](#examples).
+
 
 ### Using Minikube
 
@@ -69,6 +74,7 @@ Next, you will need to expose the Kubernetes API Server through proxying for HTT
 
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
+
 ### Using Standalone Kubernetes
 
 For standalone Kubernetes, first disable CORS blocking of [http://] requests in the Kuberenetes API Server's configuration.
@@ -78,13 +84,17 @@ Next, run the command:
 
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
+
 ### Conecting a database
 
 Currently, Podz is able to be connected to a MongoDb database to store snapshots of the cluster health and architecture at given points of time. To connect a database, copy and paste your MongoDb connection link into the field on the "demo" page. Next enter the port that you are proxying and confirm.
 
+
 ### Creating and loading snapshots
 
 To create a snapshot, simply to click the 'Take Snasphot' button. To load snapshots, select a time range with the calendar component, and then click the 'Load Snapshot' button. The button will open a dropdown with all snapshots taken within that range of time, ordered by time. Finally, click one of the options and the snapshot will load a previous version of the cluster.
+
+
 
 ## Examples
 
@@ -94,10 +104,14 @@ In the `test-project` folder, you can use those project examples to store in you
 
 Now, you have 3 containers up and running!
 
+
+
 ## Roadmap
 
 - Converting to TypeScript
 - Testings for frontend
+
+
 
 ## Contributions
 
@@ -110,6 +124,8 @@ If you have a suggestion, fork the repo and make a pull request. You can also op
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+
 
 ## Founders
 
