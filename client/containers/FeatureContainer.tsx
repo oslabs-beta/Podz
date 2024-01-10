@@ -6,7 +6,7 @@ import snapshot from '../assets/snapshot.png';
 const FeatureContainer = () => {
   return (
     <div id='featureContainer'>
-      <h1>Features</h1>
+      <h1 className='mainTitle'>Features</h1>
       <div className='featureContent'>
         <div id='feature1'>
           <img className='icon' src={docker} alt='docker whale picture' />

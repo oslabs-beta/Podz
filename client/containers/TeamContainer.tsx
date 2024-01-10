@@ -14,10 +14,11 @@ const TeamContainer = () => {
     },
     {
       name: 'Ezekiel Mohr',
-      picture: 'NA',
+      picture:
+        'https://media.licdn.com/dms/image/D4E03AQGNDnMb94-tzg/profile-displayphoto-shrink_800_800/0/1704913151039?e=1710374400&v=beta&t=6xur9pP1hL_kn3S-pcwPO1QbL-bvYZx1ljTU-IPG90g',
       github: 'https://github.com/Ezmr7',
       email: 'ezekielmohr27@gmail.com',
-      linkedin: 'NA',
+      linkedin: 'https://www.linkedin.com/in/ezekielmohr/',
     },
     {
       name: 'Jeffrey Mai',
@@ -52,7 +53,7 @@ const TeamContainer = () => {
 
   return (
     <div id='teamContainer'>
-      <h1>Team Behind Podz</h1>
+      <h1 className='mainTitle'>Team Behind Podz</h1>
       <div className='teamList'>{developerIcons}</div>
     </div>
   );

@@ -50,7 +50,7 @@ Download:
 - kubectl (https://kubernetes.io/docs/tasks/tools/)
 - Minikube (https://minikube.sigs.k8s.io/docs/start/).
 
-<strong style="color: red">You must have containers set up before continuing on. If you need container examples, go to [examples](#examples).</strong>
+<strong style="color: red">You must run `npm install`, `npm run build` and have containers set up before continuing on. If you need container examples, go to [examples](#examples).</strong>
 
 While you are following the steps, you may encounter an error mentioning about default not being found. You can run this command to fix it:
 
@@ -95,6 +95,10 @@ Now, you have 3 containers set up and you should be able to see 3 images in your
 - Fully converting to TypeScript
 - Testings for frontend
 - Loading clusters in the correct position like a binary search tree
+- Notification alerts
+- Live reloading of cluster
+- More metrics like CPU, memory, etc.
+- Visualizer for Docker containers
 
 ## Contributions
 

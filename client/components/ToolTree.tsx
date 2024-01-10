@@ -71,7 +71,15 @@ const ToolTree = ({ setToolMetric, clusterData }: ToolTreeProps) => {
             return 125;
           })
       )
-      .force('charge', d3.forceManyBody().strength(-70).theta(0)) // repels all nodes when dragging a node
+      .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
+      // .force(
+      //   'x',
+      //   d3.forceX((d: any) => (d.kind === 'MasterNode' ? 10 : 100)).strength(1)
+      // )
+      // .force(
+      //   'y',
+      //   d3.forceY((d: any) => (d.kind === 'MasterNode' ? 10 : 100)).strength(1)
+      // )
       .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
       .on('tick', draw); // each tick will update the node positions
@@ -113,7 +121,7 @@ const ToolTree = ({ setToolMetric, clusterData }: ToolTreeProps) => {
 
     function drawNode(d: any) {
       context.beginPath(); // Begin a new path for drawing each node
-      context.moveTo(d.x, d.y);
+      // context.moveTo(d.x, d.y);
       const img = new Image();
       if (d.kind === 'MasterNode') {
         img.src = masterNode;
