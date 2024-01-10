@@ -56,7 +56,7 @@ Download:
 - kubectl (`https://kubernetes.io/docs/tasks/tools/`)
 - Minikube (`https://minikube.sigs.k8s.io/docs/start/`).
 
-You need to have containers up and running before continuing on. If you need project examples, go to [examples](#examples).
+Podz displays only user-made Kubernetes components and avoids the initial namespaces except 'default' ('kube-node-lease', 'kube-public', 'kube-system' are all hidden). If you need example projects, we have provided some in the [examples](#examples) section.
 
 
 ### Using Minikube
