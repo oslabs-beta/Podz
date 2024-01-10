@@ -137,14 +137,11 @@ kubectl apply -f <.yml file name>
 
 Next, you will need to expose the Kubernetes API Server through proxying for HTTP requests, to do this run the command:
 
-
 ```js
 kubectl proxy --port=<number>
 ```
 
-
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
-
 
 ## Roadmap
 

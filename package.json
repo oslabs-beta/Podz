@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-loader ts-node/esm server/server.ts",
-    "build": "webpack",
+    "start": "cross-env NODE_ENV=production node --experimental-loader ts-node/esm server/server.ts",
+    "build": "cross-env NODE_ENV=production webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"cross-env NODE_ENV=development node --experimental-loader ts-node/esm server/server.ts\"",
     "test": "jest --verbose"
   },
