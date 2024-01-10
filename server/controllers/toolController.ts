@@ -1,5 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { Node, Pod, Container, Service } from '../models/toolModel.js';
+import {
+  Node,
+  Pod,
+  Container,
+  Service,
+  SnapshotTime,
+} from '../models/toolModel.js';
 import {
   NodeSnap,
   PodSnap,
@@ -29,17 +35,88 @@ const toolController: toolControllerType = {
 
   addSnapshotTime: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      res.locals.snapshot = Date.now();
+      const snapshotTime = Date.now();
+      SnapshotTime.create({ snapshotTime });
 
+      res.locals.snapshotTime = snapshotTime;
       return next();
     } catch (error) {
       console.log('Error: In addSnapshotTime middleware', error);
     }
   },
 
+  getSnapshot: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { snapshotTime } = req.query;
+      const filter = Number(snapshotTime);
+
+      const findSnapshot: (NodeSnap | PodSnap | ContainerSnap | ServiceSnap)[] =
+        await SnapshotTime.aggregate([
+          { $match: { snapshotTime: filter } },
+          {
+            $lookup: {
+              from: 'nodes',
+              localField: 'snapshotTime',
+              foreignField: 'snapshotTime',
+              as: 'nodes',
+            },
+          },
+          {
+            $lookup: {
+              from: 'pods',
+              localField: 'snapshotTime',
+              foreignField: 'snapshotTime',
+              as: 'pods',
+            },
+          },
+          {
+            $lookup: {
+              from: 'containers',
+              localField: 'snapshotTime',
+              foreignField: 'snapshotTime',
+              as: 'containers',
+            },
+          },
+          {
+            $lookup: {
+              from: 'services',
+              localField: 'snapshotTime',
+              foreignField: 'snapshotTime',
+              as: 'services',
+            },
+          },
+        ]);
+
+      res.locals.snapshot = findSnapshot;
+      return next();
+    } catch (error) {
+      console.log('Error: In getSnapshot middleware', error);
+    }
+  },
+
+  getSnapshotTimeArray: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { start, end } = req.query;
+
+      const findSnapshotArray: { snapshotTime: Number }[] =
+        await SnapshotTime.find({
+          snapshotTime: { $gt: start, $lt: end },
+        });
+
+      res.locals.snapshotTimeArray = findSnapshotArray;
+      return next();
+    } catch (error) {
+      console.log('Error: In getSnapshotTimeArray middleware', error);
+    }
+  },
+
   postNodes: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { snapshot }: Record<any, Number> = res.locals;
+      const { snapshotTime }: Record<any, Number> = res.locals;
       //Fetches and parses data
       const response = await fetch(`http://localhost:${apiPort}/api/v1/nodes`);
       const data = await response.json();
@@ -51,7 +128,7 @@ const toolController: toolControllerType = {
         const { kind, name, uid, creationTimestamp, conditions } =
           parsedDataArray[i];
         const newNode: any = await Node.create({
-          snapshot,
+          snapshotTime,
           kind,
           name,
           uid,
@@ -70,7 +147,8 @@ const toolController: toolControllerType = {
 
   postPods: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { snapshot }: Record<any, Number> = res.locals;
+      const { snapshotTime }: Record<any, Number> = res.locals;
+      //Fetches and parses data
       const response = await fetch(`http://localhost:${apiPort}/api/v1/pods`);
       const data = await response.json();
       const parsedDataArray = podsParser(data);
@@ -90,7 +168,7 @@ const toolController: toolControllerType = {
           conditions,
         } = parsedDataArray[i];
         const newPod: any = await Pod.create({
-          snapshot,
+          snapshotTime,
           kind,
           name,
           namespace,
@@ -114,7 +192,7 @@ const toolController: toolControllerType = {
 
   postContainers: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { snapshot }: Record<any, Number> = res.locals;
+      const { snapshotTime }: Record<any, Number> = res.locals;
       const podsData: PodSnap[] = res.locals.podsData;
 
       const containersData: ContainerSnap[] = [];
@@ -123,7 +201,7 @@ const toolController: toolControllerType = {
           const { name, image, ready, restartCount, started, startedAt } =
             podsData[i]['containers'][j];
           const newContainer: any = await Container.create({
-            snapshot,
+            snapshotTime,
             kind: 'Container',
             name,
             namespace: podsData[i].namespace,
@@ -148,7 +226,8 @@ const toolController: toolControllerType = {
 
   postServices: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { snapshot }: Record<any, Number> = res.locals;
+      const { snapshotTime }: Record<any, Number> = res.locals;
+      //Fetches and parses data
       const response = await fetch(
         `http://localhost:${apiPort}/api/v1/services`
       );
@@ -168,7 +247,7 @@ const toolController: toolControllerType = {
           type,
         } = parsedDataArray[i];
         const newService: any = await Service.create({
-          snapshot,
+          snapshotTime,
           kind,
           name,
           namespace,
@@ -206,6 +285,22 @@ const toolController: toolControllerType = {
 
     res.locals.clusterData = {
       data: [{ kind: 'MasterNode' }, ...nodeArray, ...filterCluster],
+    };
+    return next();
+  },
+
+  snapshotClusterData: (req: Request, res: Response, next: NextFunction) => {
+    const { nodes, pods, containers, services } = res.locals.snapshot[0];
+
+    const cluster = [...pods, ...containers, ...services];
+    const nameSpace = ['kube-system', 'kube-public', 'kube-node-lease'];
+
+    const filterCluster = cluster.filter(
+      (ele: any) => !nameSpace.includes(ele.namespace)
+    );
+
+    res.locals.snapshotClusterData = {
+      data: [{ kind: 'MasterNode' }, ...nodes, ...filterCluster],
     };
     return next();
   },

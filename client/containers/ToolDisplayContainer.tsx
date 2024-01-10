@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ToolTree from '../components/ToolTree';
 import ToolForm from '../components/ToolForm';
 import ToolMetric from '../components/ToolMetric';
+import ToolSnapContainer from './ToolSnapContainer';
 
 const ToolDisplayContainer = () => {
   const [cluster, setCluster] = useState({ data: [] });
@@ -38,6 +39,7 @@ const ToolDisplayContainer = () => {
           </button>
         )}
         <ToolMetric nodeData={metric} />
+        <ToolSnapContainer loadCluster={setCluster} postSnap={fetchData} />
       </div>
     </div>
   );

@@ -7,6 +7,27 @@ export interface ToolMetricProps {
   nodeData: any;
 }
 
+export interface DateObj {
+  startDate: Date;
+  endDate: Date;
+  key: String;
+}
+
+export interface ToolSnapDateRangeProps {
+  date: any;
+  setDate: any;
+}
+
+export interface ToolSnapDropdownProps {
+  date: DateObj[];
+  setCluster: any;
+}
+
+export interface ToolSnapContainerProps {
+  loadCluster: any;
+  postSnap(): void;
+}
+
 export interface ToolTreeProps {
   setToolMetric: any;
   clusterData: {
@@ -38,7 +59,7 @@ export interface NodeType {
 }
 
 export interface NodeSnap extends NodeType {
-  snapshot: Number;
+  snapshotTime: Number;
 }
 
 export interface PodType {
@@ -55,7 +76,7 @@ export interface PodType {
 }
 
 export interface PodSnap extends PodType {
-  snapshot: Number;
+  snapshotTime: Number;
 }
 
 export interface ContainerType {
@@ -68,7 +89,7 @@ export interface ContainerType {
 }
 
 export interface ContainerSnap extends ContainerType {
-  snapshot: Number;
+  snapshotTime: Number;
   kind: String;
   namespace: String;
   podName: String;
@@ -87,7 +108,7 @@ export interface ServiceType {
 }
 
 export interface ServiceSnap extends ServiceType {
-  snapshot: Number;
+  snapshotTime: Number;
 }
 
 export interface dataParserType {
@@ -99,9 +120,12 @@ export interface dataParserType {
 export interface toolControllerType {
   setPort: RequestHandler;
   addSnapshotTime: RequestHandler;
+  getSnapshot: RequestHandler;
+  getSnapshotTimeArray: RequestHandler;
   postNodes: RequestHandler;
   postPods: RequestHandler;
   postContainers: RequestHandler;
   postServices: RequestHandler;
   clusterData: RequestHandler;
+  snapshotClusterData: RequestHandler;
 }
