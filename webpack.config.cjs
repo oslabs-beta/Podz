@@ -49,6 +49,7 @@ module.exports = {
     }),
   ],
   devServer: {
+    allowedHosts: ['https://main.d2fkbfb3dyos5p.amplifyapp.com/'],
     static: {
       publicPath: '/build',
       directory: path.resolve(__dirname, 'build'),
