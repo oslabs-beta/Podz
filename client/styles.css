@@ -144,10 +144,6 @@ html {
   border-radius: 10%;
 }
 
-/* #feature2 {
-  border-inline: groove;
-} */
-
 .icon {
   height: 100px;
   width: 100px;
@@ -203,6 +199,13 @@ html {
 .demoButton:active {
   box-shadow: #d6d6e7 0 3px 7px inset;
   transform: translateY(2px);
+}
+
+.downloadLinks {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 40%;
 }
 
 /* Team Section */
