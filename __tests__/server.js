@@ -21,11 +21,11 @@ describe('Server Endpoints', () => {
     });
   });
 
-  describe('/tool', () => {
+  describe('/api/tool', () => {
     describe('GET', () => {
       it('responds with 404 status and text/html content type', () => {
         return request(server)
-          .get('/tool')
+          .get('/api/tool')
           .expect('Content-Type', /text\/html/)
           .expect(404)
           .expect((res) => {
@@ -39,7 +39,7 @@ describe('Server Endpoints', () => {
     });
   });
 
-  describe('/tool/data', () => {
+  describe('/api/tool/data', () => {
     describe('GET', () => {
       it('responds with 200 status and JSON content type', () => {
         return request(server)
