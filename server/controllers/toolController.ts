@@ -246,6 +246,9 @@ const toolController: toolControllerType = {
           selector,
           type,
         } = parsedDataArray[i];
+        
+        if (type === 'ClusterIP') continue;
+
         const newService: any = await Service.create({
           snapshotTime,
           kind,
@@ -257,10 +260,7 @@ const toolController: toolControllerType = {
           selector,
           type,
         });
-
-        if (newService.name !== 'kubernetes') {
-          servicesData.push(newService);
-        }
+        servicesData.push(newService);
       }
 
       res.locals.servicesData = servicesData;
@@ -298,6 +298,8 @@ const toolController: toolControllerType = {
     const filterCluster = cluster.filter(
       (ele: any) => !nameSpace.includes(ele.namespace)
     );
+
+    console.log(filterCluster);
 
     res.locals.snapshotClusterData = {
       data: [{ kind: 'MasterNode' }, ...nodes, ...filterCluster],

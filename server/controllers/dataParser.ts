@@ -104,7 +104,6 @@ const dataParser: dataParserType = {
 
     for (let i = 0; i < items.length; i++) {
       const service = items[i];
-
       //service object
       const serviceObj: ServiceType = {
         kind: 'Service',
