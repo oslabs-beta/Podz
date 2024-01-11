@@ -14,11 +14,14 @@
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 [![D3.js](https://img.shields.io/badge/D3.js-363636?style=for-the-badge&logo=d3.js&logoColor=orange)](https://d3js.org/)
 [![Jest](https://img.shields.io/badge/Jest-900C3F?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
+[![Electron](https://img.shields.io/badge/Electron-191919?style=for-the-badge&logo=electron&logoColor=00FFFF)](https://www.electronjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-purple?style=for-the-badge&logo=Vite&logoColor=white)](https://vitejs.dev/)
+[![Webpack](https://img.shields.io/badge/Webpack-grey?style=for-the-badge&logo=webpack&logoColor=7DF9FF)](https://jestjs.io/)
 
 </div>
 
 <p align="center">
-Podz is a Kubernetes cluster visualizer for developers to see the metrics of their cluster.<br/>Find out more at <a href="https://www.podz.com/" target="_blank">https://podz.com</a>!
+Podz is a Kubernetes cluster visualizer for developers to see the metrics of their cluster.<br/>Find out more at <a href="http://www.podz.site/" target="_blank">podz.site</a>!
 </p>
 
 ## Table of Contents
