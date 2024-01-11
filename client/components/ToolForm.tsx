@@ -6,7 +6,7 @@ const ToolForm = ({ inputStatus }: ToolFormProps) => {
   const [portInput, setPortInput] = useState('');
 
   function addInput() {
-    fetch('http://localhost:3000/tool/data', {
+    fetch('/tool/data', {
       method: 'POST',
       body: JSON.stringify({
         databaseLink: databaseInput,
