@@ -28,7 +28,7 @@ describe('Middleware Tests', () => {
     describe('addDB', () => {
       it('Connected to a database', async () => {
         // PUT YOUR MONGODB LINK (IMPORTANT!!!)
-        req.body.databaseLink = 'mongodb+srv://jeffreymai:codesmith@cluster0.dnplar5.mongodb.net/?retryWrites=true&w=majority';
+        req.body.databaseLink = 'MONGODB LINK';
         await addDB(req, res, next);
         expect(next).toHaveBeenCalled();
       });
