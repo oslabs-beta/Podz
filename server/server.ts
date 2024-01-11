@@ -3,12 +3,14 @@ import toolRouter from './routers/toolRouter.js';
 import { ServerError } from '../types';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/tool', toolRouter);
+app.use(express.static(process.cwd() + '/build'));
+
+app.use('/api/tool', toolRouter);
 
 app.use((req: Request, res: Response) =>
   res.status(404).send('Page Not Found')
