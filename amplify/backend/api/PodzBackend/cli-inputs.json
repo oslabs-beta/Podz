@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/server": {
+      "name": "/server",
+      "lambdaFunction": "PodzBackend",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

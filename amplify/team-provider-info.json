@@ -10,6 +10,11 @@
       "StackName": "amplify-podz-dev-200530",
       "StackId": "arn:aws:cloudformation:us-east-1:730335378830:stack/amplify-podz-dev-200530/847a93f0-b01d-11ee-b753-0ef0cbe230f7",
       "AmplifyAppId": "d3528st3mx8gbx"
+    },
+    "categories": {
+      "function": {
+        "PodzBackend": {}
+      }
     }
   }
 }
