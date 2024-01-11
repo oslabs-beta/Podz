@@ -1,12 +1,14 @@
 import express, { Request, Response, NextFunction } from 'express';
 import toolRouter from './routers/toolRouter.js';
 import { ServerError } from '../types';
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use('/tool', toolRouter);
 
