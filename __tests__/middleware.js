@@ -5,7 +5,7 @@ const {
   Pod,
   Container,
   Service,
-} = require('../server/models/toolModel.js');
+} = require('../server/models/toolModel.ts');
 
 const controller = require('../server/controllers/toolController.js');
 
@@ -28,7 +28,7 @@ describe('Middleware Tests', () => {
     describe('addDB', () => {
       it('Connected to a database', async () => {
         // PUT YOUR MONGODB LINK (IMPORTANT!!!)
-        req.body.databaseLink = 'Input Your MongoDB Link Here';
+        req.body.databaseLink = 'MONGODB LINK';
         await addDB(req, res, next);
         expect(next).toHaveBeenCalled();
       });

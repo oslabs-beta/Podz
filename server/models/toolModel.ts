@@ -7,8 +7,6 @@ const addDB = async (req: Request, res: Response, next: NextFunction) => {
 
     const connectDB = await mongoose.connect(mongoURL, {
       dbName: 'ClusterData',
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
     });
 
     return next();

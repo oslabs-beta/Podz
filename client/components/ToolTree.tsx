@@ -33,6 +33,7 @@ const ToolTree = ({ setToolMetric, clusterData }: ToolTreeProps) => {
 
     let imageRadius = 60; // radius of image
     const dpi = window.devicePixelRatio; // calculates the device pixel ratio
+    let numOfNodes = 0, numOfPods = 0, numOfContainers = 0, numOfServices = 0;
 
     const nodes: any = clusterData.data.map((d) => ({ ...d })); // NODES REPRESENTS THE ENTITIES IN UR GRAPH
     const links: any[] = []; // LINKS REPRESENTS THE CONNECTIONS BETWEEN NODES
@@ -67,22 +68,33 @@ const ToolTree = ({ setToolMetric, clusterData }: ToolTreeProps) => {
           .id((d: any) => d.name) // links and gives id to nodes
           .distance((d) => {
             // link's length
-            if (d.source.kind === 'Pod' && d.target.kind === 'Node') return 175;
+            if (d.source.kind === 'MasterNode' && d.target.kind === 'Node') return 200;
+            else if (d.source.kind === 'Pod' && d.target.kind === 'Node') return 200;
             return 125;
           })
       )
-      .force('charge', d3.forceManyBody().strength(-100).theta(0)) // repels all nodes when dragging a node
-      // .force(
-      //   'x',
-      //   d3.forceX((d: any) => (d.kind === 'MasterNode' ? 10 : 100)).strength(1)
-      // )
-      // .force(
-      //   'y',
-      //   d3.forceY((d: any) => (d.kind === 'MasterNode' ? 10 : 100)).strength(1)
-      // )
-      .force('center', d3.forceCenter(width / 2, height / 2)) // centers the graph
+      .force('charge', d3.forceManyBody().strength(0.1).theta(0)) // repels all nodes when dragging a node
+      .force(
+        'x',
+        d3.forceX((d: any) => (
+          d.kind === 'Node' ? 350 + (50 * ++numOfNodes) : 
+          d.kind === 'Pod' ? 350 + (50 * ++numOfPods) : 
+          d.kind === 'Container' ? 350 + (50 * ++numOfContainers) : 
+          d.kind === 'Service' ? 350 + (50 * ++numOfServices) : 
+          350)).strength(0))
+      .force(
+        'y',
+        d3.forceY((d: any) => (
+          d.kind === 'MasterNode' ? 30 : 
+          d.kind === 'Node' ? 200 : 
+          d.kind === 'Pod' ? 350 : 400)).strength(0.2)
+      )
+      .force('center', d3.forceCenter(width / 2, height / 2 + 100)) // centers the graph
       .force('collide', d3.forceCollide().radius(imageRadius + 5))
-      .on('tick', draw); // each tick will update the node positions
+      .on('tick', () => {
+        // console.log(numOfPods);
+        draw();
+      }); // each tick will update the node positions
 
     const canvas = d3
       .select(canvasRef.current) // selects a DOM element
@@ -95,6 +107,7 @@ const ToolTree = ({ setToolMetric, clusterData }: ToolTreeProps) => {
     context.scale(dpi, dpi); // scales the graph; (x, y)
 
     function draw() {
+      numOfNodes = 0, numOfPods = 0, numOfContainers = 0, numOfServices = 0;
       /*-------------------LINKS-------------------*/
       context.clearRect(0, 0, width, height); // clears entire canvas
       context.save(); // Save the current drawing state

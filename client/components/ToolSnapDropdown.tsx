@@ -28,7 +28,7 @@ const ToolSnapDropdown = ({ date, setCluster }: ToolSnapDropdownProps) => {
     }
 
     const response = await fetch(
-      `/tool/snapshot/list?start=${date[0].startDate.getTime()}&end=${
+      `/api/tool/snapshot/list?start=${date[0].startDate.getTime()}&end=${
         date[0].endDate.getTime() + 86400000
       }`
     );
@@ -38,7 +38,9 @@ const ToolSnapDropdown = ({ date, setCluster }: ToolSnapDropdownProps) => {
 
   const itemClick = async (event: any) => {
     const snapshotTime = event.target.getAttribute('id');
-    const response = await fetch(`/tool/snapshot?snapshotTime=${snapshotTime}`);
+    const response = await fetch(
+      `/api/tool/snapshot?snapshotTime=${snapshotTime}`
+    );
     const data = await response.json();
     setCluster(data);
   };

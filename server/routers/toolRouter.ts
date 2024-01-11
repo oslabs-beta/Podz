@@ -1,5 +1,3 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
 import express, { Request, Response } from 'express';
 import { addDB } from '../models/toolModel.js';
 import toolController from '../controllers/toolController.js';
@@ -17,13 +15,6 @@ const {
 } = toolController;
 
 const router = express.Router();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-router.use(express.static(path.resolve(__dirname, '../../build')));
-
-router.get('/', (req: Request, res: Response) =>
-  res.sendFile(path.resolve(__dirname, '../build/index.html'))
-);
 
 //send cluster data to D3
 router.get(

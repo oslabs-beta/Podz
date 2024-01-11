@@ -12,7 +12,7 @@ const ToolDisplayContainer = () => {
 
   function fetchData() {
     setLoading(true);
-    fetch('/tool/data')
+    fetch('/api/tool/data')
       .then((response) => response.json())
       .then((data) => {
         setCluster(data);
