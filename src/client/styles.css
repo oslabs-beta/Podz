@@ -1,0 +1,180 @@
+body {
+  margin: 0em;
+}
+
+.toolContainer {
+  font-family: 'Jura', sans-serif;
+  color: #36395a;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0),
+    rgba(41, 212, 255, 1) 0%,
+    rgba(0, 158, 201, 1) 20%,
+    rgba(0, 134, 207, 1) 40%,
+    rgba(0, 109, 212, 1) 60%,
+    rgba(0, 82, 176, 1) 80%,
+    rgba(11, 64, 143, 1) 100%
+  );
+  min-height: 100vh;
+}
+
+/* ToolBar */
+.toolName {
+  font-size: 3em;
+  font-weight: bold;
+  margin-left: 0.5em;
+}
+
+/* Tool Display */
+.toolDisplayContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* Tool Tree */
+.toolTree {
+  width: 70%;
+}
+
+.tooltip {
+  font-family: 'JetBrains Mono', monospace;
+  position: absolute;
+  padding: 0em 1em;
+  background-color: #36395a;
+  color: white;
+  border-radius: 0.3em;
+}
+
+/* Tool Form */
+.toolInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
+  width: 20%;
+}
+
+.toolForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: 90%;
+  padding: 1em;
+  border-radius: 0.3em;
+  background-color: rgb(218, 218, 218);
+  box-shadow: rgba(45, 35, 66, 0.4) 0 0.1em 0.2em,
+    rgba(45, 35, 66, 0.3) 0 0.4em 0.7em -0.2em, #9696a2 0 -0.1em 0 inset;
+  z-index: 1;
+}
+
+.toolInput {
+  font-family: 'JetBrains Mono', monospace;
+  height: 1.4em;
+  font-size: 1.2em;
+}
+
+.addInput {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2em;
+  margin-top: 0.5em;
+  color: #36395a;
+  cursor: pointer;
+}
+
+.toolBuild {
+  font-family: 'JetBrains Mono', monospace;
+  color: #36395a;
+  width: 97%;
+  font-size: 1.5em;
+  padding: 0.5em;
+  border-radius: 0.3em;
+  border-width: 0;
+  background-color: rgb(218, 218, 218);
+  box-shadow: rgba(45, 35, 66, 0.4) 0 0.1em 0.2em,
+    rgba(45, 35, 66, 0.3) 0 0.4em 0.7em -0.2em, #9696a2 0 -0.1em 0 inset;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.toolBuild:hover {
+  transform: translateY(-0.1em);
+}
+
+/* Tool Metric */
+.toolMetric {
+  font-family: 'JetBrains Mono', monospace;
+  color: #36395a;
+  width: 90%;
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em 0.8em;
+  border-radius: 0.3em;
+  background-color: rgb(218, 218, 218);
+  box-shadow: rgba(45, 35, 66, 0.4) 0 0.1em 0.2em,
+    rgba(45, 35, 66, 0.3) 0 0.4em 0.7em -0.2em, #9696a2 0 -0.1em 0 inset;
+  z-index: 1;
+}
+
+.toolMetric p {
+  margin: 0.3em 0em;
+}
+
+.toolMetric ul {
+  margin: 0.3em 0em;
+}
+
+/* Tool Snap Container */
+.toolSnapContainer {
+  font-family: 'JetBrains Mono', monospace;
+  color: #36395a;
+  width: 90%;
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5em 0.8em;
+  border-radius: 0.3em;
+  background-color: rgb(218, 218, 218);
+  box-shadow: rgba(45, 35, 66, 0.4) 0 0.1em 0.2em,
+    rgba(45, 35, 66, 0.3) 0 0.4em 0.7em -0.2em, #9696a2 0 -0.1em 0 inset;
+  z-index: 1;
+}
+
+.snapButton {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1em;
+  color: #36395a;
+  cursor: pointer;
+  width: 100%;
+  margin: 0.5em;
+}
+
+.toolSnapDateRange {
+  border: 1px solid gray;
+}
+
+.toolSnapDropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.dropdown {
+  width: 85%;
+  height: 12em;
+  overflow-y: scroll;
+}
+
+.dropdownItem {
+  margin: 0.3em;
+}
+
+.dropdownItem:hover {
+  cursor: pointer;
+  color: white;
+  background-color: #36395a;
+}
