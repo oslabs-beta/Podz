@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noImplicitAny": true,
+    "jsx": "react",
+    "esModuleInterop": true
+  },
+  //include all files in all folders in src folder
+  "include": ["./client/**/*", "./server/**/*"]
+}
