@@ -44,7 +44,7 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 - You can view previous metrics with the use of snapshots.
 - Included is an example project for users to test and explore Podz, allowing them to try out its features firsthand.
 
-# Getting Started
+## Getting Started
 
 #### Prequisites:
 
@@ -54,7 +54,7 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 
 <strong style="color: red">Podz displays only user-made Kubernetes components and avoids the initial namespaces except 'default' ('kube-node-lease', 'kube-public', 'kube-system' are all hidden). If you need example projects, we have provided some in the [examples](#examples) section.</strong>
 
-## Using Minikube
+### Using Minikube:
 
 For testing purposes Podz, we highly recommend the usage of [Minikube](https://minikube.sigs.k8s.io/docs/start/), which uses a minimal local Kubernetes cluster.
 To use Minikube with Podz, start Minikube with this command:
@@ -72,7 +72,7 @@ kubectl proxy --port=<number>;
 
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
-## Using Standalone Kubernetes
+### Using Standalone Kubernetes:
 
 For standalone Kubernetes, first disable CORS blocking of [http://] requests in the Kuberenetes API Server's configuration.
 Next, run the command:
@@ -83,15 +83,15 @@ kubectl proxy --port=<number>
 
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
-## Conecting a database
+### Conecting a database:
 
 Currently, Podz is able to be connected to a MongoDb database to store snapshots of the cluster health and architecture at given points of time. To connect a database, copy and paste your MongoDb connection link into the field on the "demo" page. Next enter the port that you are proxying and confirm.
 
-## Creating and loading snapshots
+### Creating and loading snapshots:
 
 To create a snapshot, simply to click the 'Take Snasphot' button. To load snapshots, select a time range with the calendar component, and then click the 'Load Snapshot' button. The button will open a dropdown with all snapshots taken within that range of time, ordered by time. Finally, click one of the options and the snapshot will load a previous version of the cluster.
 
-# Examples
+## Examples
 
 ### Setting up minikube
 
