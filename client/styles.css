@@ -1,0 +1,309 @@
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 10%;
+}
+
+body {
+  margin: 0;
+}
+
+.mainContainer {
+  font-family: 'Jura', sans-serif;
+  color: #36395a;
+  display: flex;
+  flex-direction: column;
+  gap: 18em;
+}
+
+.mainTitle {
+  font-size: 3em;
+  margin-bottom: 1.5em;
+}
+
+@media only screen and (max-width: 600px) {
+  .mainTitle {
+    font-size: 2.5em;
+  }
+}
+
+/* NavBar */
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.navName {
+  font-size: 3em;
+  font-weight: bold;
+  margin-left: 0.5em;
+}
+
+@media only screen and (max-width: 600px) {
+  .navName {
+    font-size: 1.2em;
+    margin-left: 0.3em;
+  }
+}
+
+.navTab {
+  display: flex;
+  gap: 1.5em;
+  margin-right: 4em;
+}
+
+@media only screen and (max-width: 600px) {
+  .navTab {
+    gap: 1em;
+    margin-right: 2.5em;
+  }
+}
+
+.navTab a {
+  color: #36395a;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .navTab a {
+    font-size: 0.9em;
+  }
+}
+
+.navTab a:hover {
+  position: relative;
+  top: -0.2em;
+}
+
+.navLogo {
+  height: 1.2em;
+}
+
+/* Intro Section */
+.introContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30em;
+  margin-top: 18em;
+}
+
+@media only screen and (max-width: 600px) {
+  .introContainer {
+    margin-top: 10em;
+  }
+}
+
+.topintroContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3em;
+}
+
+@media only screen and (max-width: 600px) {
+  .topintroContainer {
+    flex-direction: column;
+    gap: 1em;
+  }
+}
+
+.introText {
+  font-size: 3.2em;
+  text-align: center;
+  width: 40%;
+}
+
+@media only screen and (max-width: 600px) {
+  .introText {
+    font-size: 2.5em;
+    width: 100%;
+  }
+}
+
+.introLogo {
+  height: 18em;
+}
+
+.bottomintroContainer {
+  font-size: 2em;
+  text-align: center;
+  width: 80%;
+}
+
+@media only screen and (max-width: 600px) {
+  .bottomintroContainer {
+    font-size: 1.8em;
+  }
+}
+
+/* Feature Section */
+#featureContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.featureContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  margin: 0em 16em;
+  gap: 2em;
+}
+
+@media only screen and (max-width: 600px) {
+  .featureContent {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 1.4em;
+  padding: 0.5em;
+}
+
+.feature:hover {
+  box-shadow: 0em 0em 0.5em #36395a;
+  border-radius: 2em;
+}
+
+.featureicon {
+  height: 5em;
+  width: 5em;
+}
+
+/* Demo Section */
+#demoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.demo {
+  margin-bottom: 4em;
+  width: 45em;
+  z-index: 1;
+}
+
+@media only screen and (max-width: 600px) {
+  .demo {
+    width: 22em;
+  }
+}
+
+.downloadLinks {
+  display: flex;
+  gap: 5em;
+}
+
+@media only screen and (max-width: 600px) {
+  .downloadLinks {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.downloadLinks a {
+  text-decoration: none;
+  z-index: 1;
+}
+
+.downloadButton {
+  font-family: 'Jura', sans-serif;
+  color: #36395a;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: 600;
+  padding: 0.3em 0.8em;
+  background-color: rgb(218, 218, 218);
+  border-radius: 0.3em;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 0.1em 0.2em,
+    rgba(45, 35, 66, 0.3) 0 0.4em 0.7em -0.2em, #9696a2 0 -0.1em 0 inset;
+  cursor: pointer;
+}
+
+.downloadButton:hover {
+  transform: translateY(-0.1em);
+}
+
+.downloadIcon {
+  margin-right: 0.5em;
+  width: 2em;
+}
+
+/* Team Section */
+#teamContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.teamList {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  margin: 3em;
+  gap: 5em;
+}
+
+@media only screen and (max-width: 900px) {
+  .teamList {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .teamList {
+    grid-template-columns: 1fr;
+  }
+}
+
+.developerIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  z-index: 1;
+}
+
+.developerIcon:hover {
+  box-shadow: 0em 0em 0.5em #36395a;
+  border-radius: 3em;
+}
+
+.developerPic {
+  height: 10em;
+  border-radius: 5em;
+}
+
+.developerName {
+  font-size: 1.3em;
+}
+
+.logoList {
+  display: flex;
+  gap: 0.6em;
+}
+
+.developerLogo {
+  height: 1.8em;
+}
