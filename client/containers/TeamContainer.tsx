@@ -52,9 +52,14 @@ const TeamContainer = () => {
   });
 
   return (
-    <div id='teamContainer'>
-      <h1 className='mainTitle'>Team Behind Podz</h1>
-      <div className='teamList'>{developerIcons}</div>
+    <div>
+      <div id='teamContainer'>
+        <h1 className='mainTitle'>Team Behind Podz</h1>
+        <div className='teamList'>{developerIcons}</div>
+        <div className="MITFooter">
+          <strong>© Podz 2023 | MIT licensed</strong>
+        </div>
+      </div>
     </div>
   );
 };

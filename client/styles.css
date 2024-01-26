@@ -12,7 +12,6 @@ body {
   color: #36395a;
   display: flex;
   flex-direction: column;
-  gap: 18em;
 }
 
 .mainTitle {
@@ -95,8 +94,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30em;
-  margin-top: 18em;
+  gap: 10em;
+  margin-top: 10em;   
 }
 
 @media only screen and (max-width: 600px) {
@@ -153,6 +152,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 10em;
 }
 
 .featureContent {
@@ -193,11 +193,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 10em;
 }
 
 .demo {
   margin-bottom: 4em;
-  width: 45em;
+  width: 60em;
   z-index: 1;
 }
 
@@ -255,6 +256,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 18em;
 }
 
 .teamList {
@@ -306,4 +308,10 @@ body {
 
 .developerLogo {
   height: 1.8em;
+}
+
+/* Footer Section */
+.MITFooter {
+  margin-top: 18em;
+  margin-bottom: 1em;
 }
