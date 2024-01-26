@@ -1,28 +1,4 @@
 //frontend types
-export interface ToolFormProps {
-  inputStatus(): void;
-}
-
-export interface ToolMetricProps {
-  nodeData: any;
-}
-
-export interface DateObj {
-  startDate: Date;
-  endDate: Date;
-  key: String;
-}
-
-export interface ToolSnapDateRangeProps {
-  date: any;
-  setDate: any;
-}
-
-export interface ToolSnapDropdownProps {
-  date: DateObj[];
-  setCluster: any;
-}
-
 export interface ToolSnapContainerProps {
   loadCluster: any;
   postSnap(): void;
@@ -41,23 +17,31 @@ export interface ToolTreeProps {
   };
 }
 
-export interface DeveloperType {
-  name: String;
-  picture: String;
-  github: String;
-  email: String;
-  linkedin: String;
+export interface ToolFormProps {
+  inputStatus(): void;
+}
+
+export interface ToolMetricProps {
+  nodeData: any;
+}
+
+export interface ToolSnapDateRangeProps {
+  date: any;
+  setDate: any;
+}
+
+export interface DateObj {
+  startDate: Date;
+  endDate: Date;
+  key: String;
+}
+
+export interface ToolSnapDropdownProps {
+  date: DateObj[];
+  setCluster: any;
 }
 
 //backend types
-import { RequestHandler } from 'express';
-
-export interface ServerError {
-  log: string;
-  status: number;
-  message: { err: string };
-}
-
 export interface NodeType {
   kind: String;
   name: String;
@@ -117,23 +101,4 @@ export interface ServiceType {
 
 export interface ServiceSnap extends ServiceType {
   snapshotTime: Number;
-}
-
-export interface dataParserType {
-  nodesParser(nodes: any): NodeType[];
-  podsParser(pods: any): PodType[];
-  servicesParser(services: any): ServiceType[];
-}
-
-export interface toolControllerType {
-  setPort: RequestHandler;
-  addSnapshotTime: RequestHandler;
-  getSnapshot: RequestHandler;
-  getSnapshotTimeArray: RequestHandler;
-  postNodes: RequestHandler;
-  postPods: RequestHandler;
-  postContainers: RequestHandler;
-  postServices: RequestHandler;
-  clusterData: RequestHandler;
-  snapshotClusterData: RequestHandler;
 }

@@ -1,4 +1,4 @@
-![Logo](client/assets/smallerPodzLogo.png)
+![Logo](src/client/assets/smallerPodzLogo.png)
 
 <div align='center'>
 
@@ -15,7 +15,6 @@
 [![D3.js](https://img.shields.io/badge/D3.js-363636?style=for-the-badge&logo=d3.js&logoColor=orange)](https://d3js.org/)
 [![Jest](https://img.shields.io/badge/Jest-900C3F?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
 [![Electron](https://img.shields.io/badge/Electron-191919?style=for-the-badge&logo=electron&logoColor=00FFFF)](https://www.electronjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-purple?style=for-the-badge&logo=Vite&logoColor=white)](https://vitejs.dev/)
 [![Webpack](https://img.shields.io/badge/Webpack-grey?style=for-the-badge&logo=webpack&logoColor=7DF9FF)](https://jestjs.io/)
 
 </div>
@@ -36,7 +35,7 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 ## Features:
 
 <div align="center">
-  <img alt="Logo" src="./client/assets/demo.gif">
+  <img alt="Demo" src="./src/client/assets/demo.gif">
 </div>
 
 - Podz, an open-source Kubernetes dev tool, is designed to assist developers in visualizing the architecture of their Kubernetes clusters
@@ -45,7 +44,7 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 - You can view previous metrics with the use of snapshots.
 - Included is an example project for users to test and explore Podz, allowing them to try out its features firsthand.
 
-# Getting Started
+## Getting Started
 
 #### Prequisites:
 
@@ -55,7 +54,7 @@ Podz is a Kubernetes cluster visualizer for developers to see the metrics of the
 
 <strong style="color: red">Podz displays only user-made Kubernetes components and avoids the initial namespaces except 'default' ('kube-node-lease', 'kube-public', 'kube-system' are all hidden). If you need example projects, we have provided some in the [examples](#examples) section.</strong>
 
-## Using Minikube
+### Using Minikube:
 
 For testing purposes Podz, we highly recommend the usage of [Minikube](https://minikube.sigs.k8s.io/docs/start/), which uses a minimal local Kubernetes cluster.
 To use Minikube with Podz, start Minikube with this command:
@@ -73,7 +72,7 @@ kubectl proxy --port=<number>;
 
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
-## Using Standalone Kubernetes
+### Using Standalone Kubernetes:
 
 For standalone Kubernetes, first disable CORS blocking of [http://] requests in the Kuberenetes API Server's configuration.
 Next, run the command:
@@ -84,15 +83,15 @@ kubectl proxy --port=<number>
 
 This can be any port of your choice, so long as you change the Podz website’s port to match it.
 
-## Conecting a database
+### Conecting a database:
 
 Currently, Podz is able to be connected to a MongoDb database to store snapshots of the cluster health and architecture at given points of time. To connect a database, copy and paste your MongoDb connection link into the field on the "demo" page. Next enter the port that you are proxying and confirm.
 
-## Creating and loading snapshots
+### Creating and loading snapshots:
 
 To create a snapshot, simply to click the 'Take Snasphot' button. To load snapshots, select a time range with the calendar component, and then click the 'Load Snapshot' button. The button will open a dropdown with all snapshots taken within that range of time, ordered by time. Finally, click one of the options and the snapshot will load a previous version of the cluster.
 
-# Examples
+## Examples
 
 ### Setting up minikube
 

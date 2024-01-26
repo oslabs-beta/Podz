@@ -5,11 +5,11 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    src: './client/index.tsx',
+    src: './src/client/index.tsx',
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'src/build'),
   },
   module: {
     rules: [
@@ -42,20 +42,18 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
-      template: './client/index.html',
+      template: './src/client/index.html',
     }),
     new CopyPlugin({
-      patterns: [{ from: './client/styles.css' }],
+      patterns: [{ from: './src/client/styles.css' }],
     }),
   ],
   devServer: {
     static: {
-      publicPath: '/build',
-      directory: path.resolve(__dirname, 'build'),
+      directory: path.resolve(__dirname, 'src/build'),
     },
     proxy: {
       '/api': 'http://localhost:3000',
     },
-    historyApiFallback: true,
   },
 };

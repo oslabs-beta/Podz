@@ -5,7 +5,7 @@ const {
   Pod,
   Container,
   Service,
-} = require('../server/models/toolModel.ts');
+} = require('../server/models/toolModel.js');
 
 const controller = require('../server/controllers/toolController.js');
 
