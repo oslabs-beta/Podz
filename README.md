@@ -134,7 +134,7 @@ Next, you need to load the images into Minikube. To do that, run this command:
 ```js
 minikube image load <image name:version>
 ```
-*At the moment, Minikube does not load images with the newest version of Docker. As of now, please download Docker version 24.0.7* =
+*At the moment, Minikube does not load images with the newest version of Docker. As of now, please download Docker version 24.0.7* 
 
 `image name` needs to be replaced by the name of the image and `version` needs to be the tag of the image. Check Docker Desktop to find the image name and tags.
 
