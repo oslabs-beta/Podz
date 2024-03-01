@@ -104,10 +104,16 @@ docker context use default
 For testing purposes Podz, we highly recommend the usage of Minikube, which uses a minimal local Kubernetes cluster. To use Minikube with Podz, start Minikube with this command:
 
 ```js
+minikube start
+```
+
+What the following command does is start up minikube and prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
+
+```js
 minikube start --extra-config apiserver.cors-allowed-origins=["http://*”]
 ```
 
-What this command does is start up minikube and prevent CORS blocking the connection between the Kubernetes API Server and the Podz website.
+
 
 In the `test-project` folder, you can use those project examples to store in your containers. Next, `cd` to the test project folder and run the command:
 
@@ -128,6 +134,7 @@ Next, you need to load the images into Minikube. To do that, run this command:
 ```js
 minikube image load <image name:version>
 ```
+*At the moment, Minikube does not load images with the newest version of Docker. As of now, please download Docker version 24.0.7* =
 
 `image name` needs to be replaced by the name of the image and `version` needs to be the tag of the image. Check Docker Desktop to find the image name and tags.
 
